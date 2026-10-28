@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo · Eventos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:#f5f6fa;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#282834}
+  .stage{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+  .tt-launch{position:fixed;right:20px;bottom:16px;z-index:80;display:flex;align-items:center;gap:8px;background:#002b5b;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:10px 17px;font:700 12.5px Inter,sans-serif;color:#fff;cursor:pointer;box-shadow:0 10px 30px -10px rgba(0,43,91,.5);transition:transform .15s,box-shadow .15s}
+  .tt-launch:hover{box-shadow:0 14px 36px -10px rgba(0,43,91,.6);transform:translateY(-1px)}
+  .tt-launch:focus-visible,.tt-panel :focus-visible{outline:3px solid #ff7500;outline-offset:2px}
+  .tt-panel{position:fixed;top:0;right:0;bottom:0;z-index:81;width:360px;max-width:100vw;display:flex;flex-direction:column;background:#fff;border-left:1px solid #e7e9f3;box-shadow:-12px 0 32px -18px rgba(20,22,38,.3);padding:8px;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s .25s}
+  .tt-panel.open{transform:none;visibility:visible;transition:transform .25s ease}
+  body.tt-open .tt-launch{display:none}
+  .tt-h{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:800;padding:8px 10px 2px}
+  .tt-h span:last-child{display:flex;gap:2px}
+  .tt-ib{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;padding:0 6px;background:none;border:0;border-radius:8px;color:#646587;cursor:pointer;text-decoration:none;font:inherit;font-size:20px;line-height:1}
+  .tt-ib:hover{background:#f6f7fb;color:#282834}
+  .tt-grp{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#646587;padding:14px 10px 6px}
+  .tt-seg{display:flex;gap:2px;margin:0 4px;padding:2px;background:#f6f7fb;border:1px solid #e7e9f3;border-radius:10px}
+  .tt-seg button{flex:1;font:600 12px Inter,sans-serif;color:#646587;background:none;border:0;border-radius:8px;padding:8px;cursor:pointer}
+  .tt-seg button:hover{color:#282834}
+  .tt-seg button.is-active{background:#fff;color:#d74009;font-weight:800;box-shadow:0 1px 3px rgba(20,22,38,.14)}
+  .tt-note{font-size:11px;line-height:1.4;color:#646587;padding:8px 10px 0;margin:0}
+  .tt-link{display:inline-block;margin:14px 10px 0;font-size:12px;font-weight:700;color:#d74009}
+  .tt-roles{display:flex;flex-direction:column;gap:2px;margin:0 4px;overflow:auto}
+  .tt-role{display:flex;gap:10px;align-items:flex-start;text-align:left;font:inherit;background:none;border:0;border-radius:10px;padding:8px;cursor:pointer;color:#282834}
+  .tt-role:hover{background:#f6f7fb}.tt-role.is-active{background:#fff1e6}
+  .tt-role i{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid #e7e9f3;color:#d74009;font:700 11px Inter,sans-serif;font-style:normal}
+  .tt-role b{display:block;font-size:12.5px;font-weight:700}.tt-role small{display:block;font-size:11px;line-height:1.35;color:#646587;margin-top:2px}
+  .tt-reset{margin:0 4px;padding:9px 12px;text-align:left;font:600 12px Inter,sans-serif;color:#646587;background:#f6f7fb;border:1px solid #e7e9f3;border-radius:10px;cursor:pointer}
+  .tt-reset:hover{color:#d74009}
+  .tt-panel{overflow:auto}
+  @media (prefers-reduced-motion:reduce){.tt-launch,.tt-panel{transition:none}.tt-launch:hover{transform:none}}
+</style>
+</head>
+<body>
+<iframe class="stage" id="stage" name="maqueta" title="Prototipo"></iframe>
+
+<button type="button" class="tt-launch" id="launch" aria-haspopup="dialog" aria-expanded="false">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2.2" fill="#002b5b"/><circle cx="15" cy="17" r="2.2" fill="#002b5b"/></svg>
+  Configuraciones
+</button>
+
+<aside class="tt-panel" id="panel" role="dialog" aria-label="Configuraciones de la demo">
+  <div class="tt-h"><span>Demo · Eventos</span>
+    <span><a class="tt-ib" href="index.html" title="Inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></a>
+    <button type="button" class="tt-ib" id="close" aria-label="Cerrar">×</button></span></div>
+  <div class="tt-grp">Ver como</div>
+  <div class="tt-roles" role="group" aria-label="Rol" id="segRol"></div>
+  <div class="tt-grp">Momento del evento</div>
+  <div class="tt-seg" role="group" aria-label="Momento del evento" id="segEvt"></div>
+  <div class="tt-grp">Escenario</div>
+  <div class="tt-seg" role="group" aria-label="Escenario" id="segEsc"></div>
+  <div class="tt-grp">Datos</div>
+  <button type="button" class="tt-reset" id="reset">Restablecer datos de la demo</button>
+  <p class="tt-note">Al cambiar de rol se conserva dónde estás si ese rol puede verlo. Lo que crees (eventos, cargas, metodólogos) queda en este navegador.</p>
+  <a class="tt-link" id="nueva" target="_blank" rel="noopener">Abrir este prototipo solo →</a>
+</aside>
+
+<script src="platform/roles.js"></script>
+<script>
+(function () {
+  var R = window.ROLES, URL_PLATAFORMA = 'platform/index.html';
+  var EVENTOS = [['Finalizado', 'copa-coc-cali-2026'], ['En curso', 'jja-2026'], ['Próximo', 'intercolegiados-2026']];
+  var ESC = [['', 'Habitual'], ['2026-10-05', 'Sin eventos en curso']];
+  var q = new URLSearchParams(location.search), hoy = /^\d{4}-\d{2}-\d{2}$/.test(q.get('hoy') || '') ? q.get('hoy') : '';
+  var rol = R.tabla[q.get('rol')] ? q.get('rol') : R.actual;
+  var hash = location.hash || '#/eventos';
+  var frame = document.getElementById('stage'), panel = document.getElementById('panel'), launch = document.getElementById('launch');
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function codigo() { var m = hash.match(/^#\/eventos\/([^?\/]+)/); return m ? decodeURIComponent(m[1]) : null; }
+  function url() { return URL_PLATAFORMA + '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + hash; }
+  function pintar() {
+    document.getElementById('segRol').innerHTML = R.orden.map(function (k) {
+      var r = R.tabla[k], on = k === rol;
+      return '<button type="button" class="tt-role' + (on ? ' is-active' : '') + '" data-r="' + k + '" aria-pressed="' + on + '"><i aria-hidden="true">' + esc(r.ini) + '</i><span><b>' + esc(r.etiqueta) + '</b><small>' + esc(r.desc) + '</small></span></button>';
+    }).join('');
+    document.getElementById('segEvt').innerHTML = EVENTOS.map(function (e) {
+      var on = e[1] === codigo();
+      return '<button type="button" data-e="' + e[1] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + esc(e[0]) + '</button>'; }).join('');
+    document.getElementById('segEsc').innerHTML = ESC.map(function (e) { var on = e[0] === hoy; return '<button type="button" data-h="' + e[0] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + esc(e[1]) + '</button>'; }).join('');
+    document.getElementById('nueva').href = url();
+    document.title = R.tabla[rol].etiqueta + ' · Demo Eventos';
+    try { history.replaceState(null, '', '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + hash); } catch (e) {}
+  }
+  function cargar() { frame.src = url(); pintar(); }
+
+  panel.addEventListener('click', function (e) {
+    var r = e.target.closest('[data-r]'), v = e.target.closest('[data-e]'), h = e.target.closest('[data-h]');
+    if (e.target.closest('#reset')) {
+      try { frame.contentWindow.OLC.restablecer(); } catch (x) { /* marco aún sin cargar */ }
+      hash = '#/eventos'; cargar(); return;
+    }
+    if (h) { hoy = h.dataset.h; cargar(); }
+    if (r && r.dataset.r !== rol) { rol = r.dataset.r; hash = '#/eventos'; cargar(); }
+    if (v) { hash = '#/eventos/' + encodeURIComponent(v.dataset.e); cargar(); }
+  });
+  window.addEventListener('message', function (e) {
+    if (e.source !== frame.contentWindow || !e.data || e.data.type !== 'olc-ruta') return;
+    hash = e.data.hash || '#/eventos'; pintar();
+  });
+  function abrir(on) {
+    panel.classList.toggle('open', on); document.body.classList.toggle('tt-open', on);
+    launch.setAttribute('aria-expanded', String(on));
+    (on ? document.getElementById('close') : launch).focus();
+  }
+  launch.addEventListener('click', function () { abrir(true); });
+  document.getElementById('close').addEventListener('click', function () { abrir(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel.classList.contains('open')) abrir(false); });
+  cargar();
+})();
+</script>
+</body>
+</html>

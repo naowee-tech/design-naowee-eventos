@@ -1,0 +1,285 @@
+/* Pestaña Medallería (mockup DEP-453). Prefijo nwtab-md-*; cortes con @container nws porque el sidebar cambia el ancho útil. */
+.nwtab-md-root {
+  --md-oro: #e0a800; --md-plata: #9aa0b4; --md-bronce: #b87333;
+  --md-c4: var(--naotech-primary-color-700); --md-c58: var(--naotech-primary-color-300);
+  --md-pos: var(--naotech-positive-color-700, #1f7a2a); --md-neg: var(--naotech-negative-color-700, #b42318);
+  --md-f: #8b6fd6; --md-m: #2563c9; --md-x: #e08a1e; --md-u: var(--naotech-app-color-300);
+}
+.nwtab-md-root > * { min-width: 0; }
+
+/* KPIs */
+/* KPIs en columna a la izquierda, medallero por país a la derecha en el mismo row */
+.nwtab-md-top { display: grid; grid-template-columns: minmax(220px, 280px) minmax(0, 1fr); gap: 16px; align-items: start; } /* DC-100: los KPI no crecen con la card de la derecha */
+.nwtab-md-kpis { display: flex; flex-direction: column; gap: 12px; }
+.nwtab-md-kpis .nwtab-md-kpi { flex: none; padding: 16px 14px; } /* DC-110 */
+.nwtab-md-kpis .nwtab-md-kpi__v { font-size: 28px; line-height: 32px; }
+.nwtab-md-kpi { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 16px; border: var(--naotech-app-border-1-200); border-radius: 12px; background: var(--naotech-app-background); }
+.nwtab-md-kpi__h { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; min-height: 32px; order: 0; }
+.nwtab-md-kpi__i { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 10px; }
+.nwtab-md-kpi__i--o { background: #fff3e0; color: #8a4b00; }
+.nwtab-md-kpi__i--g { background: var(--naotech-positive-color-050); color: var(--naotech-positive-color-900); }
+.nwtab-md-kpi__i--b { background: var(--nwtab-pri-s); color: var(--naotech-primary-color-900); }
+.nwtab-md-kpi__hint { font-size: 12px; line-height: 16px; color: var(--nwtab-mut); text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.nwtab-md-kpi__v { font-size: 32px; line-height: 36px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.nwtab-md-kpi__l { font-size: 14px; line-height: 18px; color: var(--nwtab-mut); }
+
+/* Tarjetas */
+.nwtab-md-card { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 16px; border: var(--naotech-app-border-1-200); border-radius: 16px; background: var(--naotech-app-background); }
+.nwtab-md-card__h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; }
+.nwtab-md-card__hd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.nwtab-md-card__t { margin: 0; min-height: 0; font-size: 20px; line-height: 24px; font-weight: 700; } /* DC-010 */
+.nwtab-md-card__s { margin: 0; font-size: 13px; line-height: 18px; color: var(--nwtab-mut); }
+.nwtab-md-hint { margin: 0; font-size: 12px; line-height: 18px; color: var(--nwtab-mut); }
+.nwtab-md-sub { margin: 0; padding-bottom: 16px; font-size: 16px; line-height: 24px; font-weight: 700; color: var(--naotech-app-font-color); } /* DC-042: título interno de card */
+.nwtab-md-na-i { margin: 0; padding: 10px 12px; border: 1px dashed var(--naotech-app-color-300); border-radius: 8px; font-size: 13px; color: var(--nwtab-mut); }
+.nwtab-md-na { display: flex; flex-direction: column; gap: 4px; padding: 20px 16px; border: 1px dashed var(--naotech-app-color-300); border-radius: 12px; background: var(--nwtab-soft); text-align: center; color: var(--nwtab-mut); font-size: 13px; }
+.nwtab-md-na b { color: var(--naotech-app-font-color); font-size: 14px; }
+.nwtab-md-more { align-self: flex-start; min-height: 44px; padding: 0 8px; border: 0; border-radius: 8px; background: none; color: var(--nwtab-pri); font-size: 14px; font-weight: 700; cursor: pointer; }
+.nwtab-md-more:hover { text-decoration: underline; }
+
+/* Leyendas */
+.nwtab-md-leg { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-md-leg li { display: inline-flex; align-items: center; gap: 6px; }
+.nwtab-md-dot { display: inline-block; width: 10px; height: 10px; flex: none; border-radius: 50%; }
+.nwtab-md-dot--oro { background: var(--md-oro); } .nwtab-md-dot--plata { background: var(--md-plata); } .nwtab-md-dot--bronce { background: var(--md-bronce); }
+
+/* Barras apiladas por país */
+.nwtab-md-stack { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.nwtab-md-stack__i { display: grid; grid-template-columns: minmax(96px, 150px) minmax(0, 1fr) 36px; align-items: center; gap: 8px; min-height: 28px; }
+.nwtab-md-stack__l { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 14px; }
+.nwtab-md-stack__n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--nwtab-mut); }
+.nwtab-md-stack__i.is-own .nwtab-md-stack__n { color: var(--naotech-app-font-color); font-weight: 800; }
+.nwtab-md-stack__tr { display: flex; height: 12px; border-radius: 6px; background: var(--naotech-app-color-100); overflow: hidden; }
+.nwtab-md-stack__t { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
+.nwtab-md-s { display: block; height: 100%; }
+.nwtab-md-s--oro { background: var(--md-oro); } .nwtab-md-s--plata { background: var(--md-plata); } .nwtab-md-s--bronce { background: var(--md-bronce); }
+
+/* Medallas que estuvieron cerca: KPIs, tabla y barra segmentada (texto sobre cada color con contraste AA) */
+.nwtab-md-root { --md-ok: #1f7a2a; --md-c4x: #c2410c; --md-c58x: #f2c230; }
+.nwtab-md-cks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.nwtab-md-ck { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: var(--nwtab-soft); }
+.nwtab-md-ck strong { font-size: 28px; line-height: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.nwtab-md-ck span { font-size: 13px; line-height: 18px; color: var(--nwtab-mut); }
+.nwtab-md-ct { width: 100%; border-collapse: collapse; }
+.nwtab-md-ct__d > span { display: inline; }
+.nwtab-md-ct__n { width: 96px; text-align: center !important; font-variant-numeric: tabular-nums; } /* DC-097/098: encabezado y valores centrados */
+.nwtab-md-ct__e { width: 170px; }
+.nwtab-md-warn { display: inline-flex; vertical-align: middle; margin-left: 6px; color: #8a4b00; }
+.nwtab-md-segs { display: flex; gap: 2px; min-width: 120px; height: 26px; border-radius: 8px; overflow: hidden; }
+.nwtab-md-seg { display: grid; place-items: center; flex-basis: 0; min-width: 26px; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; color: #fff; }
+.nwtab-md-seg--ok { background: var(--md-ok); } .nwtab-md-seg--c4 { background: var(--md-c4x); }
+.nwtab-md-seg--c58 { background: var(--md-c58x); color: #3d2f00; }
+.nwtab-md-ef { display: flex; align-items: center; gap: 8px; }
+.nwtab-md-ef__tr { flex: 1; height: 8px; border-radius: 4px; background: var(--naotech-app-color-100); overflow: hidden; }
+.nwtab-md-ef__tr span { display: block; height: 100%; background: var(--md-ok); }
+.nwtab-md-ef b { min-width: 44px; text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
+.nwtab-md-aviso { display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 10px 12px; border: 1px solid #f0c987; border-radius: 10px; background: #fff7e6; color: #6b3a00; font-size: 13px; line-height: 18px; }
+.nwtab-md-aviso svg { flex: none; margin-top: 1px; }
+
+.nwtab-md-tb td { height: 64px; } /* filas de 64px mínimo */
+/* Card cuyo primer elemento es la tabla: va pegada a los bordes; lo que sigue lleva su margen. */
+.nwtab-md-card:has(> .nwtab-tw:first-child, > .nwtab-md-clipw:first-child, > .nwtab-md-ct:first-child) { padding: 0; gap: 0; overflow: hidden; }
+.nwtab-md-card > .nwtab-md-aviso { margin: 16px; }
+.nwtab-md-card .nwtab-md-ov { padding-bottom: 12px; }
+.nwtab-md-card:has(> .nwtab-tw:first-child, > .nwtab-md-clipw:first-child, > .nwtab-md-ct:first-child) tr > :first-child { padding-left: 16px; }
+.nwtab-md-card:has(> .nwtab-tw:first-child, > .nwtab-md-clipw:first-child, > .nwtab-md-ct:first-child) tr > :last-child { padding-right: 16px; }
+/* Tablas: la cabecera y las filas salen de .nwtab-tb / .nw-table (mismo look que Calendario). */
+.nwtab-md-tb .nwtab-dn { flex: 0 1 auto; }
+.nwtab-md-tb--dep th { white-space: normal; line-height: 1.25; }
+.nwtab-md-c1 { width: 52px; }
+.nwtab-md-rk { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 4px; border-radius: 12px; background: var(--nwtab-pri-s); color: var(--naotech-primary-color-900); font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.nwtab-md-rk.is-plain { background: var(--naotech-app-color-100); color: var(--naotech-app-color-800); }
+.nwtab-md-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--naotech-app-color-100); color: var(--naotech-app-color-900); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.nwtab-md-badge.is-lead { background: var(--naotech-positive-color-050); color: var(--naotech-positive-color-900); }
+.nwtab-md-mut { font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-md-w { display: flex; align-items: center; gap: 8px; min-width: 150px; }
+.nwtab-md-w__tr { flex: 1; height: 8px; border-radius: 4px; background: var(--naotech-app-color-100); overflow: hidden; }
+.nwtab-md-w__tr span { display: block; height: 100%; background: var(--md-oro); }
+.nwtab-md-w__t { font-size: 12px; white-space: nowrap; color: var(--nwtab-mut); }
+.nwtab-md-s100 { display: flex; height: 10px; min-width: 24px; border-radius: 5px; overflow: hidden; background: var(--naotech-app-color-100); }
+.nwtab-md-s100 span { display: block; height: 100%; }
+
+/* Rival */
+.nwtab-md-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.nwtab-md-tag { min-height: 44px; padding: 0 14px; border: var(--naotech-app-border-1-300); border-radius: 999px; background: var(--naotech-app-background); color: var(--nwtab-mut); font-size: 13px; font-weight: 600; cursor: pointer; }
+.nwtab-md-tag:hover { background: var(--nwtab-soft); }
+.nwtab-md-tag[aria-pressed=true] { border-color: var(--nwtab-pri); background: var(--nwtab-pri-s); color: var(--nwtab-pri); font-weight: 800; box-shadow: inset 0 0 0 1px var(--nwtab-pri); }
+.nwtab-md-dv { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.nwtab-md-dv__r { display: grid; grid-template-columns: minmax(96px, 190px) minmax(0, 1fr) 40px; align-items: center; gap: 10px; }
+.nwtab-md-dv__l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: var(--nwtab-mut); }
+.nwtab-md-dv__ax { position: relative; height: 12px; background: linear-gradient(var(--naotech-app-color-300), var(--naotech-app-color-300)) center / 1px 100% no-repeat; }
+.nwtab-md-dv__b { position: absolute; top: 0; height: 12px; border-radius: 3px; }
+.nwtab-md-dv__b.is-pos { left: 50%; background: var(--md-pos); } .nwtab-md-dv__b.is-neg { right: 50%; background: var(--md-neg); }
+.nwtab-md-dv__v { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
+.is-pos { color: var(--md-pos); } .is-neg { color: var(--md-neg); }
+.nwtab-md-dv__sep { padding: 4px 0; border-top: 1px dashed var(--naotech-app-color-300); border-bottom: 1px dashed var(--naotech-app-color-300); text-align: center; font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-md-dv__tot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding-top: 8px; border-top: var(--naotech-app-border-1-200); font-size: 14px; }
+
+/* Género */
+.nwtab-md-gen { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.nwtab-md-sbar { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 20px; }
+.nwtab-md-sbar__m { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.nwtab-md-sbar__t { margin: 0; font-size: 14px; color: var(--nwtab-mut); }
+.nwtab-md-sbar__t { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nwtab-md-sbar__l { font-size: 12px; line-height: 16px; font-weight: 600; color: var(--nwtab-mut); }
+.nwtab-md-sbar__t b { display: block; font-size: 40px; line-height: 40px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--naotech-app-font-color); }
+.nwtab-md-sbar__b { display: flex; gap: 2px; width: 100%; height: 24px; overflow: hidden; border-radius: 999px; background: var(--naotech-app-color-100); }
+.nwtab-md-sbar__b span { min-width: 6px; }
+.nwtab-md-sbar__lg { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; padding: 0; list-style: none; }
+.nwtab-md-sbar__lg li { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+.nwtab-md-sbar__lg small { font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-md-sbar__lg b { font-variant-numeric: tabular-nums; }
+
+/* Tabla recortada: 7 filas, el resto difuminado bajo un degradado con el botón centrado */
+.nwtab-md-clipw { position: relative; min-width: 0; }
+.nwtab-md-clipw.is-clip .nwtab-md-clip { position: relative; max-height: 420px; overflow: hidden; }
+/* DC-081: el degradado cubre solo el borde de la tabla recortada; el botón va debajo, fuera de él. */
+.nwtab-md-clipw.is-clip .nwtab-md-clip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--naotech-app-background) 85%); pointer-events: none; }
+.nwtab-md-ov { display: flex; justify-content: center; margin-top: 4px; }
+.nwtab-md-ov .nwtab-md-more { align-self: auto; }
+
+@container nws (max-width: 800px) {
+  .nwtab-md-ct .nwtab-md-hide-m { display: none; }
+  .nwtab-md-ct__e { width: 120px; }
+  .nwtab-md-tb .nwtab-mh .nwtab-md-th { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .nwtab-md-tb .nwtab-mh { gap: 0; }
+  .nwtab-md-gen__blk .nwtab-md-hide-s { display: none; }
+}
+@container nws (max-width: 1100px) {
+  .nwtab-md-top { grid-template-columns: minmax(0, 1fr); }
+  .nwtab-md-kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nwtab-md-tb--dep .nwtab-md-hide-s { display: none; }
+}
+@container nws (max-width: 640px) {
+  .nwtab-md-ct th, .nwtab-md-ct td { padding: 8px 4px; }
+  .nwtab-md-ct__e { width: 56px; }
+  .nwtab-md-ef__tr { display: none; }
+  .nwtab-md-cks { gap: 8px; } .nwtab-md-ck { padding: 10px; } .nwtab-md-ck strong { font-size: 22px; line-height: 26px; }
+  .nwtab-md-tb td, .nwtab-md-tb th { padding-left: 4px; padding-right: 4px; }
+  .nwtab-md-tb th { letter-spacing: .04em; font-size: 10px; }
+  .nwtab-md-tb--dep td:last-child { padding-right: 0; }
+  .nwtab-md-tb .nwtab-mh { gap: 0; }
+  .nwtab-md-tb--all .nwtab-cc:has(img) span, .nwtab-md-tb--all .nwtab-cot { display: none; }
+  .nwtab-md-stack__l .nwtab-cc:has(img) span { display: none; }
+  .nwtab-md-stack__l .nwtab-cc { min-width: 0; padding: 0 3px; }
+  .nwtab-md-c1 { width: 36px; }
+  .nwtab-md-stack__i { grid-template-columns: minmax(70px, 110px) minmax(0, 1fr) 30px; }
+  .nwtab-md-dv__r { grid-template-columns: minmax(80px, 120px) minmax(0, 1fr) 32px; gap: 8px; }
+  .nwtab-md-card { padding: 14px 12px; }
+}
+@container nws (max-width: 440px) {
+  .nwtab-md-kpis { grid-template-columns: minmax(0, 1fr); }
+  .nwtab-md-tb--all .nwtab-cc span { display: none; }
+}
+
+/* DC-077: medallas por cada 100 inscripciones (dato de ejemplo) */
+.nwtab-md-ej { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #fff3e6; color: #7a2400; font-size: 10px; font-weight: 700; letter-spacing: 0; text-transform: none; vertical-align: middle; }
+.nwtab-md-conv { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.nwtab-md-conv li { display: grid; grid-template-columns: 80px minmax(0, 1fr) 96px 128px; gap: 12px; align-items: center; font-size: 14px; min-height: 24px; }
+.nwtab-md-conv__h { min-height: 0 !important; padding-bottom: 8px; border-bottom: 1px solid var(--nwtab-line); font-size: 11px !important; line-height: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--nwtab-mut); } /* DC-038 */
+.nwtab-md-conv__h span:nth-child(3), .nwtab-md-conv__h span:nth-child(4), .nwtab-md-conv li > b, .nwtab-md-conv li > small { text-align: right; }
+.nwtab-md-conv__l { color: var(--nwtab-mut); }
+.nwtab-md-conv__t { display: block; height: 10px; border-radius: 5px; background: var(--naotech-app-color-100); overflow: hidden; }
+.nwtab-md-conv__t i { display: block; height: 100%; border-radius: 5px; min-width: 4px; }
+.nwtab-md-conv b { text-align: right; font-variant-numeric: tabular-nums; }
+.nwtab-md-conv b.is-best { color: #1f7a2a; }
+.nwtab-md-conv small { color: var(--nwtab-mut); font-size: 12px; white-space: nowrap; }
+@container nws (max-width: 460px) { .nwtab-md-conv li { grid-template-columns: 64px minmax(0, 1fr) 48px 64px; gap: 8px; } .nwtab-md-conv__h span:nth-child(2) { visibility: hidden; } }
+
+@container nws (max-width: 460px) { .nwtab-md-sbar__t b { font-size: 32px; line-height: 32px; } .nwtab-md-sbar { gap: 8px 14px; } }
+
+/* DC-082: nota del género en un tooltip arriba a la derecha de la tarjeta */
+.nwtab-md-card__h { position: relative; }
+.nwtab-md-info { position: relative; display: inline-flex; flex: none; }
+.nwtab-md-info__b { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 1px solid var(--nwtab-line); border-radius: 50%; background: var(--naotech-app-background); color: var(--nwtab-mut); font: 700 14px/1 inherit; cursor: help; }
+.nwtab-md-info__b:hover, .nwtab-md-info__b:focus-visible { color: var(--nwtab-pri); border-color: var(--nwtab-pri); }
+.nwtab-md-info__t { position: absolute; z-index: 5; top: calc(100% + 8px); right: 0; width: min(320px, 70vw); padding: 10px 12px; border-radius: 10px; background: #1b1b2b; color: #fff; font-size: 12px; line-height: 18px; font-weight: 400; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); opacity: 0; visibility: hidden; transition: opacity .15s; pointer-events: none; }
+.nwtab-md-info:hover .nwtab-md-info__t, .nwtab-md-info:focus-within .nwtab-md-info__t { opacity: 1; visibility: visible; }
+@media (prefers-reduced-motion: reduce) { .nwtab-md-info__t { transition: none; } }
+.nwtab-md-card__h.has-info { padding-right: 44px; min-height: 32px; }
+.nwtab-md-card__h.has-info > .nwtab-md-info { position: absolute; top: 0; right: 0; }
+.nwtab-md-card__h.has-info > .nwtab-md-card__hd { flex: 1 1 12rem; }
+
+/* DC-086: el icono del set (naotech-icon-info) dentro del botón */
+.nwtab-md-info__b .nwt-icon, .nwtab-md-info__b i { font-size: 16px; line-height: 1; display: inline-flex; }
+/* DC-087: balance como banner con fondo */
+.nwtab-md-dv__tot { align-items: center; margin-top: 8px; padding: 12px 16px; border: 1px solid var(--nwtab-line); border-radius: 12px; background: var(--nwtab-soft); }
+.nwtab-md-dv__tot.tot--pos { background: var(--naotech-positive-color-050); border-color: #b9e0bd; }
+.nwtab-md-dv__tot.tot--neg { background: var(--naotech-negative-color-050); border-color: #f1c3be; }
+.nwtab-md-dv__tot > span { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--nwtab-mut); }
+.nwtab-md-dv__tot > b { font-size: 16px; }
+
+/* Row KPIs + medallero: KPIs en una línea compacta (icono | etiqueta + hint | valor a la derecha); la altura del row la marcan ellos */
+.nwtab-md-kpis { gap: 8px; }
+.nwtab-md-kpis .nwtab-md-kpi { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; grid-template-areas: "i l v" "i h v"; column-gap: 12px; row-gap: 0; align-items: center; padding: 16px 14px; }
+.nwtab-md-kpis .nwtab-md-kpi__h { display: contents; }
+.nwtab-md-kpis .nwtab-md-kpi__i { grid-area: i; width: 32px; height: 32px; }
+.nwtab-md-kpis .nwtab-md-kpi__l { grid-area: l; align-self: end; font-size: 13px; line-height: 16px; font-weight: 600; color: var(--naotech-app-font-color); }
+.nwtab-md-kpis .nwtab-md-kpi__hint { grid-area: h; align-self: start; text-align: left; font-size: 12px; line-height: 16px; }
+.nwtab-md-kpis .nwtab-md-kpi__v { grid-area: v; font-size: 26px; line-height: 30px; text-align: right; }
+.nwtab-md-top > .nwtab-md-card { height: 100%; }
+.nwtab-md-top .nwtab-md-stack { flex: 1; justify-content: space-between; gap: 4px; }
+.nwtab-md-top .nwtab-md-stack__i { min-height: 34px; }
+.nwtab-md-top .nwtab-md-stack__tr { height: 14px; border-radius: 7px; }
+
+/* DC-091: 4.ª card con la leyenda */
+.nwtab-md-ck--leg { justify-content: center; }
+.nwtab-md-ck--leg .nwtab-md-leg { flex-direction: column; flex-wrap: nowrap; gap: 6px; }
+.nwtab-md-ck--leg .nwtab-md-leg li { font-size: 13px; line-height: 18px; color: var(--nwtab-mut); }
+@container nws (max-width: 560px) { .nwtab-md-cks { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nwtab-md-ck--leg { grid-column: 1 / -1; } .nwtab-md-ck--leg .nwtab-md-leg { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; } }
+
+/* DC-094: barras de resultados proporcionales a las finales (no llenan el 100%) */
+.nwtab-md-segs { min-width: 34px; }
+
+/* DC-108/109: icon button de Inscripciones arriba a la derecha; la leyenda queda a su izquierda */
+.nwtab-md-card__h.has-info > .nwtab-in-info { position: absolute; top: -6px; right: -6px; }
+.nwtab-md-card__h.has-info > .nwtab-md-leg { margin-left: auto; align-self: center; }
+
+/* DC-118/119: título fuera de la card, mismo contenedor; 80px entre secciones */
+.nwtab-md-root { display: flex; flex-direction: column; gap: 40px; } /* DC-012 */
+.nwtab-md-sec { display: flex; flex-direction: column; gap: 16px; /* DC-037 */ min-width: 0; }
+.nwtab-md-top { align-items: start; } 
+.nwtab-md-top > .nwtab-md-sec { height: 100%; }
+.nwtab-md-top > .nwtab-md-sec > .nwtab-md-card { flex: 1; }
+
+/* DC-001: las métricas de finales lucen como las tarjetas KPI de arriba. */
+.nwtab-md-ck { padding: 16px 14px; border: var(--naotech-app-border-1-200); background: var(--naotech-app-background); }
+.nwtab-md-ck span { font-size: 13px; line-height: 16px; font-weight: 600; color: var(--naotech-app-font-color); }
+
+/* Colombia frente a un rival: resumen y bloques de ventaja; reusa .nwtab-md-ck, los dots y los tokens pos/neg */
+.nwtab-md-cks--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 20px; }
+.nwtab-md-ck small { font-size: 12px; line-height: 16px; color: var(--nwtab-mut); }
+.nwtab-md-ck.tot--pos { background: var(--naotech-positive-color-050); border-color: #b9e0bd; }
+.nwtab-md-ck.tot--neg { background: var(--naotech-negative-color-050); border-color: #f1c3be; }
+.nwtab-md-vs { margin-top: 0; }
+.nwtab-md-vs__h { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 8px; border-bottom: var(--naotech-app-border-1-200); }
+.nwtab-md-vs__h h4 { margin: 0; font-size: 15px; font-weight: 800; }
+.nwtab-md-vs__ls { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.nwtab-md-vs__r { display: grid; grid-template-columns: minmax(72px, 1fr) 44px 44px minmax(0, 1fr); align-items: center; gap: 10px; min-height: 64px; padding: 0 12px; } /* cebra en lugar de línea (antes DC-039) */
+.nwtab-md-vs__r:not(.nwtab-md-vs__r--h):nth-child(odd) { background: var(--nwtab-zebra); }
+.nwtab-md-vs__r--h { min-height: 0; padding: 8px 12px 2px; font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-md-vs__r--h .nwtab-md-vs__dh { grid-column: 4 / -1; }
+.nwtab-md-vs__l { font-size: 14px; }
+.nwtab-md-vs__m { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--nwtab-mut); }
+.nwtab-md-vs__m.is-win { font-weight: 800; color: var(--naotech-app-font-color); }
+.nwtab-md-vs__m.is-0 .nwtab-md-dot { background: transparent; box-shadow: inset 0 0 0 1px var(--naotech-app-color-300); }
+.nwtab-md-vs__ax { position: relative; height: 12px; }
+.nwtab-md-vs__ax .nwtab-md-dv__b { left: 0; }
+@media (max-width: 640px) { .nwtab-md-cks--3 { grid-template-columns: 1fr; } .nwtab-md-vs__r { grid-template-columns: minmax(72px, 1fr) 38px 38px minmax(0, 1fr); gap: 6px; } }
+
+
+/* DC-013/014/015/016: cards propias de ventaja y desventaja, número dentro de la barra y badges. */
+.nwtab-md-vs__ax { height: 26px; }
+.nwtab-md-vs__ax .nwtab-md-dv__b { display: grid; place-items: center; height: 26px; min-width: 26px; border-radius: 8px; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; color: #fff; }
+.nwtab-md-vs__h b { display: inline-flex; align-items: center; justify-content: center; height: 24px; padding: 0 10px; border-radius: 999px; font-size: 13px; line-height: 1; white-space: nowrap; } /* DC-040 */
+.nwtab-md-vs__h b.is-pos { background: var(--naotech-positive-color-050); }
+.nwtab-md-vs__h b.is-neg { background: var(--naotech-negative-color-050); }
+.nwtab-md-bdg { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--nwtab-pri-s); color: var(--nwtab-pri); font-size: 13px; line-height: 20px; font-weight: 800; vertical-align: middle; }
+
+/* DC-019: Medallería no genera scroll horizontal; el contenido se ajusta al ancho. */
+.nwtab-md-root .nwtab-tw, .nws-event-detail-tabs__panel:has(.nwtab-md-root) { overflow-x: clip; }
+
+/* DC-041: las dos cards de ventaja van una al lado de la otra; una sola ocupa todo el ancho. */
+.nwtab-md-vsg { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@container nws (min-width: 900px) { .nwtab-md-vsg:has(> :nth-child(2)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.nwtab-md-vsg > .nwtab-md-vs { align-self: start; }

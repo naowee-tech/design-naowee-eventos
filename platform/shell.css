@@ -1,0 +1,297 @@
+:root{--nwtab-zebra:#f9f9fc} /* DC-041: cebra a la mitad del tinte anterior, una sola para todas las tablas */
+/* Shell de la plataforma: marco, listado y cabecera de detalle. Prefijo nws- (como el producto). */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--naotech-app-font-color,#1d1f2e);background:var(--naotech-app-color-050,#f7f8fc);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--naotech-primary-color-normal);outline-offset:2px}
+.nws-muted{color:var(--naotech-app-color-700)}
+.nws-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nws-skip{position:absolute;left:-999px;top:8px;z-index:10;background:#fff;padding:10px 16px;border-radius:10px;border:var(--naotech-app-border-1-200)}
+.nws-skip:focus{left:8px}
+h1:focus{outline:none}
+
+/* franja superior discreta */
+.nws-topbar{background:var(--naotech-app-background);border-bottom:var(--naotech-app-border-1-200)}
+.nws-topbar__in{max-width:75rem;margin-inline:auto;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 var(--naotech-sizing-32);font-size:13px;color:var(--naotech-app-color-700);overflow:hidden;white-space:nowrap}
+.nws-topbar__sep{color:var(--naotech-app-color-400,#b5b9cf)}
+.nws-topbar a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:var(--naotech-primary-color-normal);font-weight:600}
+.nws-topbar a:hover{text-decoration:underline}
+.nws-topbar [aria-current]{overflow:hidden;text-overflow:ellipsis;color:var(--naotech-app-color-900);font-weight:600}
+.nws-main{min-height:calc(100vh - 45px);outline:none;container:nws/inline-size}
+
+.nws-page{display:flex;width:100%;max-width:75rem;margin-inline:auto;flex-direction:column;row-gap:var(--naotech-sizing-24);padding:var(--naotech-sizing-28) var(--naotech-sizing-32)}
+.nws-event-detail{row-gap:var(--naotech-sizing-18)}
+
+/* ---- insignias ---- */
+.nws-badge{--pvt-label-font-size:12px;--pvt-label-line-height:16px;--pvt-content-padding:2px 10px;flex:0 0 auto;white-space:nowrap}
+.nws-badge .nwt-badge__label{font-weight:600}
+.nws-badge--ciclo{--naotech-theme-color-100:#eceafd;--naotech-theme-color-800:#3d2fa6}
+.nws-badge[nwt-theme=informative]{--naotech-theme-color-100:#e1effe;--naotech-theme-color-800:#1b4f9c}
+.nws-badge[nwt-theme=positive]{--naotech-theme-color-800:#14611a}
+.nws-badge[nwt-theme=neutral]{--naotech-theme-color-800:#3d4256}
+
+/* ---- botones / iconos ---- */
+.nws-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;border:0;background:transparent;color:var(--naotech-app-color-900);cursor:pointer;text-decoration:none;--naotech-icon-dimension:20px}
+.nws-iconbtn:hover{background:var(--naotech-app-color-100)}
+.nws-iconbtn--lg{--naotech-icon-dimension:22px}
+.nws-linkbtn{min-height:44px;padding:0 14px;border:0;border-radius:12px;background:var(--naotech-primary-color-050);color:var(--naotech-primary-color-normal);font:600 13px Inter,sans-serif;cursor:pointer}
+.nws-linkbtn:hover{background:var(--naotech-primary-color-100)}
+.nws-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 24px;border-radius:var(--naotech-radius-xl);background:var(--naotech-primary-color-normal);color:var(--naotech-primary-color-text-normal,#fff);font-weight:600;font-size:14px;text-decoration:none}
+.nws-btn:hover{background:var(--naotech-primary-color-hover)}
+
+/* ---- listado ---- */
+.nws-events-list{max-width:1180px}
+.nws-events-header{display:flex;width:100%;align-items:center;justify-content:space-between;column-gap:var(--naotech-sizing-24)}
+.nws-events-header__description{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-4)}
+.nws-events-header__description small{color:var(--naotech-app-color-700)}
+.nws-events-catalog{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-16)} /* DC-089: sin efecto card grande */
+.nws-events-catalog__header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--naotech-sizing-12)}
+.nws-events-catalog__filters{display:flex;flex:1 1 auto;align-items:center;flex-wrap:wrap;gap:var(--naotech-sizing-12);min-width:0}
+.nws-scope nwt-tabs{display:block}
+.nws-search{flex:1 1 16rem;min-width:min(16rem,100%);width:auto;max-width:100%;display:block}
+.nws-search .nwt-searchbox__container{height:44px;padding:0 14px;border:var(--naotech-app-border-1-300);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background);--naotech-icon-dimension:20px;cursor:text}
+.nws-search .nwt-searchbox__container:focus-within{border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
+.nws-search .nwt-searchbox__input{min-height:40px}
+.nws-search .nwt-searchbox__input:focus-visible{outline:none}
+nwt-tag-group{--naotech-tag-group-height:44px}
+nwt-tag-group .nwt-tag-group__tag{min-height:34px}
+.nws-seg{display:inline-flex;box-sizing:border-box;height:44px;padding:0;gap:0;overflow:hidden;border:var(--naotech-app-border-1-200);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background)}
+.nws-seg button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border:0;border-radius:0;background:transparent;color:var(--naotech-app-color-700);font:600 13px Inter,sans-serif;cursor:pointer;--naotech-icon-dimension:18px}
+.nws-seg button:hover{background:var(--naotech-app-color-100)}
+.nws-seg button[aria-pressed=true]{background:var(--naotech-primary-color-050);color:var(--naotech-primary-color-normal)}
+.nws-seg{min-height:0;flex:1 1 9rem;min-width:min(9rem,100%)}
+.nws-seg button{flex:1 1 0;justify-content:center;min-width:48px}
+.nws-seg button:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:-2px}
+
+.nws-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(20rem,100%),1fr));gap:var(--naotech-sizing-16)}
+.ec{position:relative;display:flex;flex-direction:column;justify-content:space-between;row-gap:var(--naotech-sizing-14);padding:var(--naotech-sizing-20);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-background);cursor:pointer;transition:transform .2s var(--naotech-animation-standard),box-shadow .2s var(--naotech-animation-standard),border-color .2s var(--naotech-animation-standard)}
+.ec:hover{transform:translateY(-4px);box-shadow:var(--naotech-shadow-4);border-color:var(--naotech-app-color-300)}
+.ec:focus-within{border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
+.ec-body{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-14)}
+.ec-top{display:flex;align-items:flex-start;justify-content:space-between;column-gap:var(--naotech-sizing-10)}
+.ec-top>.nwt-badge{margin-top:var(--naotech-sizing-4)}
+.ec-t{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-6);min-width:0}
+.ec-title{margin:0;font-size:15px;line-height:1.35;font-weight:700}
+.ec-main{text-decoration:none;color:inherit}
+.ec-main::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.ec-main:focus-visible{outline:none}
+.ec-sub{display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-4) var(--naotech-sizing-8)}
+.ec-hint{color:var(--naotech-app-color-700)}
+.ec-meta{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-6)}
+.ec-row{display:flex;align-items:center;column-gap:var(--naotech-sizing-8);font-size:var(--naotech-caption-font-size,12px);color:var(--naotech-app-color-700);--naotech-icon-dimension:16px}
+.ec-row .nwt-icon{color:var(--naotech-app-color-600)}
+.ec-row strong{color:var(--naotech-app-font-color,#1d1f2e);font-weight:600}
+.ec-foot{display:flex;align-items:center;justify-content:flex-end;padding-top:var(--naotech-sizing-14);border-top:var(--naotech-app-border-1-200)}
+.ec-link{display:inline-flex;align-items:center;column-gap:var(--naotech-sizing-6);font-size:12px;font-weight:700;color:var(--naotech-primary-color-normal);--naotech-icon-dimension:14px}
+.ec-link .nwt-icon{transition:transform .2s var(--naotech-animation-standard)}
+.ec:hover .ec-link .nwt-icon{transform:translateX(4px)}
+@media (prefers-reduced-motion:reduce){.ec,.ec-link .nwt-icon{transition:none}.ec:hover{transform:none}.ec:hover .ec-link .nwt-icon{transform:none}}
+
+.nws-bar:empty{display:none}
+.nws-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:var(--naotech-sizing-16)}
+.nws-pager{display:flex;gap:4px}
+.nws-pager button{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 10px;border:var(--naotech-app-border-1-200);border-radius:12px;background:var(--naotech-app-background);font:600 13px Inter,sans-serif;color:var(--naotech-app-color-900);cursor:pointer;--naotech-icon-dimension:18px}
+.nws-pager button:hover:not(:disabled){background:var(--naotech-app-color-100)}
+.nws-pager button[aria-current]{background:var(--naotech-primary-color-normal);border-color:var(--naotech-primary-color-normal);color:#fff}
+.nws-pager button:disabled{opacity:.4;cursor:not-allowed}
+.nws-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:48px 16px;text-align:center;border:1px dashed var(--naotech-app-color-300);border-radius:16px}
+.nws-empty--page{background:var(--naotech-app-background);gap:12px}
+
+/* ---- calendario mensual de eventos ---- */
+.nws-cal__nav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.nws-cal__nav h3{min-width:11rem;text-align:center}
+.nws-cal__nav .nws-linkbtn{margin-left:auto}
+.nws-cal__dow,.nws-cal__days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.nws-cal__dow{border:var(--naotech-app-border-1-200);border-bottom:0;border-radius:12px 12px 0 0;background:var(--naotech-app-color-050)}
+.nws-cal__dow span{padding:8px;font-size:12px;font-weight:700;color:var(--naotech-app-color-700);text-align:center}
+.nws-cal__week{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:26px;border:var(--naotech-app-border-1-200);border-top:0;min-height:calc(34px + var(--lanes) * 28px + 10px);padding-top:34px;row-gap:2px}
+.nws-cal__week:last-child{border-radius:0 0 12px 12px}
+.nws-cal__days{position:absolute;inset:0;grid-column:1/-1}
+.nws-cal__day{padding:6px;border-left:var(--naotech-app-border-1-200);font-size:12px;color:var(--naotech-app-color-900)}
+.nws-cal__day:first-child{border-left:0}
+.nws-cal__day.is-out{background:var(--naotech-app-color-050);color:var(--naotech-app-color-600)}
+.nws-cal__day .is-today{display:inline-flex;min-width:22px;height:22px;align-items:center;justify-content:center;border-radius:11px;background:var(--naotech-primary-color-normal);color:#fff;font-weight:700}
+.nws-cal__bar{position:relative;z-index:1;display:block;margin:0 3px;padding:0 8px;height:26px;line-height:26px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nws-cal__bar:hover{filter:brightness(.92)}
+.nws-cal__bar--on{background:#1f7a24}
+.nws-cal__bar--next{background:#a45a05}
+.nws-cal__bar--end{background:#5a6578}
+.nws-cal__bar:not(.is-start){margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}
+.nws-cal__bar:not(.is-end){margin-right:0;border-top-right-radius:0;border-bottom-right-radius:0}
+
+/* ---- detalle: cabecera en 3 cards ---- */
+.nws-event-detail__card{display:flex;flex-direction:column;border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-background)}
+.nws-event-detail__head{position:relative;display:flex;align-items:center;min-height:180px;overflow:hidden;border-radius:var(--naotech-sizing-16);background:#0a0a0a;color:#fff}
+.nws-ph{background:linear-gradient(135deg,#1d2b69 0%,#263888 55%,#4a5fc0 100%)}
+.nws-ph--b{background:linear-gradient(135deg,#1d2b69 0%,#2f3f9a 50%,#6b7fd6 100%)}
+.nws-ph--c{background:linear-gradient(150deg,#151a3e 0%,#263888 60%,#3d4fae 100%)}
+.nws-ph::before{content:'';position:absolute;inset:0;opacity:.22;background:radial-gradient(circle at 78% 30%,transparent 0 34px,rgba(255,255,255,.9) 34px 37px,transparent 37px),radial-gradient(circle at 88% 38%,transparent 0 34px,rgba(226,185,16,.95) 34px 37px,transparent 37px),radial-gradient(circle at 83% 52%,transparent 0 34px,rgba(255,255,255,.9) 34px 37px,transparent 37px)}
+.nws-ph__tag{position:absolute;right:16px;bottom:16px;z-index:1;padding:4px 9px;border-radius:3px;background:rgba(255,255,255,.92);color:var(--naotech-app-color-700);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1.35}
+.nws-event-detail__veil{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,.92) 20%,transparent)}
+.nws-event-detail__hero-in{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:var(--naotech-sizing-12);width:100%;padding:var(--naotech-sizing-16) var(--naotech-sizing-24) var(--naotech-sizing-16) var(--naotech-sizing-16)}
+/* Fuera de la card: el row-gap de la página se recorta a 12px con margen negativo. */
+.nws-event-detail__back{flex:0 0 auto;align-self:flex-start;width:auto;margin-bottom:calc(12px - var(--naotech-sizing-18));gap:var(--naotech-sizing-8);padding:0 var(--naotech-sizing-16) 0 var(--naotech-sizing-12);border:1px solid var(--naotech-app-color-300,#b8bfd0);border-radius:12px;background:#fff;color:var(--naotech-app-color-900);font:600 14px/1 Inter,sans-serif}
+.nws-event-detail__back:hover{background:var(--naotech-app-color-100)}
+.nws-event-detail__back:focus-visible{outline:3px solid var(--naotech-primary-color-normal);outline-offset:3px}
+@container nws (max-width:575px){.nws-event-detail__back{height:36px}}
+.nws-event-detail__badges{display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-8)}
+.nws-event-detail__cycle{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;background:#e2b910;color:#0a0a0a;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;line-height:1.35;white-space:nowrap}
+.nws-event-detail__ctd{display:inline-flex;align-items:center;gap:var(--naotech-sizing-8);color:#fff}
+.nws-event-detail__ctd-w{font-size:14px;font-weight:700;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.nws-event-detail__ctd-n{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;background:#e2b910;color:#0a0a0a;font-size:14px;font-weight:700;line-height:1.35;font-variant-numeric:tabular-nums}
+.nws-event-detail__lead{margin:0;font-size:14px;line-height:1.4;color:rgba(255,255,255,.85);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden} /* DC-107: hero a media altura, descripción en 2 líneas */
+@container nws (min-width:768px){.nws-event-detail__titlebox{max-width:62%}.nws-event-detail__head{min-height:200px}}
+.nws-event-detail__name:focus-visible{outline:3px solid #fff;outline-offset:6px;border-radius:4px}
+@container nws (max-width:767px){.nws-event-detail__veil{background:linear-gradient(to right,rgba(10,10,10,.92),rgba(10,10,10,.6))}.nws-event-detail__hero-in{padding-bottom:var(--naotech-sizing-16)}}
+.nws-event-detail__identity{display:flex;flex:1 1 auto;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-8) var(--naotech-sizing-12);min-width:0}
+.nws-event-detail__titlebox{display:flex;flex-direction:column;align-items:flex-start;gap:var(--naotech-sizing-8);min-width:0}
+.nws-event-detail__valrow{display:flex;flex-wrap:nowrap;align-items:center;gap:var(--naotech-sizing-8);margin-block:-3px}
+.nws-event-detail__valrow>span:first-child{white-space:nowrap}
+.nws-badge--nodot::before,.nws-badge--nodot::after,.nws-badge--nodot .nwt-badge__content::before{display:none!important;content:none!important}
+.nws-event-detail__name{flex:0 1 auto;max-width:100%;min-width:0;margin:0;overflow-wrap:anywhere;font-size:clamp(22px,2.6vw,32px);font-weight:900;line-height:1.1;letter-spacing:-.025em}
+.nws-event-detail__label{display:flex;align-items:center;column-gap:var(--naotech-sizing-6);font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--naotech-app-color-600);--naotech-icon-dimension:14px}
+/* DC-112: lista de datos normal (dl) en una card; 2 columnas de filas en contenedor ancho, apilada en angosto */
+.nws-event-detail__list{display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--naotech-sizing-48,48px);margin:0;padding:0 var(--naotech-sizing-24)}
+.nws-event-detail__row{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;column-gap:var(--naotech-sizing-16);min-height:48px;padding:var(--naotech-sizing-14,14px) 0;border-top:var(--naotech-app-border-1-200)}
+.nws-event-detail__row:first-child{border-top:none}
+.nws-event-detail__value{display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-8);min-width:0;margin:0}
+@container nws (min-width:960px){
+  .nws-event-detail__list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nws-event-detail__row:nth-child(-n+3){grid-column:1}
+  .nws-event-detail__row:nth-child(4),.nws-event-detail__row:nth-child(5){grid-column:2;border-top:none}
+  .nws-event-detail__row:nth-child(4){grid-row:1}.nws-event-detail__row:nth-child(5){grid-row:2;border-top:var(--naotech-app-border-1-200)}
+  .nws-event-detail__row--full{grid-column:1/-1}
+}
+@container nws (max-width:719px){
+  .nws-event-detail__row{grid-template-columns:minmax(0,1fr);row-gap:var(--naotech-sizing-4,4px);align-items:start}
+}
+.nws-event-detail__venues-count{padding:0 var(--naotech-sizing-8);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-color-100);color:var(--naotech-app-color-700);font-weight:500;letter-spacing:0}
+.nws-event-detail__venues-list{display:flex;flex-wrap:wrap;gap:var(--naotech-sizing-8);margin:0;padding:0;list-style:none}
+.nws-event-detail__venue{max-width:100%;padding:var(--naotech-sizing-6) var(--naotech-sizing-12);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-10);background:var(--naotech-app-color-050);color:var(--naotech-app-color-900);overflow-wrap:anywhere}
+.nws-event-detail__manager{display:flex;align-items:center;column-gap:var(--naotech-sizing-10);min-width:0}
+.nws-event-detail__manager-meta{display:flex;flex-direction:column;row-gap:2px;min-width:0}
+.nws-event-detail__manager-meta small{color:var(--naotech-app-color-600)}
+.nws-event-detail__description{max-width:62ch;line-height:1.65;color:var(--naotech-app-color-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nws-avatar{display:inline-flex;flex:0 0 auto;width:32px;height:32px;align-items:center;justify-content:center;border-radius:50%;background:var(--naotech-primary-color-100);color:var(--naotech-primary-color-800,#8a2b00);font-size:12px;font-weight:700}
+
+/* tira de pestañas + panel (como EventDetailTabs) */
+.nws-event-detail-tabs{display:flex;flex-direction:column}
+.nws-event-detail-tabs__strip{overflow-x:auto;scrollbar-width:thin}
+/* Barra de pestañas pegada bajo el head (--nws-hh lo mide app.js); is-stuck solo agrega sombra. */
+.nws-tabnav{position:sticky;top:var(--nws-hh,45px);z-index:40;background:var(--naotech-app-background);border-bottom:var(--naotech-app-border-1-200)}
+.nws-tabnav.is-stuck{margin-inline:calc(50% - 50cqw);padding-inline:calc(50cqw - 50%)} /* DC-060: pegada, ancho completo del área de contenido; el padding conserva la x de las pestañas */
+.nws-tabnav__sent{height:1px;margin-top:-1px;pointer-events:none}
+.nws-tabnav__row{display:flex}
+.nws-tabnav .nws-event-detail-tabs__strip{min-width:0}
+.nws-tabnav .nws-event-detail-tabs__strip{flex:1 1 auto}
+.nws-event-detail-tabs__strip nwt-tabs{display:block;min-width:max-content}
+.nws-event-detail-tabs__panel{padding:var(--naotech-sizing-20) 4px 0;margin-inline:-4px;min-height:12rem} /* DC-090: sin efecto card grande; los 4px evitan recortar el foco */
+.nws-reserved{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:20rem;padding:24px;border:2px dashed var(--naotech-app-color-300);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-color-050);color:var(--naotech-app-color-700);font-size:14px;text-align:center}
+.nws-reserved b{color:var(--naotech-app-color-900);font-size:15px}
+
+/* DC-133: iconos de estado/ciclo/alcance (sin tags de texto) y vista en lista */
+.nws-ico{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;color:var(--naotech-app-color-700)}
+.nws-ico:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:2px;border-radius:50%}
+.nws-ico--ciclo{color:#3d2fa6}
+/* DC-102/103: badges compactos de estado, alcance y ciclo */
+.nws-badge--chip{--pvt-content-padding:2px 8px;--naotech-theme-color-100:var(--naotech-app-color-100);--naotech-theme-color-800:var(--nwtab-mut,var(--naotech-app-color-700))}
+.nws-badge--chip .nwt-badge__content{display:inline-flex;align-items:center;gap:4px}
+.nws-badge--chip .nwt-badge__label{font-weight:500}
+.ec-sub{gap:6px}
+.nws-lista{list-style:none;margin:0;padding:0;border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);overflow:hidden}
+.nws-row{display:grid;grid-template-columns:84px minmax(0,2.4fr) 132px minmax(0,190px) minmax(0,1fr) 116px auto;align-items:center;column-gap:var(--naotech-sizing-12);min-height:56px;padding:6px var(--naotech-sizing-16);background:var(--naotech-app-background);--naotech-icon-dimension:16px}
+.nws-row:nth-child(even){background:var(--nwtab-zebra)}
+.nws-row+.nws-row{border-top:var(--naotech-app-border-1-200)}
+.nws-row:hover{background:var(--naotech-primary-color-050)}
+.nws-row__name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:inherit;text-decoration:none}
+.nws-row__name:hover{text-decoration:underline}
+.nws-row__name:focus-visible,.nws-row__ver:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:2px;border-radius:6px}
+.nws-row__fechas,.nws-row__lugar,.nws-row__alc{display:flex;align-items:center;gap:var(--naotech-sizing-6);min-width:0;color:var(--naotech-app-color-700)}
+.nws-row__fechas>span:last-child,.nws-row__lugar>span:last-child,.nws-row__alc>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nws-row__fechas strong{color:var(--naotech-app-font-color,#1d1f2e);font-weight:600}
+.nws-row__ver{white-space:nowrap;text-decoration:none}
+@container nws (max-width:960px){
+  .nws-row{grid-template-columns:84px minmax(0,2fr) 132px minmax(0,190px) minmax(0,1fr) auto}
+  .nws-row__alc{display:none}
+}
+@container nws (max-width:720px){
+  .nws-row{grid-template-columns:auto minmax(0,1fr) auto;row-gap:4px;padding:var(--naotech-sizing-12) var(--naotech-sizing-14)}
+  .nws-row__name{white-space:normal}
+  .nws-row__fechas,.nws-row__lugar,.nws-row__alc{grid-column:2/-1}
+  .nws-row__alc{display:flex}
+  .nws-row__ver{grid-column:2/-1;justify-self:start}
+}
+
+@container nws (max-width:720px){
+  .nws-page{padding:var(--naotech-sizing-20) var(--naotech-sizing-16)}
+  .nws-search{width:100%;flex-basis:100%}
+  .nws-event-detail-tabs__panel{padding:var(--naotech-sizing-14) 4px 0}
+  .nws-cal__nav h3{min-width:0;flex:1}
+  .nws-cal__bar{font-size:11px;padding:0 4px}
+}
+
+/* evita que contenido ancho (pestañas, tablas) ensanche la página en móvil */
+.nws-page>*,.nws-event-detail-tabs,.nws-event-detail-tabs__panel,.nws-events-catalog>*{min-width:0}
+.nws-event-detail-tabs__panel{overflow-x:auto}
+.nws-event-detail-tabs__panel.is-info{display:flex;flex-direction:column;gap:var(--naotech-sizing-18);min-height:100vh} /* Información es corta: el alto garantiza scroll y que las pestañas se peguen como en las demás */
+html{overflow-x:hidden}
+body{overflow-x:clip}
+
+/* Estado respecto al tiempo en listado y detalle */
+.nws-sec{display:flex;flex-direction:column;gap:var(--naotech-sizing-12)}
+.nws-sec+.nws-sec{margin-top:var(--naotech-sizing-24)}
+.nws-sec__t{display:flex;align-items:center;gap:var(--naotech-sizing-8);margin:0;font-size:16px}
+.nws-sec__n{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 8px;border-radius:999px;background:var(--naotech-app-color-100);color:var(--naotech-app-color-700);font-size:12px;font-weight:700}
+.ec-when{font-weight:600}
+.ec-when--next{color:var(--naotech-primary-color-700)}
+.ec-when--next .nwt-icon{color:var(--naotech-primary-color-600)}
+.ec-when--on{color:var(--naotech-informative-color-800,#1b4f9c)}
+.ec-foot--two{justify-content:space-between}
+.ec-link--med{position:relative;z-index:1;min-height:44px;margin:-10px 0;text-decoration:none}
+.ec-link--med:hover{text-decoration:underline}
+.ec-link--med:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:2px;border-radius:6px}
+.nws-when{font-weight:600}
+#nws-estado[hidden]{display:none}
+
+/* Paginación de Deportes y selector «Por página» (Deportistas ya trae su borde). */
+.nwtab-tab .nwtab-pg { margin-top: 12px; border: var(--naotech-app-border-1-200); }
+.nwtab-tab .nwtab-pg__sz { display: flex; align-items: center; gap: 8px; }
+.nwtab-tab .nwtab-pg__sz .nwtab-sel { min-height: 40px; }
+.nwtab-tab .nwtab-c-fs { white-space: nowrap; color: var(--nwtab-mut); }
+
+/* ---- shell: side panel (nwt-sidebar real) + contenido. Corte del drawer: 960px, igual que el HTML del MF. */
+.nws-app{display:flex;align-items:flex-start;min-height:100vh}
+.nws-sidebar{position:sticky;top:0;height:100vh;flex:0 0 auto;--naotech-divider-height:var(--naotech-sizing-48)}
+.nws-sidebar.nwt-sidebar--mode-drawer{position:fixed}
+.nws-content{display:flex;flex:1 1 0;flex-direction:column;min-width:0}
+.nws-logo{display:flex;align-items:center;justify-content:flex-end;width:100%}
+.nws-logo__entity{height:var(--naotech-sizing-56);width:auto}
+.nwt-sidebar__toolbar__logo:has(>.nws-logo){flex:1}
+.nws-head{position:sticky;top:0;z-index:41;display:flex;align-items:center;background:var(--naotech-app-background);border-bottom:var(--naotech-app-border-1-200)}
+.nws-head .nws-topbar{flex:1 1 auto;min-width:0;border-bottom:0}
+.nws-menubtn{display:none;flex:0 0 auto;margin-left:var(--naotech-sizing-8)}
+@media (max-width:960px){.nws-menubtn{display:inline-flex}.nws-head .nws-topbar__in{padding-left:var(--naotech-sizing-8)}}
+@media (max-width:720px){.nws-topbar__in{padding-right:var(--naotech-sizing-16)}}
+/* El conmutador flotante tapaba el drawer abierto (modal). */
+body:has(.nwt-sidebar--mode-drawer.nwt-sidebar--open) .olc-sw{visibility:hidden}
+.nws-sidebar.nwt-sidebar--mode-drawer:not(.nwt-sidebar--open){box-shadow:none}
+/* El scrim del SDK (popover vacío) mide 0x0: se usa uno propio y app.js cierra con el clic fuera. */
+.nws-sidebar .nwt-sidebar__backdrop{display:none!important}
+body:has(.nws-sidebar.nwt-sidebar--mode-drawer.nwt-sidebar--open)::after{content:'';position:fixed;inset:0;z-index:calc(var(--naotech-z-drawer) - 1);background:var(--naotech-color-black-alpha-40)}
+/* Cerrar sesión no existe en el prototipo: se ve apagado pero conserva el title. */
+.nws-sidebar .nwt-sidebar__footer__logout[aria-disabled=true]{opacity:.5;cursor:not-allowed}
+/* En móvil el conmutador tapaba la miga: va abajo (height evita que se estire si se arrastra). */
+@media (max-width:720px){body .olc-sw{top:auto;bottom:12px;height:fit-content}}
+
+/* Pestaña clave del momento del evento: punto con el token primario, sin texto extra. */
+
+.nws-dashframe{display:block;width:100%;height:calc(100vh - 45px);min-height:40rem;border:0;background:var(--naotech-app-background,#fff)}
+
+/* DC-107: título en 1 línea con elipsis en escritorio; a ≤767px puede ocupar 2 */
+@container nws (min-width:768px){.nws-event-detail__name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow-wrap:normal}}
+@container nws (max-width:767px){.nws-event-detail__name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}}
+/* DC-107: el hero sube la barra; el alto mínimo garantiza que se pegue también en pestañas cortas. La etiqueta de foto estorba la descripción en móvil. */
+.nws-event-detail-tabs__panel{min-height:100vh}
+@container nws (max-width:767px){.nws-event-detail__head .nws-ph__tag{display:none}}

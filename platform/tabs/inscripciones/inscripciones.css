@@ -1,0 +1,317 @@
+/* Pestaña Inscripciones (componentes en esta carpeta). Prefijo nwtab-in-; raíz nwtab-ins-root (nwtab-in ya es el input de tabs.css, DC-070); cortes con @container nws (nunca @media). */
+.nwtab-ins-root { --in-ink: var(--naotech-app-font-color); --in-track: var(--naotech-app-color-100); display: flex; flex-direction: column; gap: 40px; } /* mismo ritmo que Medallería */
+.nwtab-in-row > .nwtab-md-sec > .nwtab-md-card { flex: 1; }
+.nwtab-md-card__h.has-info > .nwtab-in-seg { margin-left: auto; align-self: center; }
+.nwtab-in-pend { color: var(--nwtab-mut); font-size: 13px; }
+.nwtab-in-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.nwtab-in-kpi { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: var(--naotech-app-border-1-200); border-radius: 12px; background: var(--naotech-app-background); min-width: 0; }
+.nwtab-in-kpi__h { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.nwtab-in-kpi__i { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; flex: 0 0 auto; }
+.nwtab-in-kpi__i--a { background: #e6f0ff; color: #0a3f9e; }
+.nwtab-in-kpi__i--b { background: var(--naotech-positive-color-050); color: var(--naotech-positive-color-900); }
+.nwtab-in-kpi__i--c, .nwtab-in-kpi__i--d { background: #fff1e0; color: #7a3a00; }
+.nwtab-in-kpi__hint { font-size: 12px; line-height: 16px; color: var(--nwtab-mut); text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.nwtab-in-kpi__v { font-size: 32px; line-height: 36px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--in-ink); }
+.nwtab-in-kpi__l { font-size: 14px; line-height: 18px; color: var(--nwtab-mut); }
+.nwtab-in-note { margin: 0; font-size: 12px; line-height: 16px; color: var(--nwtab-mut); }
+.nwtab-in-note--c { text-align: center; }
+.nwtab-in-kpis + .nwtab-in-note { margin-top: -4px; }
+
+.nwtab-in-seg .nwtab-seg__b { min-height: 36px; padding: 0 12px; font-size: 13px; }
+.nwtab-in-row { display: grid; gap: 24px; align-items: stretch; }
+.nwtab-in-row--a { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.nwtab-in-row--b { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+
+/* Actividad por jornada */
+.nwtab-in-ch { display: flex; gap: 8px; min-width: 0; flex: 1 1 auto; min-height: 188px; }
+.nwtab-in-card--act .nwtab-in-ax { height: auto; }
+.nwtab-in-ax { display: flex; flex-direction: column; justify-content: space-between; list-style: none; margin: 0; padding: 22px 0 34px; height: 188px; font-size: 11px; line-height: 12px; color: var(--nwtab-mut); text-align: right; font-variant-numeric: tabular-nums; flex: 0 0 auto; }
+.nwtab-in-cols { display: flex; align-items: stretch; gap: 3px; list-style: none; margin: 0; padding: 0; flex: 1 1 0; min-width: 0; min-height: 188px; }
+.nwtab-in-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: 6px; }
+.nwtab-in-col__t { position: relative; display: flex; align-items: flex-end; width: 100%; flex: 1 1 auto; margin-top: 22px; border-bottom: 1px solid var(--naotech-app-color-300); }
+.nwtab-in-col__t i { display: block; width: 100%; min-height: 2px; border-radius: 3px 3px 0 0; background: var(--naotech-primary-color-500); }
+.nwtab-in-col.is-peak .nwtab-in-col__t i { background: var(--naotech-primary-color-800); }
+.nwtab-in-col__t em { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); margin-bottom: 3px; padding-bottom: 10px; font-style: normal; font-size: 12px; font-weight: 700; line-height: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nwtab-in-col__d { font-size: 12px; line-height: 14px; color: var(--in-ink); font-variant-numeric: tabular-nums; }
+.nwtab-in-col__m { font-size: 11px; line-height: 12px; height: 12px; color: var(--nwtab-mut); text-transform: uppercase; }
+.nwtab-in-col.is-hoy .nwtab-in-col__d { font-weight: 800; color: var(--naotech-primary-color-700); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ⓘ: lo que mide la gráfica. Globo oscuro anclado arriba a la derecha; se cierra con Escape o al tocar fuera. */
+.nwtab-in-info { position: relative; flex: 0 0 auto; }
+.nwtab-in-info__s { list-style: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 8px; cursor: pointer; color: var(--nwtab-mut); }
+.nwtab-in-info__s::-webkit-details-marker { display: none; }
+.nwtab-in-info__s:hover, .nwtab-in-info[open] > .nwtab-in-info__s { background: var(--nwtab-soft); color: var(--in-ink); }
+.nwtab-in-info__s:focus-visible { outline: 2px solid var(--in-ink); outline-offset: 2px; }
+.nwtab-in-info__p { position: absolute; right: 0; top: 44px; z-index: 5; width: min(18rem, calc(100vw - 48px)); box-sizing: border-box; padding: 12px 14px; border-radius: 8px; background: #282834; color: #fff; font-size: 13px; line-height: 20px; box-shadow: 0 8px 24px rgba(40, 40, 52, .2); }
+.nwtab-in-info__p p { margin: 0; }
+.nwtab-in-info__p p + p { margin-top: 8px; }
+.nwtab-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Cupos: un cuadro por cupo hace contable lo libre */
+.nwtab-in-cu { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 20px; } /* mismo patrón que .nwtab-in-sbar */
+.nwtab-in-cu__lead { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--nwtab-mut); }
+.nwtab-in-cu__lead strong { display: block; font-size: 40px; line-height: 40px; font-weight: 800; color: var(--in-ink); font-variant-numeric: tabular-nums; }
+.nwtab-in-cu__m { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.nwtab-in-sq { display: grid; gap: 2px; height: 28px; }
+.nwtab-in-sq i { display: block; border: 1.5px solid #8a8fa8; border-radius: 3px; box-sizing: border-box; }
+.nwtab-in-sq i.is-on { background: var(--naotech-primary-color-700); border-color: var(--naotech-primary-color-700); }
+.nwtab-in-bar { height: 14px; border-radius: 7px; background: var(--in-track); overflow: hidden; }
+.nwtab-in-bar span { display: block; height: 100%; border-radius: 7px; background: var(--naotech-primary-color-700); }
+.nwtab-in-cu__ft { margin: 0; font-size: 14px; color: var(--nwtab-mut); }
+.nwtab-in-cu__ft strong { color: var(--in-ink); }
+
+/* Tipo: una barra, etiquetas directas y de dónde salen las de equipo */
+.nwtab-in-tp { display: flex; flex-direction: column; gap: 8px; }
+.nwtab-in-tp__b { display: flex; gap: 2px; height: 28px; border-radius: 999px; overflow: hidden; } /* DC-056 */
+.nwtab-in-tp__b i { display: block; }
+.nwtab-in-tp i.is-ind { background: #1f55b8; }
+.nwtab-in-tp i.is-eq { background: #d74009; }
+.nwtab-in-tp__k { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; padding-bottom: 20px; font-size: 14px; } /* DC-022 */
+.nwtab-in-tp__k span { display: inline-flex; align-items: center; gap: 6px; }
+.nwtab-in-tp__k i { width: 10px; height: 10px; border-radius: 2px; }
+.nwtab-in-mini { width: 100%; border-collapse: collapse; font-size: 14px; }
+.nwtab-in-mini caption { text-align: left; padding-bottom: 16px; font-size: 16px; line-height: 24px; font-weight: 700; color: var(--naotech-app-font-color); } /* DC-042 */
+.nwtab-in-mini tr { border-top: var(--naotech-app-border-1-200); }
+.nwtab-in-mini th { text-align: left; font-weight: 500; padding: 8px 0; }
+.nwtab-in-mini th, .nwtab-in-mini td { height: 64px; }
+.nwtab-in-mini td { text-align: right; font-weight: 700; padding: 8px 0; font-variant-numeric: tabular-nums; }
+
+/* Género: totales a la izquierda, divergente F | M a la derecha */
+.nwtab-in-gg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px; align-items: start; }
+.nwtab-in-gg__r { display: flex; flex-direction: column; gap: 8px; min-width: 0; align-items: flex-start; }
+.nwtab-in-gg__r > * { width: 100%; }
+.nwtab-in-gg__r { min-width: 0; }
+.nwtab-in-gg .nwtab-in-gt { grid-template-columns: minmax(0, 1fr); }
+.nwtab-in-gt { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.nwtab-in-gt > div { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: var(--naotech-app-border-1-200); border-radius: 8px; }
+.nwtab-in-gt span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-in-gt i { width: 10px; height: 10px; border-radius: 2px; }
+.nwtab-in-gt b { font-size: 20px; font-variant-numeric: tabular-nums; }
+.nwtab-in-gg__r { --u: 20px; } /* px por unidad, igual en F, M y mixtas */
+.nwtab-in-gr { display: grid; grid-template-columns: calc(var(--w) * var(--u)) 6.5rem calc(var(--w) * var(--u)) max(4.2rem, calc(var(--x) * var(--u) + 29px)); justify-content: center; gap: 6px; align-items: center; min-height: 32px; }
+.nwtab-in-gr--h { min-height: 0; font-size: 12px; font-weight: 600; color: var(--nwtab-mut); align-items: end; }
+.nwtab-in-gr .l, .nwtab-in-gr .r { font-size: 12px; }
+.nwtab-in-gr .l { text-align: right; }
+.nwtab-in-gr--h .l { text-align: right; }
+.nwtab-in-gr--h .r { align-self: stretch; align-items: flex-end; }
+.nwtab-in-gr .r { align-self: stretch; display: flex; align-items: center; margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--naotech-app-color-300); color: var(--nwtab-mut); white-space: nowrap; } /* DC-035; DC-054 separa de mixtas */
+.nwtab-in-gr b { font-size: 13px; font-variant-numeric: tabular-nums; }
+.nwtab-in-gr__f, .nwtab-in-gr__m { display: flex; height: 22px; }
+.nwtab-in-gr__f { justify-content: flex-end; }
+.nwtab-in-gr__f i, .nwtab-in-gr__m i { display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: 100%; font-style: normal; font-size: 12px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; } /* DC-034: número dentro */
+.nwtab-in-gr__f i { background: #9c1f85; border-radius: 4px 0 0 4px; }
+.nwtab-in-gr__m i { background: #3d86f5; border-radius: 0 4px 4px 0; }
+.nwtab-in-gr__x i { display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: 22px; font-style: normal; font-size: 12px; font-weight: 800; color: #fff; background: var(--naotech-app-color-500); border-radius: 4px; font-variant-numeric: tabular-nums; }
+.nwtab-in-gr__n { font-size: 13px; line-height: 15px; text-align: center; overflow-wrap: anywhere; }
+.nwtab-in-gl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.nwtab-in-clipw { position: relative; min-width: 0; }
+.nwtab-in-clipw.is-clip .nwtab-in-clip { position: relative; max-height: 256px; overflow: hidden; }
+.nwtab-in-clipw.is-clip .nwtab-in-clip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 96px; background: linear-gradient(to bottom, transparent, var(--naotech-app-background) 85%); pointer-events: none; }
+.nwtab-in-ov { display: flex; justify-content: center; margin-top: 4px; }
+.nwtab-in-ov .nwtab-md-more { align-self: auto; }
+.nwtab-in-gg__r > .nwtab-lk { width: auto; }
+
+/* Por deporte: tabla real */
+.nwtab-in-st { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+
+/* Lista de inscritos (al final de la página) */
+.nwtab-in-tools { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.nwtab-in-fl { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--nwtab-mut); }
+.nwtab-in-fl--q { flex: 1 1 16rem; }
+.nwtab-in-fi { min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid var(--naotech-app-color-300); border-radius: 8px; background-color: var(--naotech-app-background); color: var(--in-ink); font: 400 15px/1 inherit; font-family: inherit; min-width: 9rem; }
+.nwtab-in-fl--q .nwtab-in-fi { width: 100%; }
+.nwtab-md-card__h.has-info > .nwtab-in-fl--h { margin-left: auto; align-self: center; }
+.nwtab-in-ti { width: 100%; border-collapse: collapse; font-size: 14px; }
+.nwtab-in-ti td small { display: block; font-size: 14px; font-weight: 450; color: var(--nwtab-mut); } /* DC-030 */
+.nwtab-in-ti__n { font-weight: 600; }
+.nwtab-in-st--eq { margin-left: 6px; background: #e6f0ff; color: #0a3f9e; }
+.nwtab-in-md { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.nwtab-in-md--oro { background: #fff4cc; color: #6b4700; }
+.nwtab-in-md--plata { background: #e7e9f3; color: #282834; }
+.nwtab-in-md--bronce { background: #ffe9d6; color: #7a3a00; }
+
+/* Barra apilada de género (mismo patrón que Medallería) y barra simple de pruebas sin Colombia */
+.nwtab-in-sbar { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 20px; }
+.nwtab-in-sbar__m { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.nwtab-in-sbar__t, .nwtab-in-sb__t { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--nwtab-mut); }
+.nwtab-in-sbar__t b, .nwtab-in-sb__t b { display: block; font-size: 40px; line-height: 40px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--in-ink); }
+.nwtab-in-sbar__b, .nwtab-in-sb__b { display: flex; gap: 2px; width: 100%; height: 24px; overflow: hidden; border-radius: 999px; background: var(--in-track); }
+.nwtab-in-sbar__b span { min-width: 6px; }
+.nwtab-in-sb__b span { display: block; height: 100%; }
+.nwtab-in-sb__b .is-on, .nwtab-in-sbar__d.is-on { background: var(--naotech-positive-color-600); }
+.nwtab-in-sb__b .is-off, .nwtab-in-sbar__d.is-off { background: var(--naotech-negative-color-600); }
+.nwtab-in-sb__k { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; font-size: 14px; }
+.nwtab-in-sb__k span { display: inline-flex; align-items: center; gap: 6px; }
+.nwtab-in-sb__k small { margin-left: auto; font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-in-sb { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 20px; margin-bottom: 8px; }
+.nwtab-in-sbar__lg { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; padding: 0; list-style: none; }
+.nwtab-in-sbar__lg li { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+.nwtab-in-sbar__lg small { font-size: 12px; color: var(--nwtab-mut); }
+.nwtab-in-sbar__lg b { font-variant-numeric: tabular-nums; }
+.nwtab-in-sbar__d { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+
+/* Pruebas sin Colombia */
+.nwtab-in-pl { list-style: none; margin: 0; padding: 0; }
+.nwtab-in-pl li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-height: 64px; padding: 8px 12px; }
+.nwtab-in-pl li:nth-child(even) { background: var(--nwtab-zebra); }
+.nwtab-in-pl li span { display: flex; flex-direction: column; min-width: 0; }
+.nwtab-in-pl li b { font-size: 14px; }
+.nwtab-in-pl li small { font-size: 14px; color: var(--nwtab-mut); }
+.nwtab-in-pl li em { font-style: normal; font-size: 13px; color: var(--nwtab-mut); text-align: right; }
+
+@container nws (max-width: 1100px) {
+  .nwtab-in-row--a, .nwtab-in-gg { grid-template-columns: minmax(0, 1fr); }
+}
+/* La tabla de deportes necesita ~920 px: por debajo de 1480 ocupa todo el ancho y «sin Colombia» baja. */
+@container nws (max-width: 1480px) {
+  .nwtab-in-row--b { grid-template-columns: minmax(0, 1fr); }
+}
+@container nws (max-width: 720px) {
+  .nwtab-in-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nwtab-in-gg__r { --u: 15px; }
+  .nwtab-in-gr { grid-template-columns: calc(var(--w) * var(--u)) 4.5rem calc(var(--w) * var(--u)) max(3.1rem, calc(var(--x) * var(--u) + 17px)); gap: 4px; }
+  .nwtab-in-gr .r { margin-left: 6px; padding-left: 6px; }
+}
+@container nws (max-width: 480px) {
+  .nwtab-in-kpi { padding: 12px; }
+  .nwtab-in-kpi__v { font-size: 26px; line-height: 30px; }
+  .nwtab-in-kpi__i { width: 32px; height: 32px; }
+  .nwtab-in-cu__lead strong { font-size: 32px; line-height: 32px; }
+  .nwtab-in-sbar__t b, .nwtab-in-sb__t b { font-size: 32px; line-height: 32px; }
+  .nwtab-in-gg__r { --u: 11px; }
+  .nwtab-in-gr { grid-template-columns: calc(var(--w) * var(--u)) 4.2rem calc(var(--w) * var(--u)) max(3.1rem, calc(var(--x) * var(--u) + 17px)); }
+  .nwtab-in-gr__f i, .nwtab-in-gr__m i, .nwtab-in-gr__x i { font-size: 11px; }
+  .nwtab-in-gr__n { font-size: 12px; overflow-wrap: break-word; }
+  .nwtab-in-ax { font-size: 10px; }
+  .nwtab-in-cols { gap: 2px; }
+  .nwtab-in-col__d { font-size: 10px; }
+  .nwtab-in-col__m { font-size: 9px; }
+  .nwtab-in-seg .nwtab-seg__b { padding: 0 10px; font-size: 12px; }
+}
+.nwtab-ins-root button.nwtab-lk { border: 0; background: none; cursor: pointer; }
+
+/* Por deporte: medidas del diseño aprobado, sin añadidos */
+.nwtab-md-card.nwtab-in-card--dep { padding: 0; gap: 0; overflow: hidden; border: 1px solid #e7e9f3; border-radius: 16px; background: #fff; }
+.nwtab-in-dtools { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #e7e9f3; }
+.nwtab-in-dchips { display: flex; gap: 8px; flex-wrap: wrap; }
+.nwtab-in-dchip { min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; font: 600 14px/1 inherit; font-family: inherit; border: 1px solid #d0d4e6; background: #fff; color: #282834; }
+.nwtab-in-dchip[aria-pressed=true] { font-weight: 700; border-color: #b83100; background: #fff3e6; color: #7a2400; }
+.nwtab-in-dchip__s { display: none; }
+.nwtab-in-dsum { font-size: 15px; color: #434565; }
+.nwtab-in-dsum strong { font-size: 18px; color: #282834; }
+.nwtab-in-d thead th:first-child { padding-left: 24px; }
+.nwtab-in-d thead th:last-child { padding-right: 24px; }
+.nwtab-in-d .l { text-align: left; } .nwtab-in-d .r { text-align: right; width: 120px; } .nwtab-in-d th.r:nth-child(3) { width: 140px; }
+.nwtab-in-d .q { text-align: left; width: 300px; padding-left: 40px; } .nwtab-in-d .e { text-align: left; width: 170px; } /* tamaños de referencia: la tabla se ajusta si falta ancho */
+.nwtab-in-dth { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; }
+.nwtab-in-dth.is-on { color: var(--naotech-app-color-900); }
+.nwtab-in-d__gr th { padding: 14px 24px; text-align: left; background: var(--nwtab-soft); border-top: var(--naotech-app-border-1-200); border-bottom: var(--naotech-app-border-1-200); font-size: 14px; font-weight: 700; }
+.nwtab-in-d__gr th span { margin-left: 6px; font-weight: 500; color: var(--nwtab-mut); }
+.nwtab-in-d__n { height: 64px; padding: 0 12px 0 24px; text-align: left; font-size: 16px; font-weight: 600; }
+.nwtab-in-d__a { padding: 0 12px; text-align: right; font-size: 16px; font-variant-numeric: tabular-nums; }
+.nwtab-in-d__a b { font-weight: 400; }
+.nwtab-in-d__a.is-na { color: #8a8fa8; }
+.nwtab-in-d__i { padding: 0 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.nwtab-in-d__i b { font-size: 16px; font-weight: 700; }
+.nwtab-in-d__i small { display: block; margin-top: 2px; font-size: 12px; color: #646587; }
+.nwtab-in-d__q { padding: 0 12px 0 40px; }
+.nwtab-in-d__e { padding: 0 24px 0 12px; }
+.nwtab-in-dq { display: flex; gap: 3px; }
+.nwtab-in-dq i { display: block; width: 12px; height: 16px; box-sizing: border-box; border-radius: 3px; border: 1.5px solid #8a8fa8; background: #fff; }
+.nwtab-in-dq i.is-on { border-color: #1f55b8; background: #1f55b8; }
+.nwtab-in-de { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.nwtab-in-de--ok { background: #f0fdf0; color: #124515; }
+.nwtab-in-de--no { background: #fff3e6; color: #942700; }
+
+/* Tarjetas solo en móvil (mismo corte que el resto de la pestaña); en escritorio manda la tabla del diseño */
+@container nws (max-width: 720px) {
+  .nwtab-md-card.nwtab-in-card--dep { border: 0; border-radius: 0; background: transparent; overflow: visible; }
+  .nwtab-in-dtools { padding: 0 0 12px; border: 0; }
+  .nwtab-in-dchip { padding: 0 16px; }
+  .nwtab-in-dchip__l { display: none; } .nwtab-in-dchip__s { display: inline; }
+  .nwtab-in-d thead { display: none; }
+  .nwtab-in-d, .nwtab-in-d tbody { display: block; }
+  .nwtab-in-d__gr { display: block; margin-top: 8px; }
+  .nwtab-in-d__gr th { display: block; padding: 8px 0; background: transparent; border: 0; }
+  .nwtab-in-d tbody tr:not(.nwtab-in-d__gr) { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "n e" "q q" "a i"; gap: 12px; align-items: center; margin-bottom: 12px; padding: 16px; background: #fff; border: 1px solid #e7e9f3; border-radius: 16px; }
+  .nwtab-in-d tbody tr:not(.nwtab-in-d__gr) > * { padding: 0; height: auto; text-align: left; background: transparent; }
+  .nwtab-in-d__n { grid-area: n; font-size: 16px; font-weight: 700; }
+  .nwtab-in-d__e { grid-area: e; }
+  .nwtab-in-d__q { grid-area: q; }
+  .nwtab-in-d__a { grid-area: a; font-size: 14px; color: #434565; }
+  .nwtab-in-d__i { grid-area: i; font-size: 14px; color: #434565; }
+  .nwtab-in-d__a b, .nwtab-in-d__i b { font-size: 14px; font-weight: 700; color: #282834; }
+  .nwtab-in-d__a::after { content: ' deportistas'; }
+  .nwtab-in-d__i b::after { content: ' inscripciones'; font-weight: 400; color: #434565; }
+  .nwtab-in-d__i small { display: inline; margin: 0 0 0 4px; font-size: 14px; color: #434565; }
+  .nwtab-in-d__i small::before { content: '· '; }
+  .nwtab-in-d__a.is-na { display: none; }
+  .nwtab-in-dq { flex-wrap: wrap; }
+  .nwtab-in-ti thead { display: none; }
+  .nwtab-in-ti, .nwtab-in-ti tbody { display: block; }
+  .nwtab-in-ti tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "n r" "p p" "c f"; gap: 6px 12px; padding: 16px 20px; }
+  .nwtab-in-ti tbody tr > * { padding: 0; }
+  .nwtab-in-ti__n { grid-area: n; }
+  .nwtab-in-ti__r { grid-area: r; text-align: right; }
+  .nwtab-in-ti__p { grid-area: p; }
+  .nwtab-in-ti__c { grid-area: c; color: var(--nwtab-mut); }
+  .nwtab-in-ti__f { grid-area: f; color: var(--nwtab-mut); text-align: right; }
+}
+
+/* DC-062: KPI como los de Medallería: icono, rótulo y hint a la izquierda, valor a la derecha. */
+.nwtab-in-kpi { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; grid-template-areas: "i l v" "i h v"; column-gap: 12px; row-gap: 0; align-items: center; padding: 16px 14px; }
+.nwtab-in-kpi__h { display: contents; }
+.nwtab-in-kpi__i { grid-area: i; width: 32px; height: 32px; }
+.nwtab-in-kpi__l { grid-area: l; align-self: end; font-size: 13px; line-height: 16px; font-weight: 600; color: var(--naotech-app-font-color); }
+.nwtab-in-kpi__hint { grid-area: h; align-self: start; text-align: left; font-size: 12px; line-height: 16px; }
+.nwtab-in-kpi__v { grid-area: v; font-size: 26px; line-height: 30px; text-align: right; }
+/* DC-063/064: columnas numéricas centradas (encabezado y celdas). */
+.nwtab-in-d th.r, .nwtab-in-d__a, .nwtab-in-d__i { text-align: center; }
+/* DC-065: etiqueta «Sin participación» a la derecha de cada fila. */
+.nwtab-in-pl li { align-items: center; }
+.nwtab-in-pl li em { margin-left: auto; }
+.nwtab-in-pl__t { flex: none; padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; background: var(--naotech-negative-color-050); color: var(--naotech-negative-color-700); }
+@container nws (max-width: 480px) {
+  .nwtab-in-pl li { display: grid; grid-template-columns: minmax(0, 1fr) auto; row-gap: 4px; }
+  .nwtab-in-pl li span:first-child { grid-column: 1 / -1; }
+  .nwtab-in-pl li em { margin-left: 0; text-align: left; }
+  .nwtab-in-kpi { grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "i v" "l l" "h h"; row-gap: 2px; padding: 12px; }
+  .nwtab-in-kpi__i { margin-bottom: 4px; }
+  .nwtab-in-kpi__l { align-self: start; overflow-wrap: anywhere; }
+}
+
+/* DC-120/121/122: tabla sin scroll horizontal, herramientas equitativas, encabezados como botones planos. */
+.nwtab-in-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 12px; align-items: end; }
+.nwtab-in-tools > .nwtab-in-fl { min-width: 0; }
+.nwtab-in-tools .nwtab-in-fi { width: 100%; min-width: 0; }
+.nwtab-in-tw { min-width: 0; }
+.nwtab-in-ti { table-layout: fixed; }
+.nwtab-in-ti th, .nwtab-in-ti td { padding: 12px 8px; overflow: hidden; overflow-wrap: anywhere; }
+.nwtab-in-ti thead th { padding: 8px; white-space: nowrap; font-size: 13px; font-weight: 700; color: var(--naotech-app-font-color); }
+.nwtab-in-ti thead th:first-child, .nwtab-in-ti tbody th, .nwtab-in-ti td:first-child { padding-left: 16px; }
+.nwtab-in-ti thead th:nth-child(1) { width: 27%; } .nwtab-in-ti thead th:nth-child(2) { width: 29%; }
+.nwtab-in-ti thead th:nth-child(3) { width: 15%; } .nwtab-in-ti thead th:nth-child(4) { width: 14%; }
+.nwtab-in-ti--fut thead th:nth-child(1) { width: 32%; } .nwtab-in-ti--fut thead th:nth-child(2) { width: 34%; }
+.nwtab-in-ti--fut thead th:nth-child(3) { width: 18%; } .nwtab-in-ti--fut thead th:nth-child(4) { width: 16%; }
+.nwtab-in-th { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; min-height: 32px; margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; font-weight: inherit; cursor: pointer; }
+.nwtab-in-th > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nwtab-in-th svg { flex: none; opacity: .55; }
+.nwtab-in-th.is-on svg { opacity: 1; color: var(--naotech-app-color-500); }
+.nwtab-in-th:focus-visible { outline: 2px solid var(--naotech-app-color-500); outline-offset: 2px; border-radius: 4px; }
+.nwtab-in-ti__n { display: table-cell; }
+.nwtab-in-ti__t { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nwtab-in-ti__n .nwtab-in-st--eq { margin: 4px 0 0; padding: 2px 10px; font-size: 12px; }
+.nwtab-in-ti__p small, .nwtab-in-ti__p b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@container nws (max-width: 720px) {
+  .nwtab-in-ti { table-layout: auto; }
+  .nwtab-in-ti tbody th, .nwtab-in-ti td:first-child { padding-left: 0; }
+  .nwtab-in-ti__n { display: block; }
+  .nwtab-in-ti__n .nwtab-in-st--eq { display: inline-flex; margin: 4px 0 0; }
+  .nwtab-in-ti__p small, .nwtab-in-ti__p b { white-space: normal; }
+}
+@container nws (max-width: 480px) {
+  .nwtab-in-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nwtab-in-fl--q { grid-column: 1 / -1; }
+}
+
+.nwtab-in-lead { margin: 0 0 12px; font-size: 14px; color: var(--naotech-color-text-secondary, #5b6270); }

@@ -1,0 +1,1 @@
+function e(e){const{formControl:o}=e,r=o?.disabled||e.disabled||!1,n=o?.focused??e.focused??!1,t=o?.wrong||e.error||!1;return{disabled:r,error:t,focused:n,message:t?e.message??{description:"Campo con errores",icon:{value:"caution",theme:"negative"}}:e.message,value:o?o.value:e.value}}export{e as f}

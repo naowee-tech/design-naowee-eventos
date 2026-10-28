@@ -1,0 +1,11 @@
+/* Paginador oficial (el de Deportes): ‹ Página N de M ›, centrado, botones de ícono de 44px. */
+.nw-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; padding: 8px 16px; font-size: 14px; color: var(--naotech-app-font-color, #282834); }
+.nw-pager button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: 1px solid var(--naotech-app-color-300, #d0d4e6); border-radius: 10px; background: var(--naotech-app-background, #fff); color: var(--nwtab-pri, var(--naotech-primary-color-700, #b83100)); font: 700 14px/1 inherit; font-family: inherit; cursor: pointer; }
+.nw-pager button:hover:not(:disabled) { background: var(--nwtab-pri-s, var(--naotech-primary-color-050, #fff3e6)); }
+.nw-pager button:disabled { opacity: .45; cursor: not-allowed; }
+.nw-pager button:focus-visible { outline: 2px solid var(--nwtab-pri, #b83100); outline-offset: 2px; }
+.nw-pager svg { width: 20px; height: 20px; }
+/* --nums: listados con salto directo a una página (Eventos); mismos botones, activo relleno. */
+.nw-pager--nums { justify-content: flex-start; gap: 4px; padding: 0; }
+.nw-pager--nums button { padding: 0 10px; }
+.nw-pager--nums button[aria-current] { background: var(--nwtab-pri, #b83100); border-color: transparent; color: #fff; }

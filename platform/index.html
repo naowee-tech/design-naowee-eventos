@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eventos · Naowee Suite</title>
+<link rel="stylesheet" href="../vendor/foundations/dist/styles.css">
+<link rel="stylesheet" href="../vendor/foundations/dist/components.css">
+<link rel="stylesheet" href="../vendor/foundations/dist/icons.css">
+<style>
+@font-face{font-family:Inter;font-weight:300;font-display:swap;src:url(../vendor/foundations/fonts/inter/inter-light.ttf) format('truetype')}
+@font-face{font-family:Inter;font-weight:400;font-display:swap;src:url(../vendor/foundations/fonts/inter/inter-regular.ttf) format('truetype')}
+@font-face{font-family:Inter;font-weight:500;font-display:swap;src:url(../vendor/foundations/fonts/inter/inter-medium.ttf) format('truetype')}
+@font-face{font-family:Inter;font-weight:600;font-display:swap;src:url(../vendor/foundations/fonts/inter/inter-semibold.ttf) format('truetype')}
+@font-face{font-family:Inter;font-weight:700 800;font-display:swap;src:url(../vendor/foundations/fonts/inter/inter-bold.ttf) format('truetype')}
+</style>
+<link rel="stylesheet" href="../shared/tables.css">
+<link rel="stylesheet" href="../shared/pager.css">
+<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="tabs/tabs.css">
+<link rel="stylesheet" href="tabs/medalleria.css">
+<link rel="stylesheet" href="tabs/analitica.css">
+<link rel="stylesheet" href="roles.css">
+<link rel="stylesheet" href="forms.css">
+<link rel="stylesheet" href="tabs/inscripciones/inscripciones.css">
+<!-- Bundle clásico de los componentes: un type="module" no carga con file://. Se regenera con scripts/bundle-nwt.cjs. -->
+<script defer src="../vendor/stencil/nwt.bundle.js"></script>
+</head>
+<body>
+<a class="nws-skip" href="#nws-main">Saltar al contenido</a>
+<div class="nws-app">
+  <!-- Mismo shell que NwtMainLayout: nwt-sidebar real con el logo en su slot. -->
+  <nwt-sidebar id="nws-sidebar" class="nws-sidebar" mode="responsive" breakpoint="961" persist-key="nws:sidebar:collapsed" logout-label="Cerrar sesión">
+    <div class="nws-logo"><img class="nws-logo__entity" src="assets/ComiteOlimpico.png" alt="Comité Olímpico Colombiano"></div>
+  </nwt-sidebar>
+  <div class="nws-content">
+    <div class="nws-head">
+      <button type="button" class="nws-iconbtn nws-menubtn" id="nws-menubtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nws-sidebar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="nws-topbar" id="nws-topbar"></div>
+      <div class="nws-rolsw" id="nws-rolsw"></div>
+    </div>
+    <main id="nws-main" class="nws-main" tabindex="-1"></main>
+  </div>
+</div>
+<script type="module" src="../shared/awards.js"></script>
+<script src="../shared/real/model.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/sport-icons.js"></script>
+<script src="../shared/boletines.js"></script>
+<script src="roles.js"></script>
+<script src="tabs/analitica.js"></script>
+<script src="campos.js"></script>
+<script src="crear.js"></script>
+<script src="directorio.js"></script>
+<script src="tabs/cargas.js"></script>
+<script src="tabs/metodologos.js"></script>
+<script src="tabs/organizaciones.js"></script>
+<script src="tabs/calendario-resultados.js"></script>
+<script src="tabs/deportes.js"></script>
+<script src="tabs/medalleria.js"></script>
+<script src="tabs/boletines.js"></script>
+<script src="tabs/carga-masiva.js"></script>
+<script src="tabs/inscripciones/core.js"></script>
+<script src="tabs/inscripciones/cupos.js"></script>
+<script src="tabs/inscripciones/jornada.js"></script>
+<script src="tabs/inscripciones/tipo.js"></script>
+<script src="tabs/inscripciones/genero.js"></script>
+<script src="tabs/inscripciones/deportes.js"></script>
+<script src="tabs/inscripciones/tabla.js"></script>
+<script src="tabs/inscripciones.js"></script>
+<script src="app.js"></script>
+<script src="../shared/embed.js"></script>
+</body>
+</html>

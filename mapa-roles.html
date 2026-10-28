@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa de roles</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--mut:#6b7385;--line:#e3e6ec;--acc:#3b5bdb;
+--no:#eceef2;--no-i:#9aa1b2;--ver:#dbeafe;--ver-i:#1e40af;--edit:#d1fae5;--edit-i:#065f46;--asig:#fef3c7;--asig-i:#92400e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#8f98ac;--line:#2a3140;--acc:#7c93ff;
+--no:#232a37;--no-i:#6b7385;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d}}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#8f98ac;--line:#2a3140;--acc:#7c93ff;
+--no:#232a37;--no-i:#6b7385;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:28px 0 8px}
+p{margin:0;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+button,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+button:disabled{opacity:.5;cursor:default}
+.st{color:var(--mut);font-size:13px}.st.dirty{color:var(--asig-i);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.n-no{background:var(--no);color:var(--no-i)}.n-ver{background:var(--ver);color:var(--ver-i)}
+.n-editar{background:var(--edit);color:var(--edit-i)}.n-asignado{background:var(--asig);color:var(--asig-i)}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:860px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+thead th{position:sticky;top:0;background:var(--card);font-size:12px;line-height:1.25}
+thead th small{display:block;color:var(--mut);font-weight:400;font-size:11px}
+tr.g td{background:var(--bg);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+td.c{text-align:center;width:104px}
+td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
+.nota{display:block;color:var(--mut);font-size:12px}
+.cond{font-size:11px;color:var(--acc);font-weight:600}
+.sim{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.sim .f{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.sim label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mut)}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 16px;padding:0;margin:0;list-style:none}
+.res li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.q li{color:var(--mut);margin-bottom:4px}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="t">Mapa de roles</h1>
+  <p id="base"></p>
+
+  <div class="bar">
+    <button id="abrir">Abrir mapa-roles.json…</button>
+    <button id="guardar" class="pri" disabled>Guardar en mapa-roles.json</button>
+    <button id="tema">Tema</button>
+    <span id="st" class="st"></span>
+  </div>
+  <div class="legend" id="leyenda"></div>
+  <p>Clic en una celda para cambiar el nivel (no → ver → editar → asignado).</p>
+
+  <h2>Matriz</h2>
+  <div class="wrap"><table id="mx"></table></div>
+
+  <h2>¿Qué ve este rol sobre un evento así?</h2>
+  <div class="sim">
+    <div class="f" id="sf"></div>
+    <ul class="res" id="res"></ul>
+  </div>
+
+  <h2>Preguntas abiertas</h2>
+  <ul class="q" id="q"></ul>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var NOMBRE = 'mapa-roles.json', ORDEN = ['no', 'ver', 'editar', 'asignado'];
+  var D = null, handle = null, sucio = false, sim = { rol: 'admin', alcance: 'NACIONAL', estado: 'En curso', ciclo: 'si', asignado: 'si', boletines: 'si' };
+  var $ = function (id) { return document.getElementById(id); };
+  var ETQ = { no: 'No', ver: 'Ver', editar: 'Editar', asignado: 'Si asignado' };
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function estado(msg, dirty) { var e = $('st'); e.textContent = msg; e.className = 'st' + (dirty ? ' dirty' : ''); }
+
+  function cargar(obj, h) {
+    D = obj; handle = h || handle; sucio = false;
+    $('t').textContent = D.meta.titulo; $('base').textContent = D.meta.baseline;
+    $('leyenda').innerHTML = ORDEN.map(function (n) { return '<span class="chip n-' + n + '">' + ETQ[n] + ' · ' + esc(D.meta.niveles[n]) + '</span>'; }).join('');
+    $('q').innerHTML = (D.preguntas_abiertas || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('');
+    $('guardar').disabled = false;
+    estado(handle ? 'Listo para guardar en el archivo abierto.' : 'JSON cargado. Guardar lo descargará o pedirá dónde escribirlo.');
+    pintar(); simular();
+  }
+
+  function pintar() {
+    var cols = D.meta.orden_acceso, html = '<thead><tr><th>Superficie</th>' + cols.map(function (id) {
+      var r = D.roles.filter(function (x) { return x.id === id; })[0];
+      return '<th>' + esc(r.etiqueta) + '<small>' + esc(r.alcance_lista) + '</small></th>';
+    }).join('') + '</tr></thead><tbody>';
+    D.grupos.forEach(function (g) {
+      html += '<tr class="g"><td colspan="' + (cols.length + 1) + '">' + esc(g.nombre) + '</td></tr>';
+      D.superficies.filter(function (s) { return s.grupo === g.id; }).forEach(function (s) {
+        html += '<tr><td>' + esc(s.nombre) + (s.condicion ? ' <span class="cond">· ' + esc(condTxt(s.condicion)) + '</span>' : '') + (s.nota ? '<span class="nota">' + esc(s.nota) + '</span>' : '') + '</td>' +
+          s.acceso.map(function (n, i) { return '<td class="c"><button class="chip n-' + n + '" data-s="' + s.id + '" data-i="' + i + '">' + ETQ[n] + '</button></td>'; }).join('') + '</tr>';
+      });
+    });
+    $('mx').innerHTML = html + '</tbody>';
+  }
+  function condTxt(c) {
+    var p = []; if (c.alcance) p.push(c.alcance.toLowerCase()); if (c.estado_no) p.push('no ' + c.estado_no.toLowerCase()); if (c.boletines) p.push('con boletines');
+    return 'solo ' + p.join(', ');
+  }
+
+  $('mx').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-s]'); if (!b) return;
+    var s = D.superficies.filter(function (x) { return x.id === b.dataset.s; })[0], i = +b.dataset.i;
+    s.acceso[i] = ORDEN[(ORDEN.indexOf(s.acceso[i]) + 1) % ORDEN.length];
+    b.className = 'chip n-' + s.acceso[i]; b.textContent = ETQ[s.acceso[i]];
+    sucio = true; estado('Cambios sin guardar', true); simular();
+  });
+
+  /* Simulador: aplica las condiciones del JSON a un evento hipotético. */
+  function cumple(c, ev) {
+    if (!c) return true;
+    if (c.alcance && ev.alcance !== c.alcance) return false;
+    if (c.estado_no && ev.estado === c.estado_no) return false;
+    if (c.boletines && !ev.boletines) return false;
+    return true;
+  }
+  function simular() {
+    if (!D) return;
+    var f = [
+      ['rol', 'Rol', D.roles.map(function (r) { return [r.id, r.etiqueta]; })],
+      ['alcance', 'Alcance', [['NACIONAL', 'Nacional'], ['INTERNACIONAL', 'Internacional']]],
+      ['estado', 'Estado', [['Próximo', 'Próximo'], ['En curso', 'En curso'], ['Finalizado', 'Finalizado']]],
+      ['ciclo', 'Ciclo Olímpico', [['si', 'Sí'], ['no', 'No']]],
+      ['asignado', 'Rol gestiona el evento', [['si', 'Sí'], ['no', 'No']]],
+      ['boletines', 'Tiene boletines', [['si', 'Sí'], ['no', 'No']]]
+    ];
+    $('sf').innerHTML = f.map(function (x) {
+      return '<label>' + x[1] + '<select data-k="' + x[0] + '">' + x[2].map(function (o) { return '<option value="' + o[0] + '"' + (sim[x[0]] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>';
+    }).join('');
+    var i = D.meta.orden_acceso.indexOf(sim.rol), ev = { alcance: sim.alcance, estado: sim.estado, boletines: sim.boletines === 'si' };
+    var fuera = D.superficies.filter(function (s) { return s.id === 'lista-ciclo'; })[0].acceso[i] !== 'no' && sim.ciclo === 'no';
+    if (fuera) { $('res').innerHTML = '<li><span>Evento no disponible (fuera del Ciclo Olímpico)</span></li>'; return; }
+    $('res').innerHTML = D.superficies.filter(function (s) { return /^(tab|campo|acc)-/.test(s.id); }).map(function (s) {
+      var n = s.acceso[i]; if (!cumple(s.condicion, ev)) return '';
+      if (n === 'asignado') n = sim.asignado === 'si' ? 'editar' : 'ver';
+      if (n === 'no') return '';
+      return '<li><span>' + esc(s.nombre) + '</span><span class="chip n-' + n + '">' + ETQ[n === 'asignado' ? 'ver' : n] + '</span></li>';
+    }).join('') || '<li><span>Sin acceso al módulo</span></li>';
+  }
+  $('sf').addEventListener('change', function (e) { sim[e.target.dataset.k] = e.target.value; simular(); });
+
+  /* Lectura/escritura del JSON hermano: fetch si hay servidor; si no, selector de archivo. */
+  fetch(NOMBRE).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) { cargar(j); })
+    .catch(function () { estado('No pude leer ' + NOMBRE + ' por file://. Usa «Abrir…» y elige el JSON hermano.'); });
+
+  $('abrir').addEventListener('click', function () {
+    if (window.showOpenFilePicker) {
+      window.showOpenFilePicker({ types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }] }).then(function (hs) {
+        return hs[0].getFile().then(function (f) { return f.text(); }).then(function (t) { cargar(JSON.parse(t), hs[0]); });
+      }).catch(function () {});
+    } else {
+      var i = document.createElement('input'); i.type = 'file'; i.accept = '.json';
+      i.onchange = function () { i.files[0].text().then(function (t) { cargar(JSON.parse(t)); }); }; i.click();
+    }
+  });
+
+  $('guardar').addEventListener('click', function () {
+    if (!D) return;
+    D.meta.actualizado = new Date().toISOString().slice(0, 10);
+    var txt = JSON.stringify(D, null, 2) + '\n';
+    function listo(m) { sucio = false; estado(m); }
+    function descargar() {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'application/json' })); a.download = NOMBRE; a.click();
+      listo('Descargado ' + NOMBRE + ': reemplaza el archivo hermano.');
+    }
+    if (handle && handle.createWritable) {
+      handle.createWritable().then(function (w) { return w.write(txt).then(function () { return w.close(); }); }).then(function () { listo('Guardado en el archivo.'); }).catch(descargar);
+    } else if (window.showSaveFilePicker) {
+      window.showSaveFilePicker({ suggestedName: NOMBRE, types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }] })
+        .then(function (h) { handle = h; return h.createWritable(); }).then(function (w) { return w.write(txt).then(function () { return w.close(); }); })
+        .then(function () { listo('Guardado en el archivo.'); }).catch(function (e) { if (e && e.name !== 'AbortError') descargar(); });
+    } else descargar();
+  });
+
+  $('tema').addEventListener('click', function () {
+    var h = document.documentElement, dark = h.dataset.theme ? h.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+    h.dataset.theme = dark ? 'light' : 'dark';
+  });
+  window.addEventListener('beforeunload', function (e) { if (sucio) { e.preventDefault(); e.returnValue = ''; } });
+})();
+</script>
+</body>
+</html>

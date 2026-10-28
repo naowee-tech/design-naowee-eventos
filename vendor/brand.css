@@ -1,0 +1,86 @@
+/* ════════════════════════════════════════════════════════════════════════
+   MARCA — el único archivo que cambia al montar otra landing.
+   Aquí no hay componentes ni utilidades: solo los valores de la identidad.
+   ════════════════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  /* Roboto: la fuente del sitio padre (olimpicocol.co/web), cuerpo y menú */
+  --font-sans: var(--font-roboto);
+  --font-display: var(--font-roboto);
+}
+
+@theme {
+  /* Escala tipográfica: se usa la escala estándar de Tailwind (text-xs…text-7xl).
+     Único token propio: micro-etiquetas (<12px) que la escala nativa no cubre. */
+  --text-2xs: 0.6875rem; /* 11px — eyebrows, tags, badges */
+  --text-2xs--line-height: 1.35;
+  --text-day: 2.5rem; /* 40px — número de día en la agenda */
+
+  /* Ancho de contenido del sitio (mismo que el prototipo). Se usa como max-w-site
+     en el header y todas las secciones para alinear el contenido. */
+  --container-site: 1240px;
+
+  /* Alto del header. Fuente única: h-header en el header y top-header en el
+     sub-nav sticky del detalle (queda justo debajo). */
+  --spacing-header: 5.625rem; /* 90px */
+
+  /* Tracking de etiquetas (la escala nativa no cubre estos valores del prototipo) */
+  --tracking-eyebrow: 0.2em; /* eyebrows de sección */
+  --tracking-label: 0.12em; /* micro-labels tipo "Ver detalle" */
+  --tracking-badge: 0.18em; /* badges de estado del hero ("En competencia") */
+
+  /* Proporción de las imágenes de card de evento (1.9:1 del prototipo) */
+  --aspect-card: 19 / 10;
+}
+
+@theme {
+  /* Los nombres describen el ROL, no la marca: por eso montar otra landing es
+     cambiar estos valores y nada más. Paleta actual: prototipo Landing_COC. */
+
+  /* ── Marca ─────────────────────────────────────────────────────────── */
+  --color-primary: #263888;
+  --color-primary-dark: #1d2b69; /* hover de botones sólidos */
+  --color-primary-100: #d4d8ec;
+  --color-primary-50: #eaecf6; /* fondos suaves: chips, hover de tabla */
+  --color-accent: #e2b910;
+  --color-accent-dark: #b8960d;
+
+  /* ── Texto (de más a menos contraste) ──────────────────────────────── */
+  --color-ink: #242424; /* titulares y texto principal */
+  --color-ink-soft: #3d3d3d; /* cuerpo, celdas de tabla */
+  --color-muted: #585858; /* secundario: metadatos, labels */
+  /* Terciario: placeholders, tabs inactivos, encabezados de tabla. Era
+     #8a8d92, que da 3.33:1 sobre blanco y WCAG 1.4.3 AA pide 4.5 para texto.
+     Este da 4.95:1 (calculado el 2026-10-02, al homologar con el padre). Si se vuelve a aclarar, deja de
+     poder usarse para texto: como color de icono bastaría con 3:1 (1.4.11). */
+  --color-subtle: #707070;
+  --color-faint: #9a9a9a; /* deshabilitado */
+
+  /* Indicador de las pestañas del sitio padre (border-color de la activa en
+     el CSS de Happy Addons, post-1180.css). Más saturado que `primary`. */
+  --color-tab-indicator: #140c9b;
+
+  /* ── Superficies y líneas ──────────────────────────────────────────── */
+  --color-surface: #fafafa; /* fondo de sección/fila alterna */
+  --color-fill: #f2f2f2; /* relleno de tarjetas y bloques */
+  --color-border: #e4e4e4;
+  --color-divider: #d8d8d8; /* separadores más marcados que el borde */
+
+  /* ── Estado ────────────────────────────────────────────────────────── */
+  --color-success: #1e8e3e;
+  --color-success-50: #e6f4ea;
+  /* Error: texto/borde, fondo suave y texto sobre ese fondo (formularios) */
+  --color-danger: #b3261e;
+  --color-danger-50: #fdecea;
+  --color-danger-dark: #7a1a14;
+
+  /* ── Piezas de marca ───────────────────────────────────────────────── */
+  --color-badge: #212121; /* fondo del badge de estado ("En curso") */
+  --color-footer: #151414; /* fondo del footer (casi negro) */
+  --color-veil: #0a0a0a; /* negro enriquecido: velo del hero sobre la foto */
+  /* Ornamento del footer: pico diagonal en capas (gris claro → negro).
+     Si la nueva landing no lleva pico, estos tres se borran con él. */
+  --color-footer-peak-1: #b4b4b8;
+  --color-footer-peak-2: #6a6a6e;
+  --color-footer-peak-3: #3a3a3e;
+}

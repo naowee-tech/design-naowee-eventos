@@ -1,0 +1,8 @@
+/* Tabla base compartida (plataforma y dashboard): mismo look que Calendario (DC-029/041), con filas de 64px mínimo.
+   :where deja que una regla local ajuste anchos o alturas sin pelear especificidad. */
+:where(.nw-table) { width: 100%; border-collapse: collapse; font-size: 14px; }
+:where(.nw-table) thead th { height: 38px; padding: 0 12px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; color: var(--naotech-app-color-700, #5b5b73); background: var(--naotech-app-color-100, #f0f1f6); white-space: nowrap; }
+:where(.nw-table) tbody th { height: 64px; padding: 4px 12px; text-align: left; font-weight: 700; vertical-align: middle; }
+:where(.nw-table) td { height: 64px; padding: 4px 12px; vertical-align: middle; }
+:where(.nw-table) tbody tr:nth-child(even) > * { background: var(--nwtab-zebra, #f9f9fc); }
+:where(.nw-table) .nw-num { text-align: right; font-variant-numeric: tabular-nums; }

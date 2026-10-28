@@ -1,0 +1,23 @@
+.an{display:flex;flex-direction:column;gap:var(--naotech-sizing-16)}
+.an-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:var(--naotech-sizing-12)}
+.an-kpi,.an-card{background:var(--naotech-app-background);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);padding:var(--naotech-sizing-16)}
+.an-kpi{display:flex;flex-direction:column;gap:4px}
+.an-kpi__l,.an-kpi__s{color:var(--naotech-app-color-700)}
+.an-kpi__v{font-size:1.75rem;line-height:1.1;color:var(--naotech-app-color-900)}
+.an-kpi__v small{font-size:1rem;font-weight:500;color:var(--naotech-app-color-700)}
+.an-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:var(--naotech-sizing-12)}
+.an-card h3{margin:0 0 var(--naotech-sizing-12)}
+.an-days{list-style:none;margin:0;padding:0;display:flex;align-items:flex-end;gap:6px;height:9rem}
+.an-day{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%}
+.an-day__bar{flex:1;width:100%;max-width:1.5rem;display:flex;flex-direction:column;justify-content:flex-end;border-radius:4px;overflow:hidden}
+.an-day__f{display:block;background:var(--naotech-primary-color-normal)}
+.an-day__p{display:block;background:var(--naotech-app-color-300,#d9dcea)}
+.an-day.is-today .an-day__x{font-weight:700;color:var(--naotech-primary-color-normal)}
+.an-day__x{color:var(--naotech-app-color-700)}
+.an-legend{display:flex;gap:var(--naotech-sizing-16);margin:var(--naotech-sizing-12) 0 0;color:var(--naotech-app-color-700)}
+.an-dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:6px}
+.an-dot--f{background:var(--naotech-primary-color-normal)}.an-dot--p{background:var(--naotech-app-color-300,#d9dcea)}
+.an-bars{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--naotech-sizing-8)}
+.an-bars li{display:grid;grid-template-columns:minmax(6rem,9rem) 1fr 2rem;align-items:center;gap:var(--naotech-sizing-12)}
+.an-bars__t{height:.5rem;border-radius:99px;background:var(--naotech-app-color-200,#e8eaf3);overflow:hidden}
+.an-bars__t i{display:block;height:100%;background:var(--naotech-primary-color-normal);border-radius:99px}

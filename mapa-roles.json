@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "titulo": "Mapa de roles × superficies × detalle de evento",
+    "version": 1,
+    "baseline": "Punto de partida: todos los eventos cumplen el estándar (nacional con ≥1 organización invitada, gestor asignado, fechas y lugar completos). Sobre ese baseline se mapea qué ve y qué hace cada rol.",
+    "fuente": "platform/roles.js + platform/app.js (visibleTabs) + tabs/*.js. Este JSON es el estándar propuesto; editarlo aquí NO cambia la demo hasta llevarlo a roles.js.",
+    "niveles": {
+      "no": "No lo ve",
+      "ver": "Solo lectura",
+      "editar": "Lectura y escritura",
+      "asignado": "Escribe solo en eventos que tiene asignados; en el resto, solo lectura"
+    },
+    "orden_acceso": ["admin", "gestor", "usuario", "comite", "comite_manager", "viewer", "metodologo"],
+    "actualizado": "2026-10-28"
+  },
+  "roles": [
+    { "id": "admin", "codigo": "EVENTS_LITE_ADMIN", "etiqueta": "Administrador de eventos", "alcance_lista": "Todos los eventos" },
+    { "id": "gestor", "codigo": "EVENTS_LITE_MANAGER", "etiqueta": "Gestor de eventos", "alcance_lista": "Mis eventos / Todos" },
+    { "id": "usuario", "codigo": "EVENTS_LITE_MODULE_USER", "etiqueta": "Usuario del módulo", "alcance_lista": "Mis eventos / Todos" },
+    { "id": "comite", "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE", "etiqueta": "Comité Olímpico", "alcance_lista": "Solo Ciclo Olímpico" },
+    { "id": "comite_manager", "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE_MANAGER", "etiqueta": "Gestor del Comité", "alcance_lista": "Solo Ciclo Olímpico" },
+    { "id": "viewer", "codigo": "OLYMPIC_COMMITTEE_VIEWER", "etiqueta": "Visualizador del Comité", "alcance_lista": "Solo Ciclo Olímpico" },
+    { "id": "metodologo", "codigo": "EVENTS_LITE_METHODOLOGIST", "etiqueta": "Metodólogo", "alcance_lista": "Ninguno (califica en su propia vista)" }
+  ],
+  "grupos": [
+    { "id": "navegacion", "nombre": "Navegación (sidebar)" },
+    { "id": "listado", "nombre": "Listado de eventos" },
+    { "id": "acciones", "nombre": "Acciones sobre eventos" },
+    { "id": "pestanas", "nombre": "Pestañas dentro del evento" },
+    { "id": "campos", "nombre": "Detalle del evento · Información (campos)" }
+  ],
+  "superficies": [
+    { "id": "nav-eventos", "grupo": "navegacion", "nombre": "Eventos", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "nav-calendario", "grupo": "navegacion", "nombre": "Calendario", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "nav-deportistas", "grupo": "navegacion", "nombre": "Consulta deportistas", "acceso": ["ver","ver","ver","ver","ver","no","no"] },
+    { "id": "nav-usuarios", "grupo": "navegacion", "nombre": "Usuarios", "acceso": ["ver","no","no","no","no","no","no"] },
+
+    { "id": "lista-todos", "grupo": "listado", "nombre": "Ver todos los eventos", "acceso": ["ver","ver","ver","no","no","no","no"] },
+    { "id": "lista-ciclo", "grupo": "listado", "nombre": "Ver solo eventos del Ciclo Olímpico", "nota": "Fuera del ciclo = «Evento no disponible» (404 a propósito, sin decir por qué).", "acceso": ["no","no","no","ver","ver","ver","no"] },
+    { "id": "lista-mis", "grupo": "listado", "nombre": "Pestaña «Mis eventos»", "nota": "Los que tiene asignados como gestor.", "acceso": ["no","ver","ver","no","no","no","no"] },
+
+    { "id": "acc-crear", "grupo": "acciones", "nombre": "Crear evento", "acceso": ["editar","no","no","no","no","no","no"] },
+    { "id": "acc-editar", "grupo": "acciones", "nombre": "Editar evento (alcance no editable)", "acceso": ["editar","no","no","no","no","no","no"] },
+    { "id": "acc-gestor", "grupo": "acciones", "nombre": "Asignar gestor y marcar Ciclo Olímpico", "acceso": ["editar","no","no","no","no","no","no"] },
+
+    { "id": "tab-informacion", "grupo": "pestanas", "nombre": "Información", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "tab-cargas", "grupo": "pestanas", "nombre": "Cargas (inscripciones, resultados, medallería)", "nota": "Admin la ve en seguimiento; carga solo el gestor en sus eventos.", "acceso": ["ver","asignado","no","no","no","no","no"] },
+    { "id": "tab-deportes", "grupo": "pestanas", "nombre": "Deportes", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "tab-organizaciones", "grupo": "pestanas", "nombre": "Organizaciones", "condicion": { "alcance": "NACIONAL" }, "nota": "Solo eventos nacionales. Invita/quita quien gestiona el evento (admin: todos).", "acceso": ["editar","asignado","ver","ver","ver","ver","no"] },
+    { "id": "tab-nominal", "grupo": "pestanas", "nombre": "Nominal (deportistas inscritos)", "acceso": ["no","no","no","ver","ver","no","no"] },
+    { "id": "tab-calendario", "grupo": "pestanas", "nombre": "Calendario y resultados", "nota": "En evento Próximo se llama solo «Calendario».", "acceso": ["no","no","no","no","ver","no","no"] },
+    { "id": "tab-medalleria", "grupo": "pestanas", "nombre": "Medallería", "condicion": { "alcance": "INTERNACIONAL", "estado_no": "Próximo" }, "nota": "Solo si el evento ya empezó y no es nacional (el medallero compara países).", "acceso": ["no","no","no","no","ver","no","no"] },
+    { "id": "tab-boletines", "grupo": "pestanas", "nombre": "Boletines técnicos", "condicion": { "boletines": true }, "nota": "Solo si el evento tiene boletines.", "acceso": ["no","no","no","no","ver","no","no"] },
+    { "id": "tab-metodologos", "grupo": "pestanas", "nombre": "Metodólogos", "nota": "Asigna y quita metodólogos (evento completo o por deporte).", "acceso": ["editar","no","no","no","editar","no","no"] },
+    { "id": "tab-analitica", "grupo": "pestanas", "nombre": "Analítica", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+
+    { "id": "campo-nombre", "grupo": "campos", "nombre": "Nombre", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-alcance", "grupo": "campos", "nombre": "Alcance (Nacional / Internacional)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-estado", "grupo": "campos", "nombre": "Estado (Próximo / En curso / Finalizado)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-fechas", "grupo": "campos", "nombre": "Fechas (inicio y fin)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-lugar", "grupo": "campos", "nombre": "Lugar (ciudad · departamento/municipio si nacional)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-organismo", "grupo": "campos", "nombre": "Organismo organizador", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-paises", "grupo": "campos", "nombre": "Países participantes", "condicion": { "alcance": "INTERNACIONAL" }, "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-sedes", "grupo": "campos", "nombre": "Sedes", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-gestor", "grupo": "campos", "nombre": "Gestor asignado", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-ciclo", "grupo": "campos", "nombre": "Marca Ciclo Olímpico", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
+    { "id": "campo-descripcion", "grupo": "campos", "nombre": "Descripción", "acceso": ["ver","ver","ver","ver","ver","ver","no"] }
+  ],
+  "preguntas_abiertas": [
+    "¿Algún campo de Información debe ocultarse a roles de solo lectura (p. ej. gestor asignado)? Hoy el baseline es: todos los que ven el evento ven todos los campos.",
+    "¿El Gestor del Comité también edita Metodólogos solo en eventos del ciclo? Hoy sí, por alcance de lista.",
+    "¿Usuarios debe tener «Mis eventos»? Hoy la pestaña existe pero su lista sale vacía (no gestiona ninguno)."
+  ]
+}

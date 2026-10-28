@@ -1,0 +1,25 @@
+/* Conmutador de roles ("Ver como") y avisos por rol. */
+.nws-topbar{flex:1;min-width:0}
+.nws-rolsw{position:relative;margin-left:auto;padding-right:var(--naotech-sizing-16);flex:none}
+.nws-rolsw__btn{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 12px 4px 6px;border:var(--naotech-app-border-1-200);border-radius:99px;background:var(--naotech-app-background);cursor:pointer;font:inherit;color:var(--naotech-app-color-900)}
+.nws-rolsw__btn:hover{border-color:var(--naotech-primary-color-normal)}
+.nws-rolsw__av{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#fff1e6;color:var(--naotech-primary-color-normal);font-size:12px;font-weight:700}
+.nws-rolsw__who{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;text-align:left}
+.nws-rolsw__who small{color:var(--naotech-app-color-700)}
+.nws-rolsw__menu{position:absolute;right:var(--naotech-sizing-16);top:calc(100% + 6px);z-index:60;width:22rem;max-width:calc(100vw - 2rem);padding:6px;background:var(--naotech-app-background);border:var(--naotech-app-border-1-200);border-radius:12px;box-shadow:0 12px 32px rgba(20,22,50,.16)}
+.nws-rolsw__menu[hidden]{display:none}
+.nws-rolsw__head{margin:6px 10px 4px;color:var(--naotech-app-color-700);text-transform:uppercase;letter-spacing:.04em;font-size:11px;font-weight:700}
+.nws-rolsw__opt{display:flex;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.nws-rolsw__opt:hover,.nws-rolsw__opt:focus-visible{background:var(--naotech-app-color-100,#f3f4fa);outline:none}
+.nws-rolsw__opt[aria-checked="true"]{background:#fff1e6}
+.nws-rolsw__opt span{display:flex;flex-direction:column;gap:2px}
+.nws-rolsw__opt small{color:var(--naotech-app-color-700);line-height:1.3}
+@media (max-width:960px){.nws-rolsw__who{display:none}.nws-rolsw__btn{padding:4px}}
+
+/* Chips de la cabecera del evento: alcance y deporte junto al Ciclo Olímpico. */
+.nws-event-detail__kind{display:inline-flex;align-items:center;min-height:24px;padding:0 10px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:12px;font-weight:600}
+
+.nws-rolsw__reset{display:block;width:calc(100% - 12px);margin:6px;padding:8px 10px;border:0;border-top:var(--naotech-app-border-1-200);border-radius:0;background:none;color:var(--naotech-app-color-700);text-align:left;cursor:pointer;font:inherit}
+.nws-rolsw__reset:hover{color:var(--naotech-primary-color-normal)}
+
+.nws-rolsw__btn--static{cursor:default}.nws-rolsw__btn--static:hover{border-color:inherit}

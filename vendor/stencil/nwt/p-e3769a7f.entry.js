@@ -1,0 +1,1 @@
+import{r as t,h as a,a as s}from"./p-DcJgWA0r.js";import{r as e}from"./p-QVVqnaUs.js";const r=class{constructor(a){t(this,a)}truncated=!1;nwtTheme;render(){const{truncated:t}=this;return a(s,{key:"f50f98da85e5f8197a8c65889636f2d0628d254b",class:e("nwt-datatable__totals",{truncated:t})},a("slot",{key:"5e1d9399dc82250ef0daed437c935b99993bf648"}))}};export{r as nwt_datatable_totals}

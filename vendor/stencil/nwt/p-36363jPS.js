@@ -1,0 +1,1 @@
+const n=/[̀-ͯ]/g;function t(t){return t.normalize("NFD").replace(n,"").toLowerCase()}export{t as n}

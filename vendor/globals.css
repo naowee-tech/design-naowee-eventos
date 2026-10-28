@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "../styles/brand.css";
+@import "../styles/base.css";
+
+/* Tailwind v4 detecta clases escaneando TODO el proyecto, no solo src/. Sin
+   esto, citar un nombre de clase en la documentación (CLAUDE.md, README, y los
+   .iadoc hermanos del código) le hace generar esa utilidad y enviarla al CSS de
+   producción, muerta. Van los dos: el .iadoc es el que más clases cita, porque
+   ahí vive el porqué de los layouts. */
+@source not "../../**/*.md";
+@source not "../../**/*.iadoc";
+
+/* dark: solo aplica bajo la clase .dark (nunca se activa en esta landing light-only);
+   neutraliza los estilos dark: heredados de componentes portados de webcomite-2026 */
+@custom-variant dark (&:is(.dark *));
+
+/* ════════════════════════════════════════════════════════════════════════
+   Específico de ESTA landing. Al extraer la plantilla, este archivo queda
+   solo con los tres @import de arriba.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Dominio: eventos deportivos. No son tokens de marca — solo tienen sentido
+   donde hay medallería, así que viven aquí y no en brand.css. */
+@theme {
+  --color-medal-gold: #e8b923;
+  --color-medal-silver: #d8d8da;
+  --color-medal-bronze: #b06a32;
+}
+
+/* Carrusel del hero: flechas circulares con fondo y bullets claros (estilo demo).
+   En CSS para no chocar (width) con w-full del Swiper ni saturar el className. */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.28);
+  color: #ffffff;
+}
+.hero-swiper .swiper-button-next::after,
+.hero-swiper .swiper-button-prev::after {
+  font-size: 1.25rem;
+}
+/* Bullets tipo barra: inactivo corto, activo alargado (estilo demo) */
+.hero-swiper .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  opacity: 0.45;
+  transition: width 0.3s ease;
+}
+.hero-swiper .swiper-pagination-bullet-active {
+  width: 2.125rem;
+  opacity: 1;
+}

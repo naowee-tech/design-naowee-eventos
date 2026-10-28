@@ -1,0 +1,1 @@
+import{r as e,h as a,a as r}from"./p-DcJgWA0r.js";const t=class{constructor(a){e(this,a)}nwtTheme;render(){return a(r,{key:"f5658624b0b0a7f8aa5718d645679ec2f86318b6",class:"nwt-datatable__header",role:"row"},a("slot",{key:"875f182816a64b4a4f4e2e36c47e64d8e6406bf3"}))}};export{t as nwt_datatable_header}

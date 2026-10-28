@@ -1,0 +1,1 @@
+import{r as e,h as o,a as r}from"./p-DcJgWA0r.js";const s=class{constructor(o){e(this,o)}nwtTheme;render(){return o(r,{key:"6d4bb7b8ef359f428fe183d3d4eb1d0c150583d1",class:"nwt-logo-naowee"})}};export{s as nwt_logo_naowee}

@@ -1,0 +1,214 @@
+/* ════════════════════════════════════════════════════════════════════════
+   BASE — reset del documento, utilidades y animaciones genéricas.
+   No contiene valores de marca (los toma de brand.css) ni nada de dominio:
+   se copia tal cual a cualquier landing.
+   ════════════════════════════════════════════════════════════════════════ */
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-roboto), Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll horizontal sin barra visible (carruseles de logos, paginación móvil) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Entrada escalonada del contenido del hero */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+/* Solo opacidad, rápida y sin desplazamiento: para lo que aparece en su sitio
+   y no debe "moverse" (el estado vacío). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+/* Diálogo modal (SupportDialog): entra con fade + leve escala; el fondo
+   (::backdrop) hace solo fade. Vive aquí porque el componente es compartido. */
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.support-dialog[open] {
+  animation: dialog-in 0.25s ease-out both;
+}
+
+.support-dialog::backdrop {
+  background: rgb(21 20 20 / 0.6);
+  animation: fade-in 0.25s ease-out both;
+}
+
+/* Check de éxito: rebota al aparecer */
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-pop {
+  animation: pop 0.4s ease-out both;
+}
+
+/* Entrada del contenido al cambiar de tab: desliza de izquierda a derecha + fade */
+@keyframes tab-in {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-tab-in {
+  animation: tab-in 0.3s ease-out both;
+}
+
+/* Acordeón: al abrir revela la altura (grid 0fr → 1fr) + fade; al cerrar hace
+   el recorrido inverso. El contenedor debe ser `grid` con un único hijo
+   `overflow-hidden`. */
+@keyframes accordion-down {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.28s ease-out both;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.24s ease-in both;
+}
+
+/* Respeta la preferencia de menos movimiento del sistema */
+@media (prefers-reduced-motion: reduce) {
+  /* El scroll suave también es movimiento: sin esto el `scroll-behavior:
+     smooth` de html y el `scroll-smooth` de la tira de tabs seguían animando
+     con la preferencia puesta. El scroll programático no se arregla por CSS
+     —va con `behavior` en JS—, ver TabsPill. */
+  html,
+  .scroll-smooth {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-pop,
+  .support-dialog[open],
+  .support-dialog::backdrop,
+  .animate-tab-in,
+  .animate-pulse {
+    animation: none;
+  }
+
+  /* El acordeón conserva la animación pero casi instantánea: así sigue
+     disparándose onAnimationEnd (montaje/desmontaje) sin movimiento visible. */
+  .animate-accordion-down,
+  .animate-accordion-up {
+    animation-duration: 0.01ms;
+  }
+}
+
+/* Campos de formulario (inputs / selects / botón limpiar).
+   Borde base y color de foco en CSS: evita duplicar utilidades en cada campo
+   y el conflicto de border-color (border-border vs focus:border-primary). */
+.field {
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+}
+.field:focus {
+  border-color: var(--color-primary);
+}
+.field::placeholder {
+  color: var(--color-subtle);
+}
+
+/* Footer: enlaces de columna y botones de redes sociales. Viven aquí y no en
+   globals.css porque el Footer que las usa es un componente compartido: si se
+   quedaran en globals, extraer la plantilla dejaría el Footer sin estilos.
+   El color base y el borde (y sus estados hover/focus) se definen en CSS para
+   no repetir la misma propiedad entre la utilidad base y la variante
+   :focus-visible; al no ir esta última envuelta en @media (hover), Tailwind la
+   marca como cssConflict frente a la base. Mismo criterio que .field. */
+.footer-link {
+  color: rgb(255 255 255 / 0.7);
+}
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #ffffff;
+}
+
+.footer-social {
+  border-color: rgb(255 255 255 / 0.25);
+  color: rgb(255 255 255 / 0.8);
+}
+.footer-social:hover,
+.footer-social:focus-visible {
+  border-color: #ffffff;
+  color: #ffffff;
+}

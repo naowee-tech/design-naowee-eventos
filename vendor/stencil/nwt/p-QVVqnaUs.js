@@ -1,0 +1,1 @@
+function t(t,n={},r){const e=[t];return Object.entries(n).forEach((([n,r])=>{r&&e.push("string"==typeof r?`${t}--${r}`:`${t}--${n}`)})),r&&e.push(r),e.join(" ").trim()}export{t as r}

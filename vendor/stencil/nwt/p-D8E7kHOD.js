@@ -1,0 +1,1 @@
+function t(t,e){if(t&&e)return{insetInlineStart:`${"rtl"===getComputedStyle(t).direction?t.offsetWidth-e.offsetLeft-e.offsetWidth:e.offsetLeft}px`,width:`${e.offsetWidth}px`}}export{t as i}
