@@ -1,13 +1,15 @@
-# Propuesta: cómo se manejan los eventos en SUID (v5, lenguaje sencillo)
+# Propuesta: cómo se manejan los eventos en SUID (v6, lenguaje sencillo)
 
 **Autor:** Jorge Guzmán (Diseño) · **Fecha:** 30-oct-2026 · **Estado:** prototipo de diseño, revisado contra lo que dijo Javier Mercado (Javi) del backend.
+
+**Material público:** la demo y esta propuesta se sirven en `https://naowee-tech.github.io/design-naowee-eventos/` (GitHub Pages, rama main). Cualquiera con el enlace puede verlos: no deben llevar datos sensibles ni reales.
 
 Aviso: todo lo del backend viene de Javi, sobre el entorno de pruebas (staging). **No está verificado en producción.** Los eventos, fechas, sedes y enlaces del prototipo son ejemplos inventados para ilustrar.
 
 ## 1. Qué proponemos, en 5 líneas
 
 1. SUID puede **crear y editar eventos sencillos**, de cinco tipos (Competitivo, Actividad Física, Deporte Escolar y Formativo, Deporte Social Comunitario, Recreación).
-2. SUID **solo consulta** los eventos del Ciclo Olímpico, los eventos completos y los de Liga. No los crea ni los edita.
+2. SUID **solo consulta** los eventos del Ciclo Olímpico, los eventos completos y los de Liga. No los crea ni los edita. **Hoy la demo muestra a los roles SUID solo sus eventos («Solo SUID»); «ver todo» queda a futuro.**
 3. Cada rol crea y edita **solo su tipo**: un rol de SUID, los eventos de SUID; un rol del Comité Olímpico, los del ciclo.
 4. Cada tipo de evento muestra **solo las pestañas que le sirven** (un taller de salud no tiene medallas).
 5. Lo que depende del backend o de otras personas está marcado con un semáforo (sección 7).
@@ -24,6 +26,14 @@ Aviso: todo lo del backend viene de Javi, sobre el entorno de pruebas (staging).
 
 ## 3. Qué tipos de evento hay y qué puede hacer SUID
 
+**Qué muestra la demo hoy (capas del panel):**
+
+- **Roles SUID:** por defecto «Solo SUID»: ven y gestionan únicamente eventos SUID. «Ver todo» está marcado como **a futuro**: con él también verían eventos del ciclo y completos (solo consulta) y podrían filtrar por Origen.
+- **Comité Olímpico:** oculto y desconectado por defecto. Sus roles y el Metodólogo no salen en «Ver como»; su código y sus flujos siguen intactos y se reactivan con `?comite=1`. El control en el panel está oculto por ahora.
+- **Liga:** oculta en la demo mientras no se atienda. Sigue siendo parte de la propuesta y está pendiente de Javi.
+
+La tabla de abajo describe la propuesta completa, no solo lo que la demo muestra por defecto.
+
 | Tipo | Quién lo crea | Qué se ve en pantalla (rol SUID) | Pestañas (rol SUID) |
 |---|---|---|---|
 | Evento sencillo de SUID, competitivo | Rol SUID | Se puede crear y editar | Información, Cargas, Deportes, Organizaciones, Analítica |
@@ -34,7 +44,7 @@ Aviso: todo lo del backend viene de Javi, sobre el entorno de pruebas (staging).
 
 "No competitivo" quiere decir que no hay resultados ni medallas: por eso no tiene Cargas, y tampoco Deportes.
 
-En la lista y el calendario hay un filtro "Origen" (SUID, Comité Olímpico, Macro Evento, Liga) para ver cada grupo por separado. Los eventos de Liga salen al final de la lista.
+Con «Ver todo» (a futuro) la lista y el calendario tienen un filtro "Origen" (SUID, Comité Olímpico, Macro Evento, Liga). Con «Solo SUID» no hace falta. Los eventos de Liga salen al final de la lista.
 
 ## 4. Los 5 tipos que SUID puede crear
 
@@ -57,7 +67,9 @@ Datos comunes del formulario:
 - **Editar:** con un rol SUID solo se editan eventos SUID, y al editar no se muestra el selector de tipo. Editar un evento del ciclo no aplica con roles SUID.
 - **"Agregar" externos se retiró:** el backend no lo tiene.
 
-Ejemplos del prototipo (inventados): HEVS Barranquilla 2026 (Actividad Física), Campamento Juvenil Eje Cafetero (Recreación), JDEC Tolima 2026 (Escolar), 4 eventos completos y 2 de Liga. **Todavía no hay ejemplo de Deporte Social Comunitario.**
+Ejemplos del prototipo (inventados): HEVS Barranquilla 2026 (Actividad Física), Campamento Juvenil Eje Cafetero (Recreación), JDEC Tolima 2026 (Escolar), 4 eventos completos y 2 de Liga (completos y Liga no se ven con «Solo SUID»; los de Liga, además, están ocultos). **Todavía no hay ejemplo de Deporte Social Comunitario.**
+
+**Tarjetas de la lista:** el título ocupa hasta 2 líneas con alto fijo, y los badges van en una sola línea con «+N» cuando no caben.
 
 Importante: estos cinco tipos son una decisión de **diseño**. No está confirmado que el backend de eventos sencillos los soporte; Javi indicó que un evento sencillo es "deporte y prueba", sin fases ni categorías.
 
@@ -85,6 +97,10 @@ Sobre el Ciclo Olímpico: que sea "solo consulta" para SUID es una regla de pant
 
 Calendario: si un mes no tiene eventos visibles, muestra el mensaje "Sin eventos este mes".
 
+## 6b. Panel de la demo y casos por rol
+
+El avatar del encabezado abre el panel. Cada rol lleva su etiqueta (SUID o Comité) y, debajo del rol elegido, aparecen sus casos: 24 historias de demostración (`hu-demo.js`). **Son escenarios de demo, no historias aprobadas por producto.** Un recorrido guiado paso a paso por cada caso está **en construcción**.
+
 ## 7. Qué está confirmado y qué falta (semáforo)
 
 Verde = Confirmado por backend. Azul = Decisión de diseño. Rojo = Por confirmar.
@@ -92,12 +108,14 @@ Verde = Confirmado por backend. Azul = Decisión de diseño. Rojo = Por confirma
 | Tema | Estado | Dueño del pendiente |
 |---|---|---|
 | Hay tipos de evento según un campo del backend; si viene vacío, cuenta como completo | Confirmado por backend | — |
-| El backend filtra por rol solo al Comité Olímpico; el resto de roles ve todo y lo demás lo esconde la pantalla | Confirmado por backend | — |
+| El backend filtra por rol solo al Comité Olímpico; el resto de roles ve todo en el backend y lo demás lo esconde la pantalla (en la demo, «Solo SUID» lo hace por defecto) | Confirmado por backend | — |
 | Evento completo: SUID no puede editarlo (el backend responde "no implementado") | Confirmado por backend | — |
 | Evento de Liga: no se crea desde SUID; lo crea la Liga | Confirmado por backend | — |
 | Nombre único (error 409) | Confirmado por backend | — |
 | "Agregar" externos no existe | Confirmado por backend | — |
-| Que el campo del tipo de evento solo tenga 3 valores (LITE, FULL, ULTRA_LITE) | Por confirmar | Javi (preguntado hoy) |
+| Que el campo del tipo de evento solo tenga 3 valores (LITE, FULL, ULTRA_LITE) | Por confirmar | Javi (pregunta enviada el 30-oct) |
+| «Ver todo» para roles SUID (ciclo, completos y filtro Origen) | Decisión de diseño; a futuro | Jorge |
+| Comité Olímpico y Liga en la demo | Ocultos por ahora; siguen en la propuesta | Jorge y Javi |
 | Los 5 tipos de SUID y sus campos | Decisión de diseño; backend por confirmar | Javi |
 | Cada rol crea solo su tipo | Decisión de diseño; choca con el código actual | Jorge y Javi |
 | Rol "Administrador del Comité" con permiso de crear | Por confirmar (hoy no existe) | Javi y Jorge |
@@ -155,7 +173,8 @@ Por aclarar con Danna y Javi: si estas reglas son una evolución de los eventos 
 - **Liga (`ULTRA_LITE`):** solo `EVENTS_LITE_LEAGUE` lo crea desde su CRUD; `POST /v2/events` da 501 [Javi].
 - **Filtrado:** el Comité recibe solo `LITE` con ciclo (404 en el resto); los demás roles con `event:list` ven todo [Javi].
 - **Permisos por rol:** ADMIN: lista/detalle, `event:update`, `athlete:list/read`, marca y desmarca ciclo. MANAGER: `registration:write`, `result:write`, `medal:write`. MODULE_USER: `event:list`, `event:read`, `athlete:*`, `dashboard:read`. Roles del Comité: sin `event:create` [Javi, perm.ts]. Ciclo como interruptor del mismo formulario (SUV2-1741) [perm.ts].
+- **Capas de la demo:** `VER` (`?ver=todos`) y `COMITE` (`?comite=1`) en `platform/roles.js`; `puedeVer` limita a SUID salvo `ver=todos`. `MOSTRAR_LIGA = false` en `shared/data.js` oculta la Liga.
 - **Pestañas en el prototipo:** `pestanasDe` en `platform/roles.js`. Cargas solo en eventos SUID competitivos; Metodólogos, Calendario y resultados, Medallería y Boletines (`SOLO_CICLO`) solo para roles con lista de ciclo; completos: `informacion` y `deportes`; Liga: `informacion`. Deportes se oculta en eventos sin deportes (`sinDeportes`, `platform/app.js`).
 - **Formularios:** `platform/crear.js`; tipos `competitivo`, `actividad_fisica`, `escolar`, `social`, `recreacion`.
 - **Datos de ejemplo:** `shared/data.js`. Rol propuesto: `comite_admin`, código `PROPUESTO`.
-- **Matriz completa de roles:** `mapa-roles.html` y `mapa-roles.json`. Presentación: `propuesta/index.html` (16 láminas).
+- **Matriz completa de roles:** `mapa-roles.html` y `mapa-roles.json`. Presentación: `propuesta/index.html` (el número de láminas puede cambiar; otro trabajo lo está actualizando).

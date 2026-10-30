@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Eventos en SUID · Propuesta v5</title>
+<title>Eventos en SUID · Propuesta v6</title>
 <style>
 @font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-regular.ttf)}
 @font-face{font-family:Inter;font-weight:500;src:url(fonts/inter-medium.ttf)}
@@ -141,7 +141,7 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <main id="stage" tabindex="-1" aria-live="polite">
 <section class="slide cover" aria-label="Portada">
  <svg class="rings" width="260" height="170" viewBox="0 0 260 170" aria-hidden="true" fill="none" stroke-width="7"><circle cx="70" cy="60" r="50" stroke="#7F8DE0"/><circle cx="130" cy="108" r="50" stroke="#FFB48A"/><circle cx="190" cy="60" r="50" stroke="#7F8DE0"/></svg>
- <p class="kick">Naowee · Módulo Eventos · Versión 5</p>
+ <p class="kick">Naowee · Módulo Eventos · Versión 6</p>
  <h1>Cómo SUID crea, edita y consulta eventos</h1>
  <p class="lead">Qué eventos puede crear cada persona, qué ve en cada uno y qué falta confirmar con el equipo de backend. 30 de octubre de 2026 · Naowee</p>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>1</span></div>
@@ -151,11 +151,12 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <p class="kick">Punto de partida</p>
  <h2>Todos usan el mismo sistema; cada rol ve y hace cosas distintas</h2>
  <div class="cols">
-  <ul class="l" style="flex:1;margin-top:0;font-size:21px">
+  <ul class="l" style="flex:1;margin-top:0;font-size:19px">
    <li>Cada evento tiene un tipo guardado en el sistema (<code>event_type</code>): sencillo, completo o de Liga.</li>
-   <li><b>Evento sencillo</b> (LITE): lo crea SUID o el Comité Olímpico. <b>Evento completo</b> (FULL): vive en otro sistema. <b>Liga</b> (ULTRA_LITE): lo crea una liga.</li>
+   <li><b>Evento sencillo</b> (LITE): lo crea SUID o el Comité Olímpico. <b>Evento completo</b> (FULL): vive en otro sistema. <b>Liga</b> (ULTRA_LITE): lo crea una liga. Por ahora la demo la deja oculta.</li>
    <li>SUID puede editar un evento sencillo con el rol correcto. Un evento completo nunca se edita aquí.</li>
    <li>El sistema solo limita lo que ve el Comité Olímpico: únicamente sus eventos.</li>
+   <li>En la demo, «Roles SUID» viene en «Solo SUID»: ven y gestionan solo eventos SUID. «Ver todo» es a futuro.</li>
   </ul>
   <div style="width:340px;background:var(--navy);color:#fff;border-radius:14px;padding:26px">
    <p style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#FFB48A;font-weight:700">De dónde sale esto</p>
@@ -163,7 +164,7 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
    <p style="font-size:15px;color:#C9CCE0;margin-top:12px">Todavía no se comprobó en producción.</p>
   </div>
  </div>
- <div class="band"><div><b>Protagonista</b>Lo que SUID crea y edita: eventos propios, de cinco tipos.</div><div><b>Solo consulta</b>Eventos del Comité, completos y de Liga: SUID los ve, no los edita.</div><div><b>Novedad v5</b>Pestañas por tipo y por rol, países obligatorios y calendario con aviso.</div></div>
+ <div class="band"><div><b>Protagonista</b>Lo que SUID crea y edita: eventos propios, de cinco tipos.</div><div><b>Solo consulta (a futuro)</b>Con «Ver todo», SUID también vería eventos del ciclo y completos, sin editarlos.</div><div><b>Novedad v6</b>Por defecto «Solo SUID»; Comité y Liga ocultos en la demo; panel con casos por rol.</div></div>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>2</span></div>
 </section>
 
@@ -239,9 +240,9 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
  <table style="font-size:18px;margin-top:16px"><thead><tr><th style="width:36%">Evento</th><th>Pestañas con un rol SUID</th></tr></thead><tbody>
  <tr><td>Competitivo SUID</td><td>Información · Cargas · Deportes · Organizaciones · Analítica</td></tr>
  <tr><td>No competitivo SUID</td><td>Información · Organizaciones · Analítica</td></tr>
- <tr><td>Del ciclo olímpico (solo consulta)</td><td>Información · Deportes · Organizaciones · Analítica</td></tr>
- <tr><td>Evento completo</td><td>Información · Deportes</td></tr>
- <tr><td>Liga</td><td>Información</td></tr>
+ <tr><td>Del ciclo olímpico (solo consulta, a futuro con «Ver todo»)</td><td>Información · Deportes · Organizaciones · Analítica</td></tr>
+ <tr><td>Evento completo (a futuro con «Ver todo»)</td><td>Información · Deportes</td></tr>
+ <tr><td>Liga (oculta por ahora)</td><td>Información</td></tr>
  </tbody></table>
  <p class="note" style="margin-top:20px;font-size:17px"><b>Solo para roles del Comité</b>Metodólogos, Calendario y resultados, Medallería y Boletines. Un rol SUID no los ve, ni siquiera en eventos SUID. <span class="tag">Decisión</span></p>
  <p class="note" style="font-size:16px"><b>Por qué</b>En un evento completo, el backend solo entrega Información y Deportes; lo demás responde error 501. <span class="tag inf">Javi</span></p>
@@ -252,9 +253,9 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <p class="kick">Quién crea y quién edita</p>
  <h2 style="font-size:32px">Cada rol crea y edita solo lo suyo; lo ajeno solo se consulta</h2>
  <table style="font-size:17px;margin-top:16px"><thead><tr><th style="width:30%">Rol</th><th>Crea y edita</th><th>Solo consulta</th></tr></thead><tbody>
- <tr><td>Rol SUID (Admin Naowee)</td><td>Eventos SUID. En los eventos del ciclo no se edita.</td><td>Ciclo olímpico, completos y Liga</td></tr>
+ <tr><td>Rol SUID (Admin Naowee)</td><td>Eventos SUID. En los eventos del ciclo no se edita.</td><td>Hoy nada. A futuro, con «Ver todo»: ciclo olímpico y completos. Liga, oculta por ahora.</td></tr>
  <tr><td>Rol del Comité con permiso de crear <span class="tag">Propuesto</span></td><td>Eventos del ciclo olímpico, marcados solos</td><td>SUID, completos y Liga</td></tr>
- <tr><td>Cualquier rol</td><td>Nadie crea ni edita eventos completos ni de Liga</td><td>Completos y Liga</td></tr>
+ <tr><td>Cualquier rol</td><td>Nadie crea ni edita eventos completos ni de Liga</td><td>Completos. Liga, oculta por ahora.</td></tr>
  </tbody></table>
  <p class="note" style="margin-top:18px;font-size:16px"><b>De dónde sale</b>Es decisión de diseño de Jorge. <span class="tag">Decisión</span> Pero hoy, en el código real, «ciclo olímpico» es un interruptor del mismo formulario que usan Admin Naowee y el superusuario (SUV2&#8209;1741). Los roles del Comité no pueden crear eventos.</p>
  <p class="note" style="font-size:16px"><b>Falta confirmar con Javi</b>La regla necesita un «Administrador del Comité» que hoy no existe en el backend. <span class="tag">Por confirmar</span></p>
@@ -265,7 +266,7 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <p class="kick">La regla en pantalla</p>
  <h2 style="font-size:32px">Con rol SUID, un evento del ciclo no se edita; el rol del Comité propuesto sí crea</h2>
  <div class="row">
-  <figure style="width:548px"><div class="cp" style="width:548px;height:347px"><img src="img/27-detalle-coc-sin-editar.png" alt="Detalle de un evento del ciclo olímpico con rol SUID, sin botón de edición" style="width:130.72%;left:-27.78%;top:-14.84%"></div><figcaption class="cap"><b>Ciclo olímpico con rol SUID</b> Sin botón «Editar evento». Se ven Información, Deportes, Organizaciones y Analítica.</figcaption></figure>
+  <figure style="width:548px"><div class="cp" style="width:548px;height:347px"><img src="img/27-detalle-coc-sin-editar.png" alt="Detalle de un evento del ciclo olímpico con rol SUID, sin botón de edición" style="width:130.72%;left:-27.78%;top:-14.84%"></div><figcaption class="cap"><b>Ciclo olímpico con rol SUID (a futuro, con «Ver todo»)</b> Sin botón «Editar evento». Se ven Información, Deportes, Organizaciones y Analítica.</figcaption></figure>
   <figure style="width:440px"><div class="cp" style="width:440px;height:393px"><img src="img/28-crear-rol-ciclo.png" alt="Formulario Crear evento del rol propuesto del Comité con la línea informativa" style="width:159.74%;left:-44.73%;top:-33.87%"></div><figcaption class="cap"><b>Rol del Comité (propuesto)</b> Una línea avisa: «Este evento se crea como evento del Ciclo Olímpico».</figcaption></figure>
  </div>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>10</span></div>
@@ -273,23 +274,25 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 
 <section class="slide " aria-label="Lista y nombre único">
 <p class="kick">Lista y nombre único</p>
- <h2 style="font-size:32px">La lista se filtra por origen, y el nombre no se repite en ningún tipo</h2>
+ <h2 style="font-size:32px">Con «Ver todo» la lista se filtra por origen, y el nombre no se repite en ningún tipo</h2>
  <div class="row" style="gap:36px">
-  <figure style="width:600px"><div class="cp" style="width:600px;height:333px"><img src="img/23-lista-suid-tipos.png" alt="Lista de eventos con el filtro Origen abierto: SUID, Comité Olímpico, Macro Evento y Liga" style="width:130.72%;left:-27.78%;top:-14.71%"></div><figcaption class="cap"><b>Filtro Origen</b> Cuatro orígenes con su conteo: SUID, Comité Olímpico, Macro Evento (evento completo) y Liga.</figcaption></figure>
+  <figure style="width:600px"><div class="cp" style="width:600px;height:333px"><img src="img/23-lista-suid-tipos.png" alt="Lista de eventos con Ver todo y el filtro Origen abierto: SUID, Comité Olímpico y Evento nacional oficial" style="width:130.72%;left:-27.78%;top:-14.71%"></div><figcaption class="cap"><b>Filtro Origen (a futuro)</b> Tres orígenes con su conteo: SUID (8), Comité Olímpico (10) y Evento nacional oficial (4, el evento completo). Liga, oculta por ahora.</figcaption></figure>
   <figure style="width:460px"><div class="cp" style="width:460px;height:380px"><img src="img/05-nombre-duplicado.png" alt="Formulario con el nombre en error porque ya existe un evento completo con ese nombre" style="width:160.77%;left:-45.66%;top:-80.53%"></div><figcaption class="cap"><b>Nombre repetido</b> «Ya existe un evento con un nombre similar»; avisa que es un evento completo de otro sistema.</figcaption></figure>
  </div>
- <p style="font-size:14px;color:var(--muted);margin-top:12px">Al crear un evento, la lista salta hasta él y lo resalta unos segundos. El backend compara los nombres sin tildes ni mayúsculas y responde 409 si ya existe <span class="tag inf">Javi</span>. No hay botón «Agregar»: no existe modelo de vínculo en el backend.</p>
+ <p style="font-size:14px;color:var(--muted);margin-top:12px">Las tarjetas muestran el título hasta en 2 líneas, con alto fijo, y una sola línea de insignias con «+N». Al crear un evento, la lista salta hasta él y lo resalta unos segundos. El backend compara los nombres sin tildes ni mayúsculas y responde 409 si ya existe <span class="tag inf">Javi</span>. No hay botón «Agregar»: no existe modelo de vínculo en el backend.</p>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>11</span></div>
 </section>
 
-<section class="slide " aria-label="Calendario">
-<p class="kick">Calendario</p>
- <h2 style="font-size:32px">Un mes sin eventos muestra un aviso, no una pantalla vacía</h2>
+<section class="slide " aria-label="Panel de la demo">
+<p class="kick">Panel de la demo</p>
+ <h2 style="font-size:32px">Bajo cada rol, el panel trae sus casos de demostración</h2>
  <div class="row" style="gap:32px">
-  <figure style="width:640px"><div class="cp" style="width:640px;height:405px"><img src="img/30-calendario-vacio.png" alt="Calendario de abril de 2026 vacío con el mensaje Sin eventos este mes, visto con rol del Comité" style="width:130.72%;left:-27.78%;top:-9%"></div><figcaption class="cap"><b>Rol del Comité, abril de 2026</b> El calendario solo muestra eventos que el rol puede ver.</figcaption></figure>
+  <figure style="width:380px"><div class="cp" style="width:380px;height:430px"><img src="img/32-panel-demo.png" alt="Panel de la demo abierto con el rol Administrador de eventos, su etiqueta SUID y sus casos" style="width:400%;left:-300%;top:0"></div><figcaption class="cap"><b>Administrador de eventos</b> Etiqueta SUID y casos bajo el rol.</figcaption></figure>
   <div class="side" style="flex:1">
-   <p class="note" style="font-size:16px"><b>Mensaje</b>«Sin eventos este mes. Ningún evento visible para tu rol cae en estas fechas. Cambia de mes o ajusta los filtros.»</p>
-   <p class="note" style="font-size:16px"><b>Por qué se ve vacío</b>El Comité solo ve eventos del ciclo olímpico; fuera de ellos el backend responde 404. <span class="tag inf">Javi</span></p>
+   <p class="note" style="font-size:16px"><b>Casos de demostración</b>Son 24 escenarios para recorrer la demo. No son historias aprobadas. <span class="tag">Decisión</span></p>
+   <p class="note" style="font-size:16px"><b>Roles SUID</b>Por defecto, «Solo SUID». «Ver todo» está marcado «a futuro».</p>
+   <p class="note" style="font-size:16px"><b>Comité y Liga ocultos</b>Los roles del Comité y el Metodólogo salen del selector; el código sigue. Se reactivan con <code>?comite=1</code>. Liga queda oculta por ahora: falta que Javi confirme los 3 valores de <code>event_type</code>. <span class="tag inf">Javi</span></p>
+   <p class="note" style="font-size:16px"><b>Próximamente</b>Un recorrido guiado paso a paso por cada caso, en construcción.</p>
   </div>
  </div>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>12</span></div>
@@ -297,19 +300,20 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 
 <section class="slide " aria-label="Lo que SUID solo consulta">
 <p class="kick">Contexto · Lo que SUID solo consulta</p>
- <h2 style="font-size:32px">Eventos del Comité, completos y de Liga: SUID los ve, pero no los crea ni los edita</h2>
+ <h2 style="font-size:32px">A futuro, SUID consultaría eventos del Comité y completos, sin crearlos ni editarlos</h2>
  <div class="grid3" style="margin-top:16px;gap:20px">
   <div class="card" style="padding:16px 16px 16px"><span class="pill p-coc">Ciclo olímpico</span><div style="margin-top:10px"><figure style="width:331px"><div class="cp" style="width:331px;height:169px"><img src="img/29-detalle-ciclo-comite.png" alt="Evento del ciclo olímpico visto con rol del Comité, con la etiqueta Ciclo Olímpico" style="width:130.72%;left:-27.78%;top:-18.4%"></div><figcaption class="cap"><b>Visto por el Comité</b></figcaption></figure></div><p style="font-size:16px;line-height:1.4;margin-top:10px;color:var(--muted)">Evento sencillo con la etiqueta «Ciclo Olímpico». El rol del Comité lo ve completo; un rol SUID, simplificado y sin edición.</p></div>
   <div class="card" style="padding:16px 16px 16px"><span class="pill p-full">Evento completo</span><div style="margin-top:10px"><figure style="width:331px"><div class="cp" style="width:331px;height:169px"><img src="img/09-detalle-full-jin.png" alt="Evento completo con Información y Deportes" style="width:130.72%;left:-27.78%;top:-18.4%"></div><figcaption class="cap"><b>Información y Deportes</b></figcaption></figure></div><p style="font-size:16px;line-height:1.4;margin-top:10px;color:var(--muted)">Se administra en otro sistema; editarlo da error 501. Si es del ciclo, lleva dos etiquetas. <span class="tag">Por confirmar</span></p></div>
-  <div class="card" style="padding:16px 16px 16px"><span class="pill p-liga">Liga</span><div style="margin-top:10px"><figure style="width:331px"><div class="cp" style="width:331px;height:169px"><img src="img/13-detalle-liga.png" alt="Detalle de un evento de Liga con organismo y fechas" style="width:130.72%;left:-27.78%;top:-18.4%"></div><figcaption class="cap"><b>Entrada de calendario</b></figcaption></figure></div><p style="font-size:16px;line-height:1.4;margin-top:10px;color:var(--muted)">Lo crea otra organización (<code>ULTRA_LITE</code>). Sin estado ni pestañas: solo fechas, hora y enlace.</p></div>
+  <div class="card" style="padding:16px 16px 16px"><span class="pill p-liga">Liga (oculta por ahora)</span><div style="margin-top:10px"><figure style="width:331px"><div class="cp" style="width:331px;height:169px"><img src="img/13-detalle-liga.png" alt="Detalle de un evento de Liga con organismo y fechas" style="width:130.72%;left:-27.78%;top:-18.4%"></div><figcaption class="cap"><b>Entrada de calendario</b></figcaption></figure></div><p style="font-size:16px;line-height:1.4;margin-top:10px;color:var(--muted)">Lo crea otra organización (<code>ULTRA_LITE</code>). Sin estado ni pestañas: solo fechas, hora y enlace.</p></div>
  </div>
+ <p style="font-size:14px;color:var(--muted);margin-top:12px">El calendario muestra solo los eventos que el rol puede ver; un mes sin eventos da el aviso «Sin eventos este mes», no una pantalla vacía.</p>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>13</span></div>
 </section>
 
 <section class="slide sm2" aria-label="Resultado de la auditoría">
 <p class="kick">Resultado de la auditoría de backend</p>
  <h2 style="font-size:28px">Qué confirmó Javi, qué corrigió el diseño y qué sigue abierto</h2>
- <table style="font-size:12.5px;margin-top:8px"><thead><tr><th style="width:46%">Punto de la auditoría</th><th>Efecto en el diseño</th><th>Estado</th></tr></thead><tbody><tr><td>El tipo sale de <code>event_type</code>; vacío cuenta como completo</td><td>Se derivan los 4 orígenes</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td>Que <code>event_type</code> tenga solo 3 valores</td><td>Los tipos y orígenes dependen de esto</td><td><span class="st s-pend">Por confirmar (Javi)</span></td></tr><tr><td>Marcar ciclo: Admin Naowee o <code>EVENTS_LITE_ADMIN</code>, en el mismo formulario (SUV2&#8209;1741)</td><td>Choca con la regla «SUID no marca ciclo»</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Roles del Comité sin <code>event:create</code>; no existe «Administrador del Comité»</td><td>Rol del ciclo marcado «propuesto»</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Un evento sencillo es deporte y prueba, sin fases ni categorías</td><td>Los 5 tipos y sus datos son de diseño</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Nombre único: comparación sin tildes y error 409</td><td>Mismo mensaje; el front solo lo anticipa</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Comité: el backend no bloquea la edición</td><td>«Solo consulta» es regla de pantalla</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Evento completo: editar y sub-recursos v2 dan 501</td><td>Todo evento completo es de consulta</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td><code>ULTRA_LITE</code> es de Liga; crearlo da 501</td><td>SUID no lo crea; etiqueta «Liga»</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>El backend filtra solo al Comité</td><td>Comité: 404 fuera del ciclo</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td>«Agregar»: sin modelo de vínculo ni endpoint</td><td>Se retira de la fase</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Evento completo: v2 da fases y deportes; deportistas, resultados y medallería dan 501</td><td>Solo Información y Deportes, con aviso</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Roles reales: 7 de módulo y 1 de plataforma; no existen los 6 del PR-03</td><td>Matriz rehecha</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Deportistas, resultados y medallería de eventos completos (viven en v1)</td><td>Sin contrato de solo lectura</td><td><span class="st s-pend">Pendiente</span></td></tr></tbody></table>
+ <table style="font-size:12.5px;margin-top:8px"><thead><tr><th style="width:46%">Punto de la auditoría</th><th>Efecto en el diseño</th><th>Estado</th></tr></thead><tbody><tr><td>El tipo sale de <code>event_type</code>; vacío cuenta como completo</td><td>Se derivan los orígenes; Liga, oculta por ahora</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td>Que <code>event_type</code> tenga solo 3 valores</td><td>Los tipos y orígenes dependen de esto</td><td><span class="st s-pend">Por confirmar (Javi)</span></td></tr><tr><td>Marcar ciclo: Admin Naowee o <code>EVENTS_LITE_ADMIN</code>, en el mismo formulario (SUV2&#8209;1741)</td><td>Choca con la regla «SUID no marca ciclo»</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Roles del Comité sin <code>event:create</code>; no existe «Administrador del Comité»</td><td>Rol del ciclo marcado «propuesto»</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Un evento sencillo es deporte y prueba, sin fases ni categorías</td><td>Los 5 tipos y sus datos son de diseño</td><td><span class="st s-pend">Por confirmar</span></td></tr><tr><td>Nombre único: comparación sin tildes y error 409</td><td>Mismo mensaje; el front solo lo anticipa</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Comité: el backend no bloquea la edición</td><td>«Solo consulta» es regla de pantalla</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Evento completo: editar y sub-recursos v2 dan 501</td><td>Todo evento completo es de consulta</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td><code>ULTRA_LITE</code> es de Liga; crearlo da 501</td><td>SUID no lo crea; etiqueta «Liga»</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>El backend filtra solo al Comité</td><td>Comité: 404 fuera del ciclo</td><td><span class="st s-ok">Confirmado</span></td></tr><tr><td>«Agregar»: sin modelo de vínculo ni endpoint</td><td>Se retira de la fase</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Evento completo: v2 da fases y deportes; deportistas, resultados y medallería dan 501</td><td>Solo Información y Deportes, con aviso</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Roles reales: 7 de módulo y 1 de plataforma; no existen los 6 del PR-03</td><td>Matriz rehecha</td><td><span class="st s-fix">Corregido</span></td></tr><tr><td>Deportistas, resultados y medallería de eventos completos (viven en v1)</td><td>Sin contrato de solo lectura</td><td><span class="st s-pend">Pendiente</span></td></tr></tbody></table>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>14</span></div>
 </section>
 
@@ -317,7 +321,7 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <p class="kick">Roles reales del backend</p>
  <h2 style="font-size:30px">Hay siete roles de módulo y uno de plataforma; la matriz del Ministerio sigue pendiente</h2>
  <table style="font-size:15.5px;margin-top:10px"><thead><tr><th style="width:38%">Rol (nombre oficial en nao-docs)</th><th>Qué puede hacer</th><th style="width:11%">Fuente</th></tr></thead><tbody><tr><td>Admin Naowee <span class="muted">(<code>EVENTS_LITE_ADMIN</code>)</span></td><td>Ve la lista y el detalle, edita eventos, marca y desmarca ciclo olímpico</td><td>Javi</td></tr><tr><td>Gestor de eventos Naowee <span class="muted">(<code>EVENTS_LITE_MANAGER</code>)</span></td><td>Ve la lista y el detalle; carga inscripciones, resultados y medallería</td><td>Javi</td></tr><tr><td><code>EVENTS_LITE_MODULE_USER</code></td><td>Solo lectura: eventos, deportistas y analítica</td><td>Javi</td></tr><tr><td><code>EVENTS_LITE_LEAGUE</code></td><td>Crea y edita eventos de Liga; qué más ve, <span class="tag">Pendiente</span></td><td>Javi</td></tr><tr><td><code>EVENTS_LITE_METHODOLOGIST</code></td><td>Califica desde su vista; no entra al módulo</td><td>perm.ts</td></tr><tr><td>Administrador de organismo del Comité, con «marca olímpica» <span class="muted">(<code>EVENTS_LITE_OLYMPIC_COMMITTEE</code> y <code>OLYMPIC_COMMITTEE_VIEWER</code>)</span></td><td>Solo ve eventos del ciclo; los roles de gestor y metodólogo cuelgan de esta cuenta. No puede crear eventos</td><td>nao-docs · perm.ts</td></tr><tr><td>Administrador del Comité con permiso de crear <span class="tag">Propuesto</span></td><td>No existe en el backend: crearía y editaría eventos del ciclo</td><td>Decisión</td></tr></tbody></table>
- <p style="font-size:15px;color:var(--muted);margin-top:10px">Los 6 roles del PR-03 no existen hoy. La matriz de roles del Ministerio está pendiente: compromiso C-8, a cargo de Danna.</p>
+ <p style="font-size:15px;color:var(--muted);margin-top:10px">Los 6 roles del PR-03 no existen hoy. La matriz de roles del Ministerio está pendiente: compromiso C-8, a cargo de Danna. En la demo, los roles del Comité y el Metodólogo están ocultos por ahora.</p>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>15</span></div>
 </section>
 
@@ -332,7 +336,7 @@ figure{margin:0}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.row{displa
 <section class="slide " aria-label="Pendientes">
 <p class="kick">Pendientes y decisiones abiertas</p>
  <h2 style="font-size:32px">Trece puntos antes de integrar</h2>
- <div class="g2" style="margin-top:12px"><div class="q"><div>Confirmar que <code>event_type</code> tiene solo 3 valores.</div><span>Javi</span></div><div class="q"><div>Modelo de vínculo en el backend, si producto quiere «Agregar» a futuro.</div><span>Producto y Javi</span></div><div class="q"><div>Contrato de solo lectura para deportistas, resultados y medallería de eventos completos.</div><span>Javi</span></div><div class="q"><div>¿El backend soporta el tipo de programa y sus datos (temas, sesiones, evaluación)?</div><span>Javi</span></div><div class="q"><div>Rol «Administrador del Comité» con permiso de crear: hoy no existe (SUV2&#8209;1741).</div><span>Javi y Jorge</span></div><div class="q"><div>¿Admin Naowee debe poder marcar ciclo desde SUID? Choca con la regla por rol.</div><span>Javi</span></div><div class="q"><div>¿Qué más ve el rol de Liga en la lista?</div><span>Javi</span></div><div class="q"><div>Cargas para eventos del ciclo y quién las hace.</div><span>Jorge</span></div><div class="q"><div>Cómo mostrar un evento completo con ciclo: hoy lleva dos etiquetas.</div><span>Producto</span></div><div class="q"><div>Regla de «solo consulta» del Comité en el backend: hoy solo en pantalla.</div><span>Jorge y Javi</span></div><div class="q"><div>Corregir PR-03 §2 («Juegos Intercolegiados Nacionales»).</div><span>Jorge y Danna</span></div><div class="q"><div>Matriz de roles del Ministerio (compromiso C-8) y si las RN son evolución o módulo nuevo.</div><span>Danna y Javi</span></div><div class="q"><div>Comprobar todo en producción: la revisión es de staging.</div><span>Javi</span></div></div>
+ <div class="g2" style="margin-top:12px"><div class="q"><div>Confirmar que <code>event_type</code> tiene solo 3 valores (Liga sigue oculta hasta entonces).</div><span>Javi</span></div><div class="q"><div>Modelo de vínculo en el backend, si producto quiere «Agregar» a futuro.</div><span>Producto y Javi</span></div><div class="q"><div>Contrato de solo lectura para deportistas, resultados y medallería de eventos completos.</div><span>Javi</span></div><div class="q"><div>¿El backend soporta el tipo de programa y sus datos (temas, sesiones, evaluación)?</div><span>Javi</span></div><div class="q"><div>Rol «Administrador del Comité» con permiso de crear: hoy no existe (SUV2&#8209;1741).</div><span>Javi y Jorge</span></div><div class="q"><div>¿Admin Naowee debe poder marcar ciclo desde SUID? Choca con la regla por rol.</div><span>Javi</span></div><div class="q"><div>¿Qué más ve el rol de Liga en la lista?</div><span>Javi</span></div><div class="q"><div>Cargas para eventos del ciclo y quién las hace.</div><span>Jorge</span></div><div class="q"><div>Cómo mostrar un evento completo con ciclo: hoy lleva dos etiquetas.</div><span>Producto</span></div><div class="q"><div>Regla de «solo consulta» del Comité en el backend: hoy solo en pantalla.</div><span>Jorge y Javi</span></div><div class="q"><div>Corregir PR-03 §2 («Juegos Intercolegiados Nacionales»).</div><span>Jorge y Danna</span></div><div class="q"><div>Matriz de roles del Ministerio (compromiso C-8) y si las RN son evolución o módulo nuevo.</div><span>Danna y Javi</span></div><div class="q"><div>Comprobar todo en producción: la revisión es de staging.</div><span>Javi</span></div></div>
  <p style="font-size:13px;color:var(--muted);margin-top:8px">A quién preguntar es una propuesta.</p>
  <div class="foot"><span>Datos ilustrativos · Prototipo de diseño · No refleja producción</span><span>17</span></div>
 </section>
