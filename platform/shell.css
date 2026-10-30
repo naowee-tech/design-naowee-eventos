@@ -48,9 +48,9 @@ h1:focus{outline:none}
 .nws-events-header__description small{color:var(--naotech-app-color-700)}
 .nws-events-catalog{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-16)} /* DC-089: sin efecto card grande */
 .nws-events-catalog__header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--naotech-sizing-12)}
-.nws-events-catalog__filters{display:flex;flex:1 1 auto;align-items:center;flex-wrap:wrap;gap:var(--naotech-sizing-12);min-width:0}
+.nws-events-catalog__filters{display:flex;flex:0 1 auto;align-items:center;flex-wrap:wrap;gap:var(--naotech-sizing-12);min-width:0}
 .nws-scope nwt-tabs{display:block}
-.nws-search{flex:1 1 16rem;min-width:min(16rem,100%);width:auto;max-width:100%;display:block}
+.nws-search{flex:1 1 24rem;min-width:min(16rem,100%);width:auto;max-width:100%;display:block}
 .nws-search .nwt-searchbox__container{height:44px;padding:0 14px;border:var(--naotech-app-border-1-300);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background);--naotech-icon-dimension:20px;cursor:text}
 .nws-search .nwt-searchbox__container:focus-within{border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
 .nws-search .nwt-searchbox__input{min-height:40px}
@@ -61,36 +61,35 @@ nwt-tag-group .nwt-tag-group__tag{min-height:34px}
 .nws-seg button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border:0;border-radius:0;background:transparent;color:var(--naotech-app-color-700);font:600 13px Inter,sans-serif;cursor:pointer;--naotech-icon-dimension:18px}
 .nws-seg button:hover{background:var(--naotech-app-color-100)}
 .nws-seg button[aria-pressed=true]{background:var(--naotech-primary-color-050);color:var(--naotech-primary-color-normal)}
-.nws-seg{min-height:0;flex:1 1 9rem;min-width:min(9rem,100%)}
-.nws-seg button{flex:1 1 0;justify-content:center;min-width:48px}
+.nws-seg{min-height:0;flex:none}
+.nws-seg button{flex:none;justify-content:center;min-width:40px;padding:0 10px}
 .nws-seg button:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:-2px}
 
 .nws-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(20rem,100%),1fr));gap:var(--naotech-sizing-16)}
-.ec{position:relative;display:flex;flex-direction:column;justify-content:space-between;row-gap:var(--naotech-sizing-14);padding:var(--naotech-sizing-20);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-background);cursor:pointer;transition:transform .2s var(--naotech-animation-standard),box-shadow .2s var(--naotech-animation-standard),border-color .2s var(--naotech-animation-standard)}
+.ec{position:relative;display:flex;flex-direction:column;row-gap:var(--naotech-sizing-10);padding:var(--naotech-sizing-16);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-16);background:var(--naotech-app-background);cursor:pointer;transition:transform .2s var(--naotech-animation-standard),box-shadow .2s var(--naotech-animation-standard),border-color .2s var(--naotech-animation-standard)}
 .ec:hover{transform:translateY(-4px);box-shadow:var(--naotech-shadow-4);border-color:var(--naotech-app-color-300)}
 .ec:focus-within{border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
-.ec-body{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-14)}
-.ec-top{display:flex;align-items:flex-start;justify-content:space-between;column-gap:var(--naotech-sizing-10)}
+.ec-top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:var(--naotech-sizing-16);row-gap:var(--naotech-sizing-10)}
 .ec-top>.nwt-badge{margin-top:var(--naotech-sizing-4)}
-.ec-t{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-6);min-width:0}
-.ec-title{margin:0;font-size:15px;line-height:1.35;font-weight:700}
+.ec-title{min-height:calc(2 * 1.35em);margin:0;font-size:18px;line-height:1.35;font-weight:600;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
 .ec-main{text-decoration:none;color:inherit}
 .ec-main::after{content:'';position:absolute;inset:0;border-radius:inherit}
 .ec-main:focus-visible{outline:none}
-.ec-sub{display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-4) var(--naotech-sizing-8)}
+.ec-sub{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-4) var(--naotech-sizing-8);padding-block:var(--naotech-sizing-8) var(--naotech-sizing-10);border-bottom:var(--naotech-app-border-1-200)}
+/* Con exactamente 3 chips: 2 arriba y 1 abajo (DC-025); con otra cantidad sigue el flex-wrap. */
+.ec-sub:has(> :nth-child(3):last-child){display:grid;grid-template-columns:repeat(2,max-content);justify-content:start;align-items:start}
 .ec-hint{color:var(--naotech-app-color-700)}
 .ec-meta{display:flex;flex-direction:column;row-gap:var(--naotech-sizing-6)}
 .ec-row{display:flex;align-items:center;column-gap:var(--naotech-sizing-8);font-size:var(--naotech-caption-font-size,12px);color:var(--naotech-app-color-700);--naotech-icon-dimension:16px}
 .ec-row .nwt-icon{color:var(--naotech-app-color-600)}
 .ec-row strong{color:var(--naotech-app-font-color,#1d1f2e);font-weight:600}
-.ec-foot{display:flex;align-items:center;justify-content:flex-end;padding-top:var(--naotech-sizing-14);border-top:var(--naotech-app-border-1-200)}
 .ec-link{display:inline-flex;align-items:center;column-gap:var(--naotech-sizing-6);font-size:12px;font-weight:700;color:var(--naotech-primary-color-normal);--naotech-icon-dimension:14px}
 .ec-link .nwt-icon{transition:transform .2s var(--naotech-animation-standard)}
 .ec:hover .ec-link .nwt-icon{transform:translateX(4px)}
 @media (prefers-reduced-motion:reduce){.ec,.ec-link .nwt-icon{transition:none}.ec:hover{transform:none}.ec:hover .ec-link .nwt-icon{transform:none}}
 
 .nws-bar:empty{display:none}
-.nws-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:var(--naotech-sizing-16)}
+.nws-bar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:var(--naotech-sizing-16)}
 .nws-pager{display:flex;gap:4px}
 .nws-pager button{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 10px;border:var(--naotech-app-border-1-200);border-radius:12px;background:var(--naotech-app-background);font:600 13px Inter,sans-serif;color:var(--naotech-app-color-900);cursor:pointer;--naotech-icon-dimension:18px}
 .nws-pager button:hover:not(:disabled){background:var(--naotech-app-color-100)}
@@ -115,9 +114,13 @@ nwt-tag-group .nwt-tag-group__tag{min-height:34px}
 .nws-cal__day .is-today{display:inline-flex;min-width:22px;height:22px;align-items:center;justify-content:center;border-radius:11px;background:var(--naotech-primary-color-normal);color:#fff;font-weight:700}
 .nws-cal__bar{position:relative;z-index:1;display:block;margin:0 3px;padding:0 8px;height:26px;line-height:26px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nws-cal__bar:hover{filter:brightness(.92)}
+/* Barra de un solo día: hasta 2 líneas en vez de cortar el nombre; el title ya trae el texto completo */
+.nws-cal__bar.is-day{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;white-space:normal;line-height:12px;padding:1px 6px;font-size:11px}
 .nws-cal__bar--on{background:#1f7a24}
 .nws-cal__bar--next{background:#a45a05}
 .nws-cal__bar--end{background:#5a6578}
+/* Liga sin estado: fondo claro con borde primario, para no leerse como En curso/Próximo/Finalizado */
+.nws-cal__bar--liga{background:var(--naotech-primary-color-050);color:var(--naotech-primary-color-700);box-shadow:inset 0 0 0 1px var(--naotech-primary-color-500)}
 .nws-cal__bar:not(.is-start){margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}
 .nws-cal__bar:not(.is-end){margin-right:0;border-top-right-radius:0;border-bottom-right-radius:0}
 
@@ -199,9 +202,11 @@ nwt-tag-group .nwt-tag-group__tag{min-height:34px}
 .nws-badge--chip{--pvt-content-padding:2px 8px;--naotech-theme-color-100:var(--naotech-app-color-100);--naotech-theme-color-800:var(--nwtab-mut,var(--naotech-app-color-700))}
 .nws-badge--chip .nwt-badge__content{display:inline-flex;align-items:center;gap:4px}
 .nws-badge--chip .nwt-badge__label{font-weight:500}
+/* Liga: neutro, igual que los demás chips, con borde fino para distinguirlo de un chip de estado */
+.nws-badge.nws-chip--liga[nwt-theme]{--naotech-theme-color-100:var(--naotech-app-color-050);--naotech-theme-color-800:var(--naotech-app-color-700);box-shadow:inset 0 0 0 1px var(--naotech-app-color-200)}
 .ec-sub{gap:6px}
 .nws-lista{list-style:none;margin:0;padding:0;border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);overflow:hidden}
-.nws-row{display:grid;grid-template-columns:84px minmax(0,2.4fr) 132px minmax(0,190px) minmax(0,1fr) 116px auto;align-items:center;column-gap:var(--naotech-sizing-12);min-height:56px;padding:6px var(--naotech-sizing-16);background:var(--naotech-app-background);--naotech-icon-dimension:16px}
+.nws-row{display:grid;grid-template-columns:84px minmax(0,2.4fr) 220px 124px minmax(0,1fr) 116px 32px;align-items:center;column-gap:var(--naotech-sizing-12);min-height:56px;padding:6px var(--naotech-sizing-16);background:var(--naotech-app-background);--naotech-icon-dimension:16px}
 .nws-row:nth-child(even){background:var(--nwtab-zebra)}
 .nws-row+.nws-row{border-top:var(--naotech-app-border-1-200)}
 .nws-row:hover{background:var(--naotech-primary-color-050)}
@@ -213,7 +218,7 @@ nwt-tag-group .nwt-tag-group__tag{min-height:34px}
 .nws-row__fechas strong{color:var(--naotech-app-font-color,#1d1f2e);font-weight:600}
 .nws-row__ver{white-space:nowrap;text-decoration:none}
 @container nws (max-width:960px){
-  .nws-row{grid-template-columns:84px minmax(0,2fr) 132px minmax(0,190px) minmax(0,1fr) auto}
+  .nws-row{grid-template-columns:84px minmax(0,2fr) 220px 124px minmax(0,1fr) 32px}
   .nws-row__alc{display:none}
 }
 @container nws (max-width:720px){
@@ -230,30 +235,43 @@ nwt-tag-group .nwt-tag-group__tag{min-height:34px}
   .nws-event-detail-tabs__panel{padding:var(--naotech-sizing-14) 4px 0}
   .nws-cal__nav h3{min-width:0;flex:1}
   .nws-cal__bar{font-size:11px;padding:0 4px}
+  .nws-cal__bar.is-day{display:block;white-space:nowrap;line-height:26px;padding:0 4px} /* columna de ~50px: 2 líneas partirían palabras */
 }
 
 /* evita que contenido ancho (pestañas, tablas) ensanche la página en móvil */
 .nws-page>*,.nws-event-detail-tabs,.nws-event-detail-tabs__panel,.nws-events-catalog>*{min-width:0}
 .nws-event-detail-tabs__panel{overflow-x:auto}
-.nws-event-detail-tabs__panel.is-info{display:flex;flex-direction:column;gap:var(--naotech-sizing-18);min-height:100vh} /* Información es corta: el alto garantiza scroll y que las pestañas se peguen como en las demás */
+.nws-event-detail-tabs__panel.is-info{display:flex;flex-direction:column;gap:var(--naotech-sizing-18)} /* DC-073: crece solo con su contenido; sin alto mínimo forzado */
 html{overflow-x:hidden}
 body{overflow-x:clip}
+/* DC-034: con un modal abierto la página de atrás no hace scroll. */
+html:has(.nwt-modal--visible),body:has(.nwt-modal--visible){overflow:hidden}
 
 /* Estado respecto al tiempo en listado y detalle */
 .nws-sec{display:flex;flex-direction:column;gap:var(--naotech-sizing-12)}
-.nws-sec+.nws-sec{margin-top:var(--naotech-sizing-24)}
+.nws-sec+.nws-sec{margin-top:var(--naotech-sizing-24);padding-top:var(--naotech-sizing-24);border-top:var(--naotech-app-border-1-200)}
+.nws-bar+.nws-sec--liga{margin-top:var(--naotech-sizing-24);padding-top:var(--naotech-sizing-24);border-top:var(--naotech-app-border-1-200)}
 .nws-sec__t{display:flex;align-items:center;gap:var(--naotech-sizing-8);margin:0;font-size:16px}
 .nws-sec__n{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 8px;border-radius:999px;background:var(--naotech-app-color-100);color:var(--naotech-app-color-700);font-size:12px;font-weight:700}
 .ec-when{font-weight:600}
 .ec-when--next{color:var(--naotech-primary-color-700)}
 .ec-when--next .nwt-icon{color:var(--naotech-primary-color-600)}
 .ec-when--on{color:var(--naotech-informative-color-800,#1b4f9c)}
-.ec-foot--two{justify-content:space-between}
-.ec-link--med{position:relative;z-index:1;min-height:44px;margin:-10px 0;text-decoration:none}
-.ec-link--med:hover{text-decoration:underline}
-.ec-link--med:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:2px;border-radius:6px}
+/* La fila de medallería queda sobre el enlace estirado (.ec-main::after) para recibir su propio clic. */
+.ec-row--med{position:relative;z-index:1;min-height:44px;margin:-10px 0;text-decoration:none;font-weight:700;color:var(--naotech-primary-color-normal)}
+.ec-row--med .nwt-icon{color:inherit}
+.ec-row--med:hover{text-decoration:underline}
+.ec-row--med:focus-visible{outline:2px solid var(--naotech-primary-color-500);outline-offset:2px;border-radius:6px}
 .nws-when{font-weight:600}
 #nws-estado[hidden]{display:none}
+#nws-origen{position:relative;flex:0 0 13rem;width:13rem} /* ancho fijo: el resumen cambia y no debe mover la barra */
+#nws-origen[hidden]{display:none}
+.nws-orig__btn{display:flex;align-items:center;justify-content:space-between;gap:8px;box-sizing:border-box;width:100%;height:44px;padding:0 14px;border:var(--naotech-app-border-1-300);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background);color:var(--naotech-app-color-900);font:400 14px Inter,sans-serif;cursor:pointer;--naotech-icon-dimension:20px;--naotech-icon-color:var(--naotech-app-color-600)}
+.nws-orig__btn:focus-visible,.nws-orig__btn[aria-expanded="true"]{outline:0;border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
+.nws-orig__txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nws-orig__panel{position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;display:flex;flex-direction:column;gap:4px;padding:8px;border:var(--naotech-app-border-1-300);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background);box-shadow:0 8px 24px rgba(16,24,40,.12)}
+.nws-orig__panel[hidden]{display:none}
+.nws-orig__panel nwt-checkbox{padding:8px}
 
 /* Paginación de Deportes y selector «Por página» (Deportistas ya trae su borde). */
 .nwtab-tab .nwtab-pg { margin-top: 12px; border: var(--naotech-app-border-1-200); }
@@ -269,7 +287,7 @@ body{overflow-x:clip}
 .nws-logo{display:flex;align-items:center;justify-content:flex-end;width:100%}
 .nws-logo__entity{height:var(--naotech-sizing-56);width:auto}
 .nwt-sidebar__toolbar__logo:has(>.nws-logo){flex:1}
-.nws-head{position:sticky;top:0;z-index:41;display:flex;align-items:center;background:var(--naotech-app-background);border-bottom:var(--naotech-app-border-1-200)}
+.nws-head{position:sticky;top:0;z-index:41;display:flex;align-items:center;padding-block:var(--naotech-sizing-16);background:var(--naotech-app-background);border-bottom:var(--naotech-app-border-1-200)}
 .nws-head .nws-topbar{flex:1 1 auto;min-width:0;border-bottom:0}
 .nws-menubtn{display:none;flex:0 0 auto;margin-left:var(--naotech-sizing-8)}
 @media (max-width:960px){.nws-menubtn{display:inline-flex}.nws-head .nws-topbar__in{padding-left:var(--naotech-sizing-8)}}
@@ -295,3 +313,74 @@ body:has(.nws-sidebar.nwt-sidebar--mode-drawer.nwt-sidebar--open)::after{content
 /* DC-107: el hero sube la barra; el alto mínimo garantiza que se pegue también en pestañas cortas. La etiqueta de foto estorba la descripción en móvil. */
 .nws-event-detail-tabs__panel{min-height:100vh}
 @container nws (max-width:767px){.nws-event-detail__head .nws-ph__tag{display:none}}
+
+/* Acceso al detalle: botón flotante con contorno fijo; la tarjeta entera ya es el enlace (.ec-main::after). */
+.ec-meta{padding-right:var(--naotech-sizing-40,40px)}
+.ec-go{position:absolute;right:var(--naotech-sizing-12);bottom:var(--naotech-sizing-12);display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--naotech-primary-color-normal);background:var(--naotech-app-background);color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-shadow-4);--naotech-icon-dimension:20px;pointer-events:none;transition:background-color .2s var(--naotech-animation-standard),color .2s var(--naotech-animation-standard)}
+.ec:hover .ec-go{background:var(--naotech-primary-color-normal);color:#fff}
+
+/* Especificidad 0,3,0: `.nws-badge[nwt-theme=neutral]` (0,2,0) pisaba el texto.
+   Alcance: amarillo de la bandera para Nacional; azul pastel con texto azul oscuro para Internacional (8.3:1). */
+.nws-badge.nws-chip--nac[nwt-theme]{--naotech-theme-color-100:#fcd116;--naotech-theme-color-800:#282834}
+.nws-badge.nws-chip--int[nwt-theme]{--naotech-theme-color-100:#dbe7fb;--naotech-theme-color-800:#1e3a8a}
+/* DC-026: chips pegados arriba, cerca del nombre; sin divider superior. */
+/* align-items:start del grid impedía que la banda de tags ocupara la fila 1fr; align-self:stretch la estira. */
+.ec-top{flex:none;grid-template-rows:auto auto} /* alto fijo: el sobrante de la tarjeta queda abajo, no entre bloques */
+.ec-sub{align-self:stretch;align-content:end;align-items:start;padding-block-end:var(--naotech-sizing-16)} /* DC-028: pegados abajo, 16px */
+/* DC-036: todos los badges abrazan su contenido, también en la grilla de 3 chips. */
+.ec-sub>*{justify-self:start;width:fit-content;max-width:100%}
+
+/* DC-038: orígenes elegidos como chips grandes, removibles. */
+#nws-count{display:flex;flex-wrap:wrap;align-items:center;gap:var(--naotech-sizing-8)}
+#nws-count[hidden]{display:none}
+.nws-chip-x{display:inline-flex;align-items:center;gap:var(--naotech-sizing-8);box-sizing:border-box;height:36px;padding:0 var(--naotech-sizing-12) 0 var(--naotech-sizing-16);border:var(--naotech-app-border-1-300);border-radius:var(--naotech-radius-xl);background:var(--naotech-app-background);color:var(--naotech-app-color-900);font:500 14px Inter,sans-serif;cursor:pointer;--naotech-icon-dimension:16px;--naotech-icon-color:var(--naotech-app-color-600)}
+.nws-chip-x:hover{background:var(--naotech-app-color-050)}
+.nws-chip-x:focus-visible{outline:0;border-color:var(--naotech-primary-color-normal);box-shadow:var(--naotech-primary-shadow-200)}
+
+/* Evento recién creado: aro discreto que se apaga solo; sin movimiento si el usuario lo pidió. */
+.is-nuevo{box-shadow:0 0 0 2px var(--naotech-primary-color-500);background:var(--naotech-primary-color-050);animation:nws-nuevo 3.5s ease-out forwards}
+@keyframes nws-nuevo{0%,70%{box-shadow:0 0 0 2px var(--naotech-primary-color-500)}100%{box-shadow:0 0 0 2px transparent}}
+@media (prefers-reduced-motion:reduce){.is-nuevo{animation:none}}
+
+/* Badges de la tarjeta: una sola línea; lo que no cabe pasa a «+N» (ajustarTags en app.js). */
+.ec-sub,.ec-sub:has(> :nth-child(3):last-child){display:flex;flex-wrap:nowrap;overflow:hidden}
+.ec-sub>*{flex:none}
+.ec-sub>[hidden]{display:none}
+.ec-more{align-self:center;font-size:12px;font-weight:600;color:var(--naotech-app-color-700);padding:2px 8px;border-radius:999px;background:var(--naotech-app-color-100)}
+/* DC-040: Ciclo Olímpico en dorado de medalla (--md-oro de medallería). */
+.nws-badge.nws-chip--ciclo[nwt-theme]{--naotech-theme-color-100:#c48c05;--naotech-theme-color-800:#f8e6ae;background:linear-gradient(135deg,#a46d00 0%,#d9a519 50%,#a46d00 100%);box-shadow:inset 0 1px 0 rgba(255,245,180,.65),0 1px 3px rgba(150,100,0,.35)}
+.nws-badge.nws-chip--ciclo .nwt-badge__label{font-weight:600}
+/* Alcance con gradiente suave, mismo lenguaje que el dorado del ciclo. */
+.nws-badge.nws-chip--nac[nwt-theme]{background:linear-gradient(135deg,#fff0a0 0%,#fcd116 50%,#f2b900 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.nws-badge.nws-chip--int[nwt-theme]{background:linear-gradient(135deg,#eef4ff 0%,#dbe7fb 50%,#bcd0f4 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+/* DC-043: textos sin wrap que abrazan su contenido; contadores en círculo pequeño. */
+/* Título: máximo 2 líneas y alto fijo, haya una o dos. */
+.ec-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;height:calc(2 * 1.35em);min-height:0;max-width:100%;white-space:normal;overflow:hidden;text-overflow:ellipsis}
+.nws-badge--chip,.nws-chip-x,.nws-orig__panel nwt-checkbox{white-space:nowrap}
+.nws-orig__panel{width:max-content;min-width:100%;right:auto}
+.nws-n{display:inline-grid;place-items:center;box-sizing:border-box;min-width:var(--naotech-sizing-20,20px);height:var(--naotech-sizing-20,20px);margin-inline:var(--naotech-sizing-8) 0;padding:0 5px;border-radius:999px;background:var(--naotech-app-color-100);color:var(--naotech-app-color-800,#282834);font:600 11px/1 Inter,sans-serif}
+.nws-count__n{display:inline-flex;align-items:center;gap:var(--naotech-sizing-8)}
+.nws-count__n .nws-n{margin:0}
+/* Aros del ciclo en ocre oscuro; el evento nacional oficial en gris más profundo con gradiente. */
+.nws-badge.nws-chip--ciclo .nwt-badge__content svg{color:#f8e6ae}
+.nws-badge.nws-chip--full[nwt-theme]{--naotech-theme-color-800:#282834;background:linear-gradient(135deg,#e6e8f0 0%,#d3d6e3 55%,#bfc3d4 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.nws-orig__list{display:flex;flex-direction:column;gap:4px}
+.nws-orig__panel nwt-radio-group{padding:8px}
+/* Lista: fechas apiladas, chips con su ancho y «ver detalle» como botón de ícono, igual que la card (.ec-go). */
+.nws-row__fechas-t{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.nws-row__fechas-t>span:last-child{overflow:visible;text-overflow:clip}
+.nws-row__ciclo{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;min-width:0}
+.nws-row__go{text-decoration:none;display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--naotech-primary-color-normal);background:var(--naotech-app-background);color:var(--naotech-primary-color-normal);--naotech-icon-dimension:20px;transition:background-color .2s var(--naotech-animation-standard),color .2s var(--naotech-animation-standard)}
+.nws-row:hover .nws-row__go,.cg-tab tr:hover .nws-row__go,.nws-row__go:focus-visible{background:var(--naotech-primary-color-normal);color:#fff}
+.nws-row__ciclo{overflow:hidden}
+.nws-n--mas{margin-inline:0;flex:none;cursor:default}
+/* DC-076: el bloque de meta siempre al fondo de la card y el divisor viaja con él, a 10px. */
+.ec-sub{border-bottom:0}
+.ec-meta{margin-top:auto;padding-top:var(--naotech-sizing-10);border-top:var(--naotech-app-border-1-200)}
+.ec-sub{padding-block:0} /* DC-077 */
+/* Calendario: el color lo da el origen, en pastel (SUID = marca; Comité dorado; nacional oficial azul; Liga verde azulado). Lo finalizado se atenúa. */
+.nws-cal__bar.nws-cal__bar--o-suid{background:#fcd9c6;color:#8a2800;box-shadow:inset 0 0 0 1px #f2b394}
+.nws-cal__bar.nws-cal__bar--o-coc{background:#fbe9a8;color:#6b4800;box-shadow:inset 0 0 0 1px #efd06a}
+.nws-cal__bar.nws-cal__bar--o-full{background:#d8e4fb;color:#1e3a8a;box-shadow:inset 0 0 0 1px #aec4f0}
+.nws-cal__bar.nws-cal__bar--o-liga{background:#d4efeb;color:#0b5f5a;box-shadow:inset 0 0 0 1px #8fd0c8}
+.nws-cal__bar--end{opacity:.72}

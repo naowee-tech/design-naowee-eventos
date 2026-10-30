@@ -4,7 +4,6 @@ window.Tabs = window.Tabs || {};
 window.Tabs['cargas'] = (function () {
   'use strict';
   var C = window.Campos, esc = C.esc;
-  var SUBS = [{ id: 'inscripciones', label: 'Inscripciones' }, { id: 'ranking', label: 'Ranking / Resultados' }, { id: 'medallas', label: 'Medallería' }];
   var COLS = { inscripciones: ['deportista', 'documento', 'deporte', 'pais'], ranking: ['deporte', 'prueba', 'deportista', 'puesto', 'marca'], medallas: ['deporte', 'prueba', 'deportista', 'medalla'] };
   var REQ = { inscripciones: ['deportista', 'documento', 'deporte'], ranking: ['deporte', 'prueba', 'deportista', 'puesto'], medallas: ['deporte', 'prueba', 'deportista', 'medalla'] };
   var ETQ = { deportista: 'Deportista', documento: 'Documento', deporte: 'Deporte', pais: 'País', prueba: 'Prueba', puesto: 'Puesto', marca: 'Marca', medalla: 'Medalla' };
@@ -35,14 +34,13 @@ window.Tabs['cargas'] = (function () {
     /* Solo el gestor del evento carga; el administrador supervisa en solo lectura (seguimiento). */
     var puede = !!(window.ROLES.rol.gestion && window.ROLES.gestiona(ctx.event));
 
-    el.innerHTML = '<div class="cg"><div id="cg-tabs"></div>' + (puede ? '<div class="cg-grid">' : '') + (!puede ? '<p class="cg-ro nwt-caption-font-regular nws-muted">Seguimiento: solo lectura. Los cargues los registra el gestor del evento.</p>' : '') + (puede ?
+    el.innerHTML = '<div class="cg">' + (puede ? '<div class="cg-grid">' : '') + (!puede ? '<p class="cg-ro nwt-caption-font-regular nws-muted">Seguimiento: solo lectura. Los cargues los registra el gestor del evento.</p>' : '') + (puede ?
       '<section class="cg-card"><h3 class="nwt-smalltext-font-bold">Carga manual</h3><div class="cg-form" id="cg-form"></div><div class="cg-act"><span class="cg-msg nwt-caption-font-regular" id="cg-msg" role="status"></span><span id="cg-add"></span></div></section>' +
-      '<section class="cg-card"><h3 class="nwt-smalltext-font-bold">Carga masiva (CSV)</h3><p class="nwt-caption-font-regular nws-muted">Una fila por registro. Revisamos cada fila antes de cargarla.</p>' +
-      '<p><button type="button" class="cg-lk" id="cg-tpl">Descargar plantilla CSV</button></p><label class="cg-file"><span class="nwt-caption-font-regular">Archivo CSV</span><input type="file" accept=".csv,text/csv" id="cg-file"></label><div id="cg-prev"></div></section></div>' : '') +
+      '<section class="cg-card cg-csv"><h3 class="nwt-smalltext-font-bold">Carga masiva (CSV)</h3><p class="nwt-caption-font-regular nws-muted">Una fila por registro. Revisamos cada fila antes de cargarla.</p>' +
+      '<label class="cg-drop" id="cg-drop"><input type="file" class="nws-sr" accept=".csv,text/csv" id="cg-file"><span class="nwt-icon cg-drop__i" aria-hidden="true"><i class="naotech-icon-upload"></i></span><span class="cg-drop__t">Arrastra tu archivo CSV aquí o selecciónalo</span><span class="cg-drop__f nwt-caption-font-regular" id="cg-fname">Formato .csv separado por punto y coma</span></label>' +
+      '<div id="cg-prev"></div><div><span id="cg-tpl"></span></div></section></div>' : '') +
       '<section class="cg-card"><h3 class="nwt-smalltext-font-bold">Registros cargados <span class="cg-n">' + rows.length + '</span></h3><div id="cg-tabla"></div></section></div>';
 
-    var tabs = C.mk('nwt-tabs', { items: SUBS.map(function (s) { return { id: s.id, label: s.label, value: s.id }; }), value: sub, autoWidth: true }, function (v) { if (v !== sub) { ui.sub = v; render(el, ctx); } });
-    tabs.setAttribute('auto-width', ''); document.getElementById('cg-tabs').appendChild(tabs);
 
     if (puede) {
     /* formulario manual */
@@ -76,12 +74,21 @@ window.Tabs['cargas'] = (function () {
 
     if (puede) {
     /* carga masiva */
-    document.getElementById('cg-tpl').addEventListener('click', function () {
+    var tpl = C.mk('nwt-button', { nwtVariant: 'mute', nwtSize: 'large' }); tpl.innerHTML = '<span class="nwt-icon cg-tpl__i" aria-hidden="true"><i class="naotech-icon-download"></i></span> Descargar plantilla CSV';
+    document.getElementById('cg-tpl').appendChild(tpl);
+    tpl.addEventListener('click', function () {
       var ej = { inscripciones: 'Mosquera Andrea;1020304050;' + deportes[0] + ';CO', ranking: deportes[0] + ';100 m;Mosquera Andrea;1;10,28 s', medallas: deportes[0] + ';100 m;Mosquera Andrea;Oro' }[sub];
       var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + cols.join(';') + '\n' + ej + '\n'], { type: 'text/csv' })); a.download = 'plantilla-' + sub + '.csv'; a.click(); URL.revokeObjectURL(a.href);
     });
-    document.getElementById('cg-file').addEventListener('change', function (ev) {
-      var f = ev.target.files[0], $p = document.getElementById('cg-prev'); if (!f) { $p.innerHTML = ''; return; }
+    var $drop = document.getElementById('cg-drop'), $in = document.getElementById('cg-file');
+    ['dragenter', 'dragover'].forEach(function (n) { $drop.addEventListener(n, function (e) { e.preventDefault(); $drop.classList.add('is-over'); }); });
+    ['dragleave', 'drop'].forEach(function (n) { $drop.addEventListener(n, function () { $drop.classList.remove('is-over'); }); });
+    $drop.addEventListener('drop', function (e) { e.preventDefault(); if (e.dataTransfer.files[0]) leer(e.dataTransfer.files[0]); });
+    $in.addEventListener('change', function (ev) { leer(ev.target.files[0]); });
+    function leer(f) {
+      var $p = document.getElementById('cg-prev'); $drop.classList.toggle('has-file', !!f);
+      document.getElementById('cg-fname').textContent = f ? f.name : 'Formato .csv separado por punto y coma';
+      if (!f) { $p.innerHTML = ''; return; }
       var rd = new FileReader();
       rd.onload = function () {
         var p = parseCsv(String(rd.result), sub);
@@ -95,7 +102,7 @@ window.Tabs['cargas'] = (function () {
         document.getElementById('cg-ok').appendChild(go);
       };
       rd.readAsText(f);
-    });
+    }
     }
   }
   return { render: render };

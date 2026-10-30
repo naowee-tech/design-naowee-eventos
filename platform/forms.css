@@ -1,13 +1,17 @@
 /* Crear evento, Cargas y Metodólogos: formularios y tablas dentro de la piel de la plataforma. */
 .cr{max-width:60rem}
-.cr-head{display:flex;flex-direction:column;gap:4px;margin:var(--naotech-sizing-16) 0}
+.cr-head{display:flex;flex-direction:column;gap:var(--naotech-sizing-4);margin:0}
 .cr-head small{color:var(--naotech-app-color-700)}
-.cr-card,.cg-card{background:var(--naotech-app-background);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);padding:var(--naotech-sizing-20,20px);margin-bottom:var(--naotech-sizing-16)}
+.cr-card,.cg-card{background:var(--naotech-app-background);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);padding:var(--naotech-sizing-24);margin:0}
 .cr-card h2,.cg-card h3{margin:0 0 var(--naotech-sizing-12)}
+/* DC-039: el ritmo lo da el gap (24 entre bloques, 16 dentro de la tarjeta); sin márgenes sueltos. */
+.cr-card{display:flex;flex-direction:column;gap:var(--naotech-sizing-16)}
+.cr-card h2{margin:0}
+.cr-card>p,.cr-scope small,.cr-hint{margin:0;font-size:var(--naotech-caption-font-size,12px);line-height:var(--naotech-caption-line-height,14px);color:var(--naotech-app-color-700)}
 .cr-grid,.cg-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--naotech-sizing-16)}
 .cr-grid>*,.cg-form>*{min-width:0}
 .cr-full{grid-column:1/-1}
-.cr-scope{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--naotech-sizing-16)}
+.cr-scope{display:flex;flex-direction:column;gap:var(--naotech-sizing-8)}
 .cr-sedes{display:flex;flex-direction:column;gap:var(--naotech-sizing-8)}
 .cr-sedes__in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--naotech-sizing-12);align-items:end}
 .cr-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
@@ -15,28 +19,37 @@
 .cr-chip button{border:0;background:none;cursor:pointer;font-size:16px;line-height:1;color:var(--naotech-app-color-700);min-width:24px;min-height:24px}
 .cr-switch{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
 .cr-switch>span{display:flex;flex-direction:column;gap:2px}
-.cr-hint{margin:var(--naotech-sizing-8) 0 0;color:var(--naotech-app-color-700)}
-.cr-err{color:var(--naotech-negative-color-normal,#c4262e);margin:0 0 var(--naotech-sizing-12)}
-.cr-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:var(--naotech-sizing-8) 0 var(--naotech-sizing-32)}
+.cr-hint[hidden]{display:none}
+.cr-err{color:var(--naotech-negative-color-normal,#c4262e);margin:0}
+/* Bottom bar pegada abajo; Guardar va disabled mientras no haya cambios. */
+.cr-foot{position:sticky;bottom:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:var(--naotech-sizing-16);flex-wrap:wrap;margin:0 calc(-1*var(--naotech-sizing-32)) calc(-1*var(--naotech-sizing-28,28px));padding:var(--naotech-sizing-16) var(--naotech-sizing-32);background:var(--naotech-app-background);border-top:var(--naotech-app-border-1-200)}
 .cr-actions{display:flex;gap:12px}
 .nws-flash{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;margin-bottom:var(--naotech-sizing-12);border-radius:10px;background:#e9f7ee;border:1px solid #b9e3c8;color:#14532d;font-size:14px}
 .nws-flash--info{background:#eaf1ff;border-color:#c5d6fb;color:#1e3a8a}
 .nws-events-header .nws-newbtn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:99px;background:var(--naotech-primary-color-normal);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap}
 .nws-events-header .nws-newbtn:hover{filter:brightness(.95)}
 .cg-grid,.mt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--naotech-sizing-16);margin-top:var(--naotech-sizing-16)}
-.cg>.cg-card{margin-top:0}
+.cg>.cg-card{margin-top:24px}
 .cg-act{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:var(--naotech-sizing-16)}
 .cg-msg{color:var(--naotech-app-color-700)}.cg-msg--err,.cg-bad{color:var(--naotech-negative-color-normal,#c4262e)}
 .cg-n{display:inline-block;min-width:1.5rem;padding:0 8px;border-radius:99px;background:var(--naotech-app-color-100,#f1f2f8);text-align:center;font-size:12px;font-weight:600}
-.cg-lk{border:0;background:none;padding:0;color:var(--naotech-primary-color-normal);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline}
-.cg-file{display:flex;flex-direction:column;gap:4px;margin:var(--naotech-sizing-8) 0}
+.cg-csv{display:flex;flex-direction:column;gap:var(--naotech-sizing-16)}
+.cg-csv h3,.cg-csv p{margin:0}
+/* La dropzone crece hasta igualar la altura de «Carga manual». */
+.cg-drop{flex:1;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--naotech-sizing-8);padding:var(--naotech-sizing-24);border:2px dashed var(--naotech-app-color-300);border-radius:12px;background:var(--naotech-app-color-100);text-align:center;cursor:pointer;transition:border-color .2s,background-color .2s}
+.cg-drop:hover,.cg-drop.is-over{border-color:var(--naotech-primary-color-normal);background:var(--naotech-primary-color-050,#fff3e6)}
+.cg-drop:focus-within{outline:2px solid var(--naotech-primary-color-normal);outline-offset:2px}
+.cg-drop__i{--naotech-icon-dimension:32px;color:var(--naotech-primary-color-normal)}
+.cg-tpl__i{--naotech-icon-dimension:20px;vertical-align:middle}
+.cg-drop__t{font-weight:600;color:var(--naotech-app-color-900)}
+.cg-drop__f{color:var(--naotech-app-color-700);word-break:break-all}
+.cg-drop.has-file .cg-drop__f{color:var(--naotech-app-color-900);font-weight:600}
 .cg-errs{margin:6px 0 10px;padding-left:18px;color:var(--naotech-negative-color-normal,#c4262e)}
 .cg-scroll{overflow-x:auto}
 .cg-tab{width:100%;border-collapse:collapse;font-size:14px}
 .cg-tab th,.cg-tab td{padding:10px 12px;text-align:left;border-bottom:var(--naotech-app-border-1-200)}
 .cg-tab th{font-weight:600;color:var(--naotech-app-color-700);font-size:12px;text-transform:uppercase;letter-spacing:.03em}
 .cg-x{border:0;background:none;color:var(--naotech-primary-color-normal);font:inherit;font-weight:600;cursor:pointer;min-height:32px}
-.cg>.cg-card:last-child{margin-top:0}
 @media (max-width:760px){.cr-grid,.cg-form,.cg-grid,.mt{grid-template-columns:1fr}.cr-sedes__in{grid-template-columns:1fr}}
 
 .mt--uno{grid-template-columns:1fr}
@@ -55,12 +68,36 @@
 .dr-card{padding:0;overflow:hidden}
 .dr-n{display:inline-flex;align-items:center;gap:10px;font-weight:600;color:var(--naotech-app-color-900);text-decoration:none}
 a.dr-n:hover{text-decoration:underline}
-.dr-med{display:inline-flex;gap:6px}
-.dr-med b{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:99px;font-size:12px;color:#282834}
-.dr-o{background:#fbe38a}.dr-p{background:#dfe2ec}.dr-b{background:#e8c4a0}
-.dr-pager{margin:var(--naotech-sizing-12);display:flex;gap:6px}
+.dr-med{display:inline-flex;align-items:center}
+.dr-m{display:inline-flex;align-items:center;gap:4px}
+.dr-m+.dr-m::before{content:"";width:1px;height:16px;margin-inline:var(--naotech-sizing-12) var(--naotech-sizing-8);background:var(--naotech-app-color-300)}
+.dr-m b{min-width:1ch;font-size:13px;font-weight:600;color:var(--naotech-app-color-900)}
+.dr-m.is-cero nao-award{opacity:.5;filter:brightness(.8) saturate(.6)}
+.dr-m.is-cero b{color:var(--naotech-app-color-700)}
+/* DC-049/052: cebra y más aire en las celdas; el fondo del thead solo en la trayectoria. */
+.dr .cg-tab tbody tr:nth-child(even) td{background:var(--nwtab-zebra)}
+.dr-card .cg-tab td{padding-block:var(--naotech-sizing-16)}
+.dr-tray{padding:0;overflow:hidden}
+.dr-mc{display:inline-flex;align-items:center;vertical-align:middle}
+.dr-tray .cg-tab td:nth-child(8){min-width:72px}
+.dr-tray .dr-num{width:1%;text-align:center;color:var(--naotech-app-color-700)}
+.dr-card .cg-tab thead th,.dr-tray .cg-tab thead th{background:var(--naotech-app-color-100)}
+.dr-tit{margin:var(--naotech-sizing-24) 0 var(--naotech-sizing-12);font-size:18px;line-height:1.35}
+.dr-n .nws-avatar{width:48px;height:48px;font-size:16px}
+.dr-kpis .dr-m b{font-size:20px;font-weight:700}
+.dr-kpis>div{text-align:center}
+.dr-kpis .dr-med{vertical-align:middle}
+.dr-pager{margin:var(--naotech-sizing-12)}
+.dr-pager nwt-pagination,.dr-pager .nwt-pagination__container{display:flex;width:100%;align-items:center;justify-content:center;gap:var(--naotech-sizing-12)} /* DC-067: flechas pegadas al bloque central */
+.dr-pager .nwt-pagination__controls{display:contents}
+.dr-pager .nwt-pagination__controls>:first-child{order:0}.dr-pager .nwt-pagination__pages{order:1}.dr-pager .nwt-pagination__controls>:last-child{order:2}
+/* DC-058/059: columnas numéricas centradas bajo su encabezado y conteo en el header. */
+.dr-card .cg-tab th:nth-child(3),.dr-card .cg-tab td:nth-child(3),.dr-card .cg-tab th:nth-child(4),.dr-card .cg-tab td:nth-child(4){text-align:center}
+.dr .nws-events-header #dr-n{margin:0;white-space:nowrap;font-size:20px;font-weight:700;line-height:1.25;color:inherit}
 .dr-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--naotech-sizing-16);align-items:center}
 .dr-av{width:56px;height:56px;font-size:18px}
-.dr-kpis{display:flex;gap:var(--naotech-sizing-24);margin:0}
+.dr-kpis{display:flex;align-items:stretch;gap:var(--naotech-sizing-12);margin:0}
+.dr-kpis>div{display:flex;flex-direction:column;justify-content:center;padding:12px 16px;border:var(--naotech-app-border-1-200);border-radius:12px;background:var(--naotech-app-background)}
+.cg-ro{margin-bottom:16px}
 .dr-kpis dt{font-size:12px;color:var(--naotech-app-color-700)}.dr-kpis dd{margin:2px 0 0;font-size:20px;font-weight:700}
 @media (max-width:760px){.dr-filtros{grid-template-columns:1fr}.dr-head{grid-template-columns:auto 1fr}.dr-kpis{grid-column:1/-1}}
