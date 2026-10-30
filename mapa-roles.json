@@ -1,9 +1,9 @@
 {
   "meta": {
     "titulo": "Mapa de roles × superficies × detalle de evento",
-    "version": 2,
+    "version": 3,
     "baseline": "Punto de partida: todos los eventos cumplen el estándar (nacional con ≥1 organización invitada, gestor asignado, fechas y lugar completos). Sobre ese baseline se mapea qué ve y qué hace cada rol.",
-    "fuente": "Procedencia por dato. (1) Backend (event-sport-orc + gateway, staging): auditoría de Javier Mercado, 29-oct-2026, leída de migraciones y no verificada en prod. (2) events-lite permissions.ts (suite-mf-events-lite, main, 2026-10-05): roles y permisos del Comité y Admin. (3) nao-docs, suid/jerarquia-organizaciones/roles-y-permisos.md (páginas de 2026-09-14 a 2026-10-19; leído 2026-10-30) y compromiso C-8 de decisiones.md: nombres oficiales, quién es cada rol, marca olímpica, administradores del Ministerio por módulo. (4) PR-03_FP_2026-10-26_ESPECIFICACION_MODULO_EVENTOS_SUID §3 (Danna Arrieta). (5) Decisiones de Jorge, 29-oct-2026, sin verificar en backend: consulta de coc/full/liga y creación/edición por rol. (6) Demo: platform/roles.js + platform/app.js (visibleTabs) + tabs/*.js. Los roles del PR-03 (Gestor de programa, Operador, Participante, etc.) NO existen hoy en backend y la matriz de administradores y operadores por módulo está PENDIENTE (compromiso C-8, Danna Arrieta con el Ministerio): son roles planeados, sin definir; ni reales ni descartados. Este JSON es el estándar propuesto; editarlo aquí NO cambia la demo hasta llevarlo a roles.js.",
+    "fuente": "Procedencia por dato. (1) Backend (event-sport-orc + gateway, staging): auditoría de Javier Mercado, 29-oct-2026, leída de migraciones y no verificada en prod. (2) events-lite permissions.ts (suite-mf-events-lite, main, 2026-10-05): roles y permisos del Comité y Admin. (3) nao-docs, suid/jerarquia-organizaciones/roles-y-permisos.md (páginas de 2026-09-14 a 2026-10-19; leído 2026-10-30) y compromiso C-8 de decisiones.md: nombres oficiales, quién es cada rol, marca olímpica, administradores del Ministerio por módulo. (4) PR-03_FP_2026-10-26_ESPECIFICACION_MODULO_EVENTOS_SUID §3 (Danna Arrieta). (5) Decisiones de Jorge, 29-oct-2026, sin verificar en backend: consulta de coc/full/liga y creación/edición por rol. (6) Demo: platform/roles.js + platform/app.js (visibleTabs) + tabs/*.js. Los roles del PR-03 (Gestor de programa, Operador, Participante, etc.) NO existen hoy en backend y la matriz de administradores y operadores por módulo está PENDIENTE (compromiso C-8, Danna Arrieta con el Ministerio): son roles planeados, sin definir; ni reales ni descartados. Este JSON es el estándar propuesto; editarlo aquí NO cambia la demo hasta llevarlo a roles.js. Capas de la demo (v6, 30-oct-2026): por defecto los roles SUID ven solo eventos SUID («ver todo» es a futuro) y los roles del Comité están ocultos (se reactivan con ?comite=1); la Liga está oculta (MOSTRAR_LIGA). Las matrices de abajo describen el estándar propuesto completo, no lo que la demo muestra por defecto.",
     "niveles": {
       "no": "No lo ve",
       "ver": "Solo lectura",
@@ -961,7 +961,7 @@
     },
     {
       "id": "filtro-origen",
-      "texto": "Filtro Origen (multi-selección: suid, coc, full, liga) en la lista y en el calendario; un FULL con ciclo cuenta como full.",
+      "texto": "Filtro Origen (multi-selección: suid, coc, full, liga) en la lista y en el calendario; un FULL con ciclo cuenta como full. En la demo por defecto no aparece: con «Solo SUID» todo es origen SUID; sale con «Ver todo» (a futuro).",
       "certeza": "decision_jorge"
     },
     {
@@ -986,13 +986,28 @@
     },
     {
       "id": "ultra-lite-marcado",
-      "texto": "ULTRA_LITE entra a lista y calendario con la etiqueta «Liga», en su propia sección al final y sin estado; el Comité no lo ve.",
+      "texto": "ULTRA_LITE entra a lista y calendario con la etiqueta «Liga», en su propia sección al final y sin estado; el Comité no lo ve. En la demo actual está oculta (MOSTRAR_LIGA = false en shared/data.js) hasta atenderla; sigue en la propuesta y pendiente de Javi (¿event_type tiene solo 3 valores?, preguntado 30-oct).",
       "certeza": "decision_jorge"
     },
     {
       "id": "visibilidad-comite",
       "texto": "El backend filtra por rol solo al Comité y su Manager: ven únicamente LITE con ciclo; el detalle del resto da 404. Cualquier otro rol con event:list ve todo.",
       "certeza": "backend_javi"
+    },
+    {
+      "id": "capa-solo-suid",
+      "texto": "Capa «Roles SUID» de la demo: por defecto «Solo SUID» (los roles SUID ven y gestionan únicamente eventos SUID). «Ver todo» es A FUTURO: con él ven además eventos del ciclo y completos (solo consulta) y pueden filtrar por Origen. Parámetro ?ver=todos.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "capa-comite-oculta",
+      "texto": "Capa «Comité Olímpico» de la demo: oculta y desconectada por defecto (roles del Comité y Metodólogo ausentes del selector «Ver como»; el control del panel está oculto por ahora). El código y los flujos siguen intactos y se reactivan con ?comite=1.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "panel-demo-hu",
+      "texto": "Panel de la demo: etiquetas SUID/Comité por rol, avatar del encabezado abre el panel y, bajo cada rol, sus casos (24 HU de demostración en hu-demo.js). Son escenarios de demo, no historias aprobadas por producto. Recorrido guiado paso a paso por HU: en construcción.",
+      "certeza": "decision_jorge"
     },
     {
       "id": "evento-tipificado",
