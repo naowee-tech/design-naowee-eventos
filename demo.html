@@ -10,7 +10,9 @@
 <style>
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;background:#f5f6fa;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#282834}
-  .stage{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+  .stage{position:fixed;top:0;left:0;width:100%;height:100%;border:0;background:#fff;transition:transform .25s ease,width .25s ease}
+  body.tt-open .stage{transform:translateX(-360px)}
+  body.tt-open.tt-compact .stage{transform:none;width:calc(100% - 360px)}
   .tt-launch{position:fixed;right:20px;bottom:16px;z-index:80;display:flex;align-items:center;gap:8px;background:#002b5b;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:10px 17px;font:700 12.5px Inter,sans-serif;color:#fff;cursor:pointer;box-shadow:0 10px 30px -10px rgba(0,43,91,.5);transition:transform .15s,box-shadow .15s}
   .tt-launch:hover{box-shadow:0 14px 36px -10px rgba(0,43,91,.6);transform:translateY(-1px)}
   .tt-launch:focus-visible,.tt-panel :focus-visible{outline:3px solid #ff7500;outline-offset:2px}
@@ -21,7 +23,9 @@
   .tt-h span:last-child{display:flex;gap:2px}
   .tt-ib{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;padding:0 6px;background:none;border:0;border-radius:8px;color:#646587;cursor:pointer;text-decoration:none;font:inherit;font-size:20px;line-height:1}
   .tt-ib:hover{background:#f6f7fb;color:#282834}
+  .tt-ib[aria-pressed=true]{background:#fff1e6;color:#d74009}
   .tt-grp{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#646587;padding:14px 10px 6px}
+  .tt-grp[hidden],.tt-seg[hidden]{display:none}
   .tt-seg{display:flex;gap:2px;margin:0 4px;padding:2px;background:#f6f7fb;border:1px solid #e7e9f3;border-radius:10px}
   .tt-seg button{flex:1;font:600 12px Inter,sans-serif;color:#646587;background:none;border:0;border-radius:8px;padding:8px;cursor:pointer}
   .tt-seg button:hover{color:#282834}
@@ -29,14 +33,17 @@
   .tt-note{font-size:11px;line-height:1.4;color:#646587;padding:8px 10px 0;margin:0}
   .tt-link{display:inline-block;margin:14px 10px 0;font-size:12px;font-weight:700;color:#d74009}
   .tt-roles{display:flex;flex-direction:column;gap:2px;margin:0 4px;overflow:auto}
-  .tt-role{display:flex;gap:10px;align-items:flex-start;text-align:left;font:inherit;background:none;border:0;border-radius:10px;padding:8px;cursor:pointer;color:#282834}
+  .tt-role{display:flex;gap:10px;align-items:center;text-align:left;font:inherit;background:none;border:0;border-radius:10px;padding:8px;cursor:pointer;color:#282834}
   .tt-role:hover{background:#f6f7fb}.tt-role.is-active{background:#fff1e6}
   .tt-role i{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid #e7e9f3;color:#d74009;font:700 11px Inter,sans-serif;font-style:normal}
+  .tt-tag{display:inline-block;margin-top:3px;font:600 10.5px Inter,sans-serif;padding:1px 7px;border-radius:999px;background:#dbe7fb;color:#1e3a8a}
+  .tt-tag.is-coc{background:#eceafd;color:#3d2fa6}
   .tt-role b{display:block;font-size:12.5px;font-weight:700}.tt-role small{display:block;font-size:11px;line-height:1.35;color:#646587;margin-top:2px}
   .tt-reset{margin:0 4px;padding:9px 12px;text-align:left;font:600 12px Inter,sans-serif;color:#646587;background:#f6f7fb;border:1px solid #e7e9f3;border-radius:10px;cursor:pointer}
   .tt-reset:hover{color:#d74009}
   .tt-panel{overflow:auto}
-  @media (prefers-reduced-motion:reduce){.tt-launch,.tt-panel{transition:none}.tt-launch:hover{transform:none}}
+  @media (max-width:760px){body.tt-open .stage,body.tt-open.tt-compact .stage{transform:none;width:100%}}
+  @media (prefers-reduced-motion:reduce){.stage,.tt-launch,.tt-panel{transition:none}.tt-launch:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -49,12 +56,17 @@
 
 <aside class="tt-panel" id="panel" role="dialog" aria-label="Configuraciones de la demo">
   <div class="tt-h"><span>Demo · Eventos</span>
-    <span><a class="tt-ib" href="index.html" title="Inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></a>
+    <span>
+    <button type="button" class="tt-ib" id="compact" title="Compactar la UI al espacio disponible" aria-label="Compactar la UI" aria-pressed="false"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/><path d="m9 9 6 6M15 9l-6 6"/></svg></button>
+    <a class="tt-ib" href="index.html" title="Inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></a>
     <button type="button" class="tt-ib" id="close" aria-label="Cerrar">×</button></span></div>
   <div class="tt-grp">Ver como</div>
   <div class="tt-roles" role="group" aria-label="Rol" id="segRol"></div>
-  <div class="tt-grp">Momento del evento</div>
-  <div class="tt-seg" role="group" aria-label="Momento del evento" id="segEvt"></div>
+  <div class="tt-grp">Roles SUID</div>
+  <div class="tt-seg" role="group" aria-label="Qué eventos ven los roles SUID" id="segVer"></div>
+  <!-- Control del Comité oculto por ahora; sigue activable con ?comite=1 en la URL. -->
+  <div class="tt-grp" hidden>Comité Olímpico</div>
+  <div class="tt-seg" role="group" aria-label="Flujos del Comité Olímpico" id="segCom" hidden></div>
   <div class="tt-grp">Escenario</div>
   <div class="tt-seg" role="group" aria-label="Escenario" id="segEsc"></div>
   <div class="tt-grp">Datos</div>
@@ -67,40 +79,45 @@
 <script>
 (function () {
   var R = window.ROLES, URL_PLATAFORMA = 'platform/index.html';
-  var EVENTOS = [['Finalizado', 'copa-coc-cali-2026'], ['En curso', 'jja-2026'], ['Próximo', 'intercolegiados-2026']];
   var ESC = [['', 'Habitual'], ['2026-10-05', 'Sin eventos en curso']];
   var q = new URLSearchParams(location.search), hoy = /^\d{4}-\d{2}-\d{2}$/.test(q.get('hoy') || '') ? q.get('hoy') : '';
+  var ver = q.get('ver') === 'todos' ? 'todos' : 'suid', comite = q.get('comite') === '1';
   var rol = R.tabla[q.get('rol')] ? q.get('rol') : R.actual;
+  if (!comite && R.deComite(rol)) rol = 'admin';
   var hash = location.hash || '#/eventos';
   var frame = document.getElementById('stage'), panel = document.getElementById('panel'), launch = document.getElementById('launch');
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function codigo() { var m = hash.match(/^#\/eventos\/([^?\/]+)/); return m ? decodeURIComponent(m[1]) : null; }
-  function url() { return URL_PLATAFORMA + '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + hash; }
+  function params() { return '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + (ver === 'todos' ? '&ver=todos' : '') + (comite ? '&comite=1' : ''); }
+  function url() { return URL_PLATAFORMA + params() + hash; }
+  /* Origen de cada rol para la etiqueta; el metodólogo no pertenece a ninguno de los dos. */
+  var ORIGEN_ROL = { admin: 'SUID', gestor: 'SUID', usuario: 'SUID', comite: 'Comité', comite_manager: 'Comité', comite_admin: 'Comité', viewer: 'Comité' };
   function pintar() {
-    document.getElementById('segRol').innerHTML = R.orden.map(function (k) {
+    var seg = function (id, vals, act, attr) { document.getElementById(id).innerHTML = vals.map(function (v) { var on = v[0] === act; return '<button type="button" ' + attr + '="' + v[0] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + v[1] + '</button>'; }).join(''); };
+    seg('segVer', [['suid', 'Solo SUID'], ['todos', 'Ver todo (a futuro)']], ver, 'data-v');
+    seg('segCom', [['0', 'Oculto'], ['1', 'Visible']], comite ? '1' : '0', 'data-c');
+    document.getElementById('segRol').innerHTML = R.orden.filter(function (k) { return comite || !R.deComite(k); }).map(function (k) {
       var r = R.tabla[k], on = k === rol;
-      return '<button type="button" class="tt-role' + (on ? ' is-active' : '') + '" data-r="' + k + '" aria-pressed="' + on + '"><i aria-hidden="true">' + esc(r.ini) + '</i><span><b>' + esc(r.etiqueta) + '</b><small>' + esc(r.desc) + '</small></span></button>';
+      return '<button type="button" class="tt-role' + (on ? ' is-active' : '') + '" data-r="' + k + '" title="' + esc(r.desc).replace(/"/g, '&quot;') + '" aria-pressed="' + on + '"><i aria-hidden="true">' + esc(r.ini) + '</i><span><b>' + esc(r.etiqueta) + '</b>' + (ORIGEN_ROL[k] ? '<span class="tt-tag' + (ORIGEN_ROL[k] === 'Comité' ? ' is-coc' : '') + '">' + ORIGEN_ROL[k] + '</span>' : '') + '</span></button>';
     }).join('');
-    document.getElementById('segEvt').innerHTML = EVENTOS.map(function (e) {
-      var on = e[1] === codigo();
-      return '<button type="button" data-e="' + e[1] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + esc(e[0]) + '</button>'; }).join('');
     document.getElementById('segEsc').innerHTML = ESC.map(function (e) { var on = e[0] === hoy; return '<button type="button" data-h="' + e[0] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + esc(e[1]) + '</button>'; }).join('');
     document.getElementById('nueva').href = url();
     document.title = R.tabla[rol].etiqueta + ' · Demo Eventos';
-    try { history.replaceState(null, '', '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + hash); } catch (e) {}
+    try { history.replaceState(null, '', params() + hash); } catch (e) {}
   }
   function cargar() { frame.src = url(); pintar(); }
 
   panel.addEventListener('click', function (e) {
-    var r = e.target.closest('[data-r]'), v = e.target.closest('[data-e]'), h = e.target.closest('[data-h]');
+    var r = e.target.closest('[data-r]'), h = e.target.closest('[data-h]'), v = e.target.closest('[data-v]'), c = e.target.closest('[data-c]');
+    if (v) { ver = v.dataset.v; hash = '#/eventos'; cargar(); return; }
+    if (c) { comite = c.dataset.c === '1'; if (!comite && R.deComite(rol)) rol = 'admin'; hash = '#/eventos'; cargar(); return; }
     if (e.target.closest('#reset')) {
       try { frame.contentWindow.OLC.restablecer(); } catch (x) { /* marco aún sin cargar */ }
       hash = '#/eventos'; cargar(); return;
     }
     if (h) { hoy = h.dataset.h; cargar(); }
-    if (r && r.dataset.r !== rol) { rol = r.dataset.r; hash = '#/eventos'; cargar(); }
-    if (v) { hash = '#/eventos/' + encodeURIComponent(v.dataset.e); cargar(); }
+    if (r) { if (r.dataset.r !== rol) { rol = r.dataset.r; hash = '#/eventos'; cargar(); } abrir(false); }
   });
   window.addEventListener('message', function (e) {
     if (e.source !== frame.contentWindow || !e.data || e.data.type !== 'olc-ruta') return;
@@ -112,7 +129,14 @@
     (on ? document.getElementById('close') : launch).focus();
   }
   launch.addEventListener('click', function () { abrir(true); });
+  window.addEventListener('message', function (e) { if (e.source === frame.contentWindow && e.data && e.data.demo === 'abrir-panel') abrir(true); });
+  var bC = document.getElementById('compact');
+  bC.addEventListener('click', function () { bC.setAttribute('aria-pressed', String(document.body.classList.toggle('tt-compact'))); });
   document.getElementById('close').addEventListener('click', function () { abrir(false); });
+  // Atajo ⌘/Ctrl+Shift+L; el marco es otro documento, por eso también se escucha dentro de él.
+  function atajo(e) { if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.code === 'KeyL') { e.preventDefault(); abrir(!panel.classList.contains('open')); } }
+  document.addEventListener('keydown', atajo);
+  frame.addEventListener('load', function () { try { frame.contentDocument.addEventListener('keydown', atajo); } catch (x) { /* otro origen */ } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel.classList.contains('open')) abrir(false); });
   cargar();
 })();
