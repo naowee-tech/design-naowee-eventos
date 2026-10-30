@@ -24,14 +24,33 @@ window.Directorio = (function () {
       .sort(function (x, y) { return y.med.oro - x.med.oro || y.total - x.total || x.nombre.localeCompare(y.nombre); });
     cache = { key: key, v: v }; return v;
   }
+  /* Medalla de la trayectoria: pieza nao-award con el metal en texto accesible (sin texto visible). */
+  function medallaCelda(m) {
+    var k = { oro: 'gold', plata: 'silver', bronce: 'bronze' }[String(m || '').toLowerCase()];
+    if (!k) return esc(m || '—');
+    var t = 'Medalla de ' + String(m).toLowerCase();
+    return '<span class="dr-mc" role="img" title="' + t + '" aria-label="' + t + '">' + OLC.medalla(k, 'none', 22) + '<span class="nws-sr">' + t + '</span></span>';
+  }
   function iniciales(n) { return String(n).split(/\s+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); }
-  function medallas(m) { return '<span class="dr-med" title="Oro, plata y bronce"><b class="dr-o">' + m.oro + '</b><b class="dr-p">' + m.plata + '</b><b class="dr-b">' + m.bronce + '</b></span>'; }
+  /* Cada metal con su <nao-award> mini (sin cinta ni animación) y el conteo al lado; en 0 la pieza se atenúa. */
+  function medallas(m, size) {
+    var T = [['oro', 'gold', 'de oro'], ['plata', 'silver', 'de plata'], ['bronce', 'bronze', 'de bronce']];
+    var txt = T.map(function (t) { return m[t[0]] + ' ' + t[2]; }).join(', ');
+    return '<span class="dr-med" role="img" title="' + txt + '" aria-label="' + txt + '">' + T.map(function (t) {
+      return '<span class="dr-m' + (m[t[0]] ? '' : ' is-cero') + '" aria-hidden="true">' + OLC.medalla(t[1], 'none', size || 22) + '<b>' + m[t[0]] + '</b></span>';
+    }).join('') + '</span>';
+  }
+  /* nwt-pagination: el tecleo no emite nwtChange (solo flechas), así que se confirma en `change` y se repinta con la página acotada. */
   function pager(box, total, pagina, ir) {
     var n = Math.max(1, Math.ceil(total / PAGE)); if (n < 2) return;
-    var h = '<nav class="nw-pager nw-pager--nums dr-pager" aria-label="Paginación">';
-    for (var i = 1; i <= n; i++) h += '<button type="button" data-pg="' + i + '"' + (i === pagina ? ' aria-current="page"' : '') + '>' + i + '</button>';
-    box.insertAdjacentHTML('beforeend', h + '</nav>');
-    box.querySelectorAll('[data-pg]').forEach(function (b) { b.addEventListener('click', function () { ir(+b.getAttribute('data-pg')); }); });
+    var w = document.createElement('div'); w.className = 'dr-pager';
+    function ve(p) {
+      p = Math.min(n, Math.max(1, p || pagina)); ir(p);
+      var h = document.getElementById('dr-n'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); h.scrollIntoView({ block: 'nearest' }); }
+    }
+    var el = C.mk('nwt-pagination', { currentPage: pagina, totalPages: n, nwtSize: 'medium' }, function (v) { if (v !== pagina) ve(v); });
+    el.addEventListener('change', function (e) { if (e.target && e.target.tagName === 'INPUT') ve(parseInt(e.target.value, 10)); });
+    w.appendChild(el); box.appendChild(w);
   }
   function filtros(el, opts, alCambiar) {
     el.innerHTML = '<div class="nwt-searchbox nws-search"><label class="nwt-searchbox__container"><input class="nwt-searchbox__input" type="search" id="dr-q" placeholder="' + esc(opts.placeholder) + '" aria-label="' + esc(opts.placeholder) + '"></label></div><div id="dr-f"></div>';
@@ -44,8 +63,8 @@ window.Directorio = (function () {
     var todos = indice(), q = '', dep = '', pagina = 1;
     ctx.setTop([{ t: 'Consulta deportistas' }]); document.title = 'Consulta deportistas · Naowee Suite';
     main.innerHTML = '<div class="nws-page dr"><div class="nws-events-header"><div class="nws-events-header__description"><h1 class="nwt-h5-font-bold" id="nws-h1" tabindex="-1">Consulta deportistas</h1>' +
-      '<small class="nwt-smalltext-font-regular">Deportistas colombianos en los eventos a los que tienes acceso, con su trayectoria.</small></div></div>' +
-      '<div class="dr-filtros" id="dr-fil"></div><p class="nwt-caption-font-regular nws-muted" id="dr-n" role="status"></p><div id="dr-res"></div></div>';
+      '<small class="nwt-smalltext-font-regular">Deportistas colombianos en los eventos a los que tienes acceso, con su trayectoria.</small></div><p class="nwt-caption-font-regular nws-muted" id="dr-n" role="status"></p></div>' +
+      '<div class="dr-filtros" id="dr-fil"></div><div id="dr-res"></div></div>';
     var deportes = {}; todos.forEach(function (a) { Object.keys(a.deportes).forEach(function (d) { deportes[d] = 1; }); });
     filtros(document.getElementById('dr-fil'), { placeholder: 'Buscar deportista…', filtro: 'Todos los deportes', valores: Object.keys(deportes).sort() }, function (nq, nd) { if (nq != null) q = nq; if (nd !== undefined) dep = nd; pagina = 1; pintar(); });
     function pintar() {
@@ -53,7 +72,7 @@ window.Directorio = (function () {
       document.getElementById('dr-n').textContent = lista.length + (lista.length === 1 ? ' deportista' : ' deportistas');
       var box = document.getElementById('dr-res'), sl = lista.slice((pagina - 1) * PAGE, pagina * PAGE);
       box.innerHTML = lista.length ? '<div class="cg-scroll cg-card dr-card"><table class="cg-tab"><thead><tr><th scope="col">Deportista</th><th scope="col">Deportes</th><th scope="col">Eventos</th><th scope="col">Medallas</th><th scope="col"><span class="nws-sr">Perfil</span></th></tr></thead><tbody>' +
-        sl.map(function (a) { return '<tr><td><a class="dr-n" href="#/deportistas/' + encodeURIComponent(a.nombre) + '"><span class="nws-avatar" aria-hidden="true">' + esc(iniciales(a.nombre)) + '</span>' + esc(a.nombre) + '</a></td><td>' + esc(Object.keys(a.deportes).join(', ')) + '</td><td>' + Object.keys(a.eventos).length + '</td><td>' + medallas(a.med) + '</td><td><a class="ec-link" href="#/deportistas/' + encodeURIComponent(a.nombre) + '">Ver perfil ' + ctx.icon('arrow-right') + '</a></td></tr>'; }).join('') + '</tbody></table></div>'
+        sl.map(function (a) { return '<tr><td><a class="dr-n" href="#/deportistas/' + encodeURIComponent(a.nombre) + '"><span class="nws-avatar" aria-hidden="true">' + esc(iniciales(a.nombre)) + '</span>' + esc(a.nombre) + '</a></td><td>' + esc(Object.keys(a.deportes).join(', ')) + '</td><td>' + Object.keys(a.eventos).length + '</td><td>' + medallas(a.med) + '</td><td><a class="nws-row__go" href="#/deportistas/' + encodeURIComponent(a.nombre) + '" aria-label="Ver perfil de ' + esc(a.nombre) + '" title="Ver perfil">' + ctx.icon('chevron-right') + '</a></td></tr>'; }).join('') + '</tbody></table></div>'
         : '<div class="nws-empty"><p class="nwt-smalltext-font-bold">No hay deportistas con estos criterios</p></div>';
       pager(box, lista.length, pagina, function (n) { pagina = n; pintar(); });
     }
@@ -69,9 +88,9 @@ window.Directorio = (function () {
     main.innerHTML = '<div class="nws-page dr"><a class="nws-iconbtn nws-iconbtn--lg nws-event-detail__back" href="#/deportistas" aria-label="Volver">' + ctx.icon('arrow-left') + '<span class="nws-event-detail__back-label">Volver</span></a>' +
       '<section class="cg-card dr-head"><span class="nws-avatar dr-av" aria-hidden="true">' + esc(iniciales(a.nombre)) + '</span><div><h1 class="nwt-h5-font-bold" id="nws-h1" tabindex="-1">' + esc(a.nombre) + '</h1>' +
       '<p class="nwt-smalltext-font-regular nws-muted">' + esc(Object.keys(a.deportes).join(' · ')) + '</p></div>' +
-      '<dl class="dr-kpis"><div><dt>Eventos</dt><dd>' + Object.keys(a.eventos).length + '</dd></div><div><dt>Participaciones</dt><dd>' + a.part.length + '</dd></div><div><dt>Medallas</dt><dd>' + medallas(a.med) + '</dd></div></dl></section>' +
-      '<section class="cg-card"><h2 class="nwt-smalltext-font-bold">Trayectoria</h2><div class="cg-scroll"><table class="cg-tab"><thead><tr><th scope="col">Evento</th><th scope="col">Deporte</th><th scope="col">Prueba</th><th scope="col">Fecha</th><th scope="col">Puesto</th><th scope="col">Marca</th><th scope="col">Medalla</th></tr></thead><tbody>' +
-      part.map(function (p) { return '<tr><td><a href="#/eventos/' + encodeURIComponent(p.code) + '">' + esc(p.evento) + '</a></td><td>' + esc(p.deporte) + '</td><td>' + esc(p.prueba + (p.fase ? ' · ' + p.fase : '')) + '</td><td>' + esc(OLC.fechaCorta(p.fecha)) + '</td><td>' + (p.puesto ? p.puesto + '.º' : '—') + '</td><td>' + esc(p.marca || '—') + '</td><td>' + esc(p.medalla || '—') + '</td></tr>'; }).join('') + '</tbody></table></div></section></div>';
+      '<dl class="dr-kpis"><div><dt>Eventos</dt><dd>' + Object.keys(a.eventos).length + '</dd></div><div><dt>Participaciones</dt><dd>' + a.part.length + '</dd></div><div><dt>Medallas</dt><dd>' + medallas(a.med, 28) + '</dd></div></dl></section>' +
+      '<h2 class="nwt-smalltext-font-bold dr-tit">Trayectoria</h2><section class="cg-card dr-tray"><div class="cg-scroll"><table class="cg-tab"><thead><tr><th scope="col" class="dr-num">N.º</th><th scope="col">Fecha</th><th scope="col">Evento</th><th scope="col">Deporte</th><th scope="col">Prueba</th><th scope="col">Puesto</th><th scope="col">Marca</th><th scope="col">Medalla</th><th scope="col"><span class="nws-sr">Ver evento</span></th></tr></thead><tbody>' +
+      part.map(function (p, i) { return '<tr><td class="dr-num">' + (i + 1) + '</td><td>' + esc(OLC.fechaCorta(p.fecha)) + '</td><td>' + esc(p.evento) + '</td><td>' + esc(p.deporte) + '</td><td>' + esc(p.prueba + (p.fase ? ' · ' + p.fase : '')) + '</td><td>' + (p.puesto ? p.puesto + '.º' : '—') + '</td><td>' + esc(p.marca || '—') + '</td><td>' + medallaCelda(p.medalla) + '</td><td><a class="nws-row__go" href="#/eventos/' + encodeURIComponent(p.code) + '" aria-label="Ver detalle de ' + esc(p.evento) + '" title="Ver detalle">' + ctx.icon('chevron-right') + '</a></td></tr>'; }).join('') + '</tbody></table></div></section></div>';
   }
 
   /* Usuarios: administración. Los roles de las personas de la demo más algunos perfiles de apoyo. */
@@ -83,8 +102,8 @@ window.Directorio = (function () {
     base.forEach(function (u) { u.c = u.n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]+/g, '.') + '@ejemplo.co'; });
     var q = '', rol = '', pagina = 1, roles = {}; base.forEach(function (u) { roles[u.rol] = 1; });
     ctx.setTop([{ t: 'Usuarios' }]); document.title = 'Usuarios · Naowee Suite';
-    main.innerHTML = '<div class="nws-page dr"><div class="nws-events-header"><div class="nws-events-header__description"><h1 class="nwt-h5-font-bold" id="nws-h1" tabindex="-1">Usuarios</h1><small class="nwt-smalltext-font-regular">Personas del módulo y el rol que tienen.</small></div></div>' +
-      '<div class="dr-filtros" id="dr-fil"></div><p class="nwt-caption-font-regular nws-muted" id="dr-n" role="status"></p><div id="dr-res"></div></div>';
+    main.innerHTML = '<div class="nws-page dr"><div class="nws-events-header"><div class="nws-events-header__description"><h1 class="nwt-h5-font-bold" id="nws-h1" tabindex="-1">Usuarios</h1><small class="nwt-smalltext-font-regular">Personas del módulo y el rol que tienen.</small></div><p class="nwt-caption-font-regular nws-muted" id="dr-n" role="status"></p></div>' +
+      '<div class="dr-filtros" id="dr-fil"></div><div id="dr-res"></div></div>';
     filtros(document.getElementById('dr-fil'), { placeholder: 'Buscar usuario…', filtro: 'Todos los roles', valores: Object.keys(roles) }, function (nq, nr) { if (nq != null) q = nq; if (nr !== undefined) rol = nr; pagina = 1; pintar(); });
     function pintar() {
       var t = q.trim().toLowerCase(), l = base.filter(function (u) { return (!t || (u.n + ' ' + u.c).toLowerCase().indexOf(t) >= 0) && (!rol || u.rol === rol); });

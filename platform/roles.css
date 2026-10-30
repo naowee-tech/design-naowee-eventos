@@ -22,4 +22,7 @@
 .nws-rolsw__reset{display:block;width:calc(100% - 12px);margin:6px;padding:8px 10px;border:0;border-top:var(--naotech-app-border-1-200);border-radius:0;background:none;color:var(--naotech-app-color-700);text-align:left;cursor:pointer;font:inherit}
 .nws-rolsw__reset:hover{color:var(--naotech-primary-color-normal)}
 
-.nws-rolsw__btn--static{cursor:default}.nws-rolsw__btn--static:hover{border-color:inherit}
+.nws-rolsw__btn--static{cursor:default}.nws-rolsw__btn--static:hover{border-color:transparent}
+
+.nws-rolsw__btn--static{gap:4px;padding:4px 8px 4px 4px}.nws-rolsw__chev{color:var(--naotech-app-color-700)}
+.nws-rolsw__btn--static{border-color:transparent;background:none;min-height:0;padding:0}
