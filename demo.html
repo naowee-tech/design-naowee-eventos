@@ -38,12 +38,25 @@
   .tt-role i{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid #e7e9f3;color:#d74009;font:700 11px Inter,sans-serif;font-style:normal}
   .tt-tag{display:inline-block;margin-top:3px;font:600 10.5px Inter,sans-serif;padding:1px 7px;border-radius:999px;background:#dbe7fb;color:#1e3a8a}
   .tt-tag.is-coc{background:#eceafd;color:#3d2fa6}
+  .tt-panel>*{flex-shrink:0} /* el panel scrollea entero; sin esto las secciones se encogen y se solapan */
+  .tt-roles{overflow:visible}
+  .tt-hus{display:flex;flex-direction:column;gap:4px;margin:0 4px}
+  .tt-hu{display:block;width:100%;text-align:left;font:inherit;background:#fff;border:1px solid #e7e9f3;border-radius:8px;padding:7px 9px;cursor:pointer;color:#282834}
+  .tt-hu:hover{border-color:#d74009}.tt-hu.is-active{border-color:#d74009;background:#fff8f3}
+  .tt-hu b{display:block;font-size:12px}.tt-hu small{display:block;font-size:11px;line-height:1.35;color:#646587;margin-top:1px}
+  .tt-hu em{font:700 9.5px Inter,sans-serif;font-style:normal;color:#0b6b3a;background:#dff5e8;border-radius:999px;padding:1px 6px;margin-left:6px}
   .tt-role b{display:block;font-size:12.5px;font-weight:700}.tt-role small{display:block;font-size:11px;line-height:1.35;color:#646587;margin-top:2px}
   .tt-reset{margin:0 4px;padding:9px 12px;text-align:left;font:600 12px Inter,sans-serif;color:#646587;background:#f6f7fb;border:1px solid #e7e9f3;border-radius:10px;cursor:pointer}
   .tt-reset:hover{color:#d74009}
   .tt-panel{overflow:auto}
+  .tt-sw-row{display:flex;align-items:center;gap:12px;margin:0 4px;padding:10px;border:1px solid #e7e9f3;border-radius:10px;background:#f6f7fb}
+  .tt-sw-row b{display:block;font-size:12.5px}.tt-sw-row small{display:block;font-size:11px;line-height:1.35;color:#646587;margin-top:1px}
+  .tt-sw{margin-left:auto;flex:none;position:relative;width:40px;height:22px;border:0;border-radius:999px;padding:0;background:#c4c8dc;cursor:pointer;transition:background .15s}
+  .tt-sw span{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(20,22,38,.3);transition:transform .15s}
+  .tt-sw[aria-checked=true]{background:#d74009}.tt-sw[aria-checked=true] span{transform:translateX(18px)}
+  @media (max-width:760px){body.tt-tour .tt-launch{display:none}}
   @media (max-width:760px){body.tt-open .stage,body.tt-open.tt-compact .stage{transform:none;width:100%}}
-  @media (prefers-reduced-motion:reduce){.stage,.tt-launch,.tt-panel{transition:none}.tt-launch:hover{transform:none}}
+  @media (prefers-reduced-motion:reduce){.stage,.tt-launch,.tt-panel,.tt-sw,.tt-sw span{transition:none}.tt-launch:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -51,7 +64,7 @@
 
 <button type="button" class="tt-launch" id="launch" aria-haspopup="dialog" aria-expanded="false">
   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2.2" fill="#002b5b"/><circle cx="15" cy="17" r="2.2" fill="#002b5b"/></svg>
-  Configuraciones
+  Configuraciones demo
 </button>
 
 <aside class="tt-panel" id="panel" role="dialog" aria-label="Configuraciones de la demo">
@@ -69,6 +82,11 @@
   <div class="tt-seg" role="group" aria-label="Flujos del Comité Olímpico" id="segCom" hidden></div>
   <div class="tt-grp">Escenario</div>
   <div class="tt-seg" role="group" aria-label="Escenario" id="segEsc"></div>
+  <div class="tt-grp" id="huTit">Casos del rol</div>
+  <div id="huLista"></div>
+  <div class="tt-grp">Recorrido</div>
+  <div class="tt-sw-row"><div><b id="swT">Pasos guiados</b><small>Al elegir un caso, la plataforma te lo explica paso a paso. Apagado, solo navega.</small></div>
+    <button type="button" class="tt-sw" id="guiado" role="switch" aria-labelledby="swT" aria-checked="true"><span></span></button></div>
   <div class="tt-grp">Datos</div>
   <button type="button" class="tt-reset" id="reset">Restablecer datos de la demo</button>
   <p class="tt-note">Al cambiar de rol se conserva dónde estás si ese rol puede verlo. Lo que crees (eventos, cargas, metodólogos) queda en este navegador.</p>
@@ -76,6 +94,7 @@
 </aside>
 
 <script src="platform/roles.js"></script>
+<script src="hu-demo.js"></script>
 <script>
 (function () {
   var R = window.ROLES, URL_PLATAFORMA = 'platform/index.html';
@@ -89,11 +108,22 @@
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function codigo() { var m = hash.match(/^#\/eventos\/([^?\/]+)/); return m ? decodeURIComponent(m[1]) : null; }
-  function params() { return '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + (ver === 'todos' ? '&ver=todos' : '') + (comite ? '&comite=1' : ''); }
-  function url() { return URL_PLATAFORMA + params() + hash; }
+  /* tourId solo viaja al marco mientras hay un caso con pasos guiados; no se guarda en la URL del panel. */
+  var guiado = true, tourId = '';
+  try { guiado = localStorage.getItem('eventos.demo.guiado') !== '0'; } catch (e) { /* sin almacenamiento */ }
+  function params(conTour) { return '?rol=' + rol + (hoy ? '&hoy=' + hoy : '') + (ver === 'todos' ? '&ver=todos' : '') + (comite ? '&comite=1' : '') + (conTour && tourId ? '&tour=' + tourId : ''); }
+  function url() { return URL_PLATAFORMA + params(true) + hash; }
   /* Origen de cada rol para la etiqueta; el metodólogo no pertenece a ninguno de los dos. */
   var ORIGEN_ROL = { admin: 'SUID', gestor: 'SUID', usuario: 'SUID', comite: 'Comité', comite_manager: 'Comité', comite_admin: 'Comité', viewer: 'Comité' };
+  var huAct = '';
+  function husHtml(k) {
+    var l = (window.HU_DEMO || {})[k] || [];
+    return l.length ? '<div class="tt-hus" role="group" aria-label="Casos de esta vista">' + l.map(function (h) {
+      return '<button type="button" class="tt-hu' + (h.id === huAct ? ' is-active' : '') + '" data-hu="' + h.id + '"><b>' + esc(h.id + ' · ' + h.t) + (h.nuevo ? '<em>Nuevo</em>' : '') + '</b><small>' + esc(h.q) + '</small></button>';
+    }).join('') + '</div>' : '';
+  }
   function pintar() {
+    document.body.classList.toggle('tt-tour', !!tourId);
     var seg = function (id, vals, act, attr) { document.getElementById(id).innerHTML = vals.map(function (v) { var on = v[0] === act; return '<button type="button" ' + attr + '="' + v[0] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + v[1] + '</button>'; }).join(''); };
     seg('segVer', [['suid', 'Solo SUID'], ['todos', 'Ver todo (a futuro)']], ver, 'data-v');
     seg('segCom', [['0', 'Oculto'], ['1', 'Visible']], comite ? '1' : '0', 'data-c');
@@ -101,37 +131,65 @@
       var r = R.tabla[k], on = k === rol;
       return '<button type="button" class="tt-role' + (on ? ' is-active' : '') + '" data-r="' + k + '" title="' + esc(r.desc).replace(/"/g, '&quot;') + '" aria-pressed="' + on + '"><i aria-hidden="true">' + esc(r.ini) + '</i><span><b>' + esc(r.etiqueta) + '</b>' + (ORIGEN_ROL[k] ? '<span class="tt-tag' + (ORIGEN_ROL[k] === 'Comité' ? ' is-coc' : '') + '">' + ORIGEN_ROL[k] + '</span>' : '') + '</span></button>';
     }).join('');
+    var hl = husHtml(rol), ht = document.getElementById('huTit');
+    ht.hidden = !hl; ht.textContent = 'Casos de «' + R.tabla[rol].etiqueta + '»'; document.getElementById('huLista').innerHTML = hl;
     document.getElementById('segEsc').innerHTML = ESC.map(function (e) { var on = e[0] === hoy; return '<button type="button" data-h="' + e[0] + '" class="' + (on ? 'is-active' : '') + '" aria-pressed="' + on + '">' + esc(e[1]) + '</button>'; }).join('');
     document.getElementById('nueva').href = url();
+    document.getElementById('guiado').setAttribute('aria-checked', String(guiado));
     document.title = R.tabla[rol].etiqueta + ' · Demo Eventos';
     try { history.replaceState(null, '', params() + hash); } catch (e) {}
   }
-  function cargar() { frame.src = url(); pintar(); }
+  function cargar(conTour) { if (!conTour) tourId = ''; frame.src = url(); pintar(); }
+  /* El marco queda corrido bajo el panel (salvo compacto o pantalla chica): se le avisa cuánto espacio le tapan. */
+  function avisarPanel() {
+    var ocupa = panel.classList.contains('open') && !document.body.classList.contains('tt-compact') && window.innerWidth > 760 ? 360 : 0;
+    try { frame.contentWindow.postMessage({ demo: 'panel', ocupa: ocupa }, '*'); } catch (x) { /* marco sin cargar */ }
+  }
 
   panel.addEventListener('click', function (e) {
-    var r = e.target.closest('[data-r]'), h = e.target.closest('[data-h]'), v = e.target.closest('[data-v]'), c = e.target.closest('[data-c]');
+    var r = e.target.closest('[data-r]'), h = e.target.closest('[data-h]'), v = e.target.closest('[data-v]'), c = e.target.closest('[data-c]'), u = e.target.closest('[data-hu]');
+    if (u) {
+      var h = ((window.HU_DEMO || {})[rol] || []).filter(function (x) { return x.id === u.dataset.hu; })[0];
+      if (h) {
+        huAct = h.id; if (h.ver) ver = h.ver; if (h.hoy !== undefined) hoy = h.hoy; hash = h.go; tourId = guiado ? h.id : '';
+        if (tourId) abrir(false); /* el panel se cierra para navegar el recorrido sin estorbos */
+        cargar(true);
+      }
+      return;
+    }
     if (v) { ver = v.dataset.v; hash = '#/eventos'; cargar(); return; }
     if (c) { comite = c.dataset.c === '1'; if (!comite && R.deComite(rol)) rol = 'admin'; hash = '#/eventos'; cargar(); return; }
+    if (e.target.closest('#guiado')) {
+      guiado = !guiado; try { localStorage.setItem('eventos.demo.guiado', guiado ? '1' : '0'); } catch (x) { /* solo en memoria */ }
+      if (!guiado) { tourId = ''; }
+      pintar(); return;
+    }
     if (e.target.closest('#reset')) {
       try { frame.contentWindow.OLC.restablecer(); } catch (x) { /* marco aún sin cargar */ }
       hash = '#/eventos'; cargar(); return;
     }
     if (h) { hoy = h.dataset.h; cargar(); }
-    if (r) { if (r.dataset.r !== rol) { rol = r.dataset.r; hash = '#/eventos'; cargar(); } abrir(false); }
+    if (r) { if (r.dataset.r !== rol) { rol = r.dataset.r; huAct = ''; hash = '#/eventos'; cargar(); } } /* el panel queda abierto: debajo del rol salen sus casos */
   });
   window.addEventListener('message', function (e) {
     if (e.source !== frame.contentWindow || !e.data || e.data.type !== 'olc-ruta') return;
     hash = e.data.hash || '#/eventos'; pintar();
   });
+  /* El recorrido avisa al cerrarse o terminar: se desmarca el caso y se quita tour de la URL del marco. */
+  window.addEventListener('message', function (e) {
+    if (e.source !== frame.contentWindow || !e.data) return;
+    if (e.data.tour === 'fin') { tourId = ''; huAct = ''; pintar(); }
+    else if (e.data.tour === 'listo') avisarPanel();
+  });
   function abrir(on) {
     panel.classList.toggle('open', on); document.body.classList.toggle('tt-open', on);
-    launch.setAttribute('aria-expanded', String(on));
+    launch.setAttribute('aria-expanded', String(on)); avisarPanel();
     (on ? document.getElementById('close') : launch).focus();
   }
   launch.addEventListener('click', function () { abrir(true); });
   window.addEventListener('message', function (e) { if (e.source === frame.contentWindow && e.data && e.data.demo === 'abrir-panel') abrir(true); });
   var bC = document.getElementById('compact');
-  bC.addEventListener('click', function () { bC.setAttribute('aria-pressed', String(document.body.classList.toggle('tt-compact'))); });
+  bC.addEventListener('click', function () { bC.setAttribute('aria-pressed', String(document.body.classList.toggle('tt-compact'))); avisarPanel(); });
   document.getElementById('close').addEventListener('click', function () { abrir(false); });
   // Atajo ⌘/Ctrl+Shift+L; el marco es otro documento, por eso también se escucha dentro de él.
   function atajo(e) { if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.code === 'KeyL') { e.preventDefault(); abrir(!panel.classList.contains('open')); } }
