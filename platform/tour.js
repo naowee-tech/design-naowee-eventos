@@ -15,6 +15,11 @@
     var el = q(sel); if (!el || (window.customElements && !customElements.get(el.localName))) return false;
     el.value = v; el.dispatchEvent(new CustomEvent('nwtChange', { detail: v, bubbles: true })); return true;
   }
+  /* Elige una opción de un grupo de radios del formulario (tipo, alcance); false = aún no está pintado. */
+  function marcar(sel, v) {
+    var el = q(sel + ' input[value="' + v + '"]'); if (!el) return false;
+    if (!el.checked) el.click(); return true;
+  }
   function abrirOrigen(abrir) {
     var b = q('#nws-origen .nws-orig__btn'); if (!b) return false;
     if ((b.getAttribute('aria-expanded') === 'true') !== abrir) b.click(); return true;
@@ -35,7 +40,7 @@
       ] },
     'HU-02': { rol: 'admin', go: NUEVO, title: 'Crear un evento competitivo', purpose: 'Un evento competitivo cierra con resultados, posiciones y medallería.',
       steps: [
-        { sel: '#c-tipoev', ejemplo: 1, pre: function () { return setv('#c-tipoev nwt-dropdown', 'competitivo'); }, body: 'Primero eliges el <b>tipo de evento</b>. Con <b>Competitivo</b> el formulario pide lo básico y deja los deportes como opcionales.' },
+        { sel: '#c-tipoev', ejemplo: 1, pre: function () { return marcar('#c-tipoev', 'competitivo'); }, body: 'Primero eliges el <b>tipo de evento</b> en una tarjeta. Con <b>Competitivo</b> el formulario pide lo básico y deja los deportes como opcionales.' },
         { sel: '#c-nombre', body: 'Escribe el <b>nombre</b> y las <b>fechas</b> de inicio y fin. El nombre no puede repetir el de otro evento.' },
         { sel: '#c-depto', body: 'En un evento <b>nacional</b> el lugar es departamento y municipio.' },
         { sel: '#c-deportes', body: 'Los <b>deportes</b> son opcionales: sin elegir ninguno, el evento queda <b>multideportivo</b>.' },
@@ -43,14 +48,14 @@
       ] },
     'HU-03': { rol: 'admin', go: NUEVO, title: 'Crear Actividad Física', purpose: 'Al elegir el tipo, el formulario pide solo los campos propios de ese tipo.',
       steps: [
-        { sel: '#c-tipoev', ejemplo: 1, pre: function () { return setv('#c-tipoev nwt-dropdown', 'actividad_fisica'); }, body: 'El <b>tipo de evento</b> manda. Aquí está elegida <b>Actividad Física</b>; debajo aparece una ayuda de cómo cierra este tipo.' },
+        { sel: '#c-tipoev', ejemplo: 1, pre: function () { return marcar('#c-tipoev', 'actividad_fisica'); }, body: 'El <b>tipo de evento</b> manda. Aquí está elegida <b>Actividad Física</b>; más abajo aparece la sección <b>Detalles del tipo</b> con una ayuda de cómo cierra.' },
         { sel: '#c-programa', body: 'Pide un <b>programa estándar</b> (HEVS, Vías Activas, etc.). Si no está en la lista, eliges <b>Otro programa</b> y escribes el nombre.' },
         { sel: '#c-modulos', body: 'Agrega las <b>temáticas o módulos</b> que se trabajan, una por una con <b>Agregar</b>. Se necesita al menos una.' },
         { sel: '#c-sesiones', body: 'Indica el <b>número de sesiones</b> y la <b>evaluación</b> (por asistencia o por aprobación). Fíjate que no hay campo de deportes: este tipo no tiene.' }
       ] },
     'HU-04': { rol: 'admin', go: NUEVO, title: 'Crear un evento internacional', purpose: 'En un evento internacional los países son obligatorios.',
       steps: [
-        { sel: '#cr-alcance', ejemplo: 1, pre: function () { return setv('#cr-alcance nwt-tag-group', 'INTERNACIONAL'); }, body: 'El <b>alcance</b> se elige al crear y no se puede cambiar después. Aquí está elegido <b>Internacional</b>.' },
+        { sel: '#cr-alcance', ejemplo: 1, pre: function () { return marcar('#cr-alcance', 'INTERNACIONAL'); }, body: 'El <b>alcance</b> se elige al crear y no se puede cambiar después. Aquí está elegido <b>Internacional</b>.' },
         { sel: '.nws-flash--info', body: 'El aviso lo recuerda: se hace seguimiento a los <b>deportistas de Colombia</b>; los rivales se registran en los resultados.' },
         { sel: '#c-paises', body: 'En lugar de departamento y municipio, el lugar es uno o varios <b>países</b>. Es <b>obligatorio</b>.' },
         { sel: GUARDAR, click: true, wait: 350, body: 'Pulsa <b>Guardar</b> sin elegir países para ver qué pasa (no se crea nada).' },

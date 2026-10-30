@@ -1,5 +1,5 @@
 /* Crear evento, Cargas y Metodólogos: formularios y tablas dentro de la piel de la plataforma. */
-.cr{max-width:60rem}
+.cr{max-width:46rem}
 .cr-head{display:flex;flex-direction:column;gap:var(--naotech-sizing-4);margin:0}
 .cr-head small{color:var(--naotech-app-color-700)}
 .cr-card,.cg-card{background:var(--naotech-app-background);border:var(--naotech-app-border-1-200);border-radius:var(--naotech-sizing-12);padding:var(--naotech-sizing-24);margin:0}
@@ -15,15 +15,20 @@
 .cr-sedes{display:flex;flex-direction:column;gap:var(--naotech-sizing-8)}
 .cr-sedes__in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--naotech-sizing-12);align-items:end}
 .cr-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.cr-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 12px;border-radius:99px;border:var(--naotech-app-border-1-200);font-size:13px}
-.cr-chip button{border:0;background:none;cursor:pointer;font-size:16px;line-height:1;color:var(--naotech-app-color-700);min-width:24px;min-height:24px}
+.cr-chip{display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0 4px 0 12px;border-radius:99px;border:var(--naotech-app-border-1-300,1px solid #cfd3e6);background:var(--naotech-app-color-100,#f1f2f8);font-size:13px;font-weight:500;color:var(--naotech-app-color-900)}
+/* La zona táctil del × llega a 44px con el ::before, sin agrandar el chip. */
+.cr-chip button{position:relative;display:inline-grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:none;cursor:pointer;color:var(--naotech-app-color-700);--naotech-icon-dimension:14px}
+.cr-chip button::before{content:"";position:absolute;inset:-8px}
+.cr-chip button:hover{background:var(--naotech-app-color-200,#e3e5f0);color:var(--naotech-app-color-900)}
 .cr-switch{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
 .cr-switch>span{display:flex;flex-direction:column;gap:2px}
 .cr-hint[hidden]{display:none}
 .cr-err{color:var(--naotech-negative-color-normal,#c4262e);margin:0}
 /* Bottom bar pegada abajo; Guardar va disabled mientras no haya cambios. */
-.cr-foot{position:sticky;bottom:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:var(--naotech-sizing-16);flex-wrap:wrap;margin:0 calc(-1*var(--naotech-sizing-32)) calc(-1*var(--naotech-sizing-28,28px));padding:var(--naotech-sizing-16) var(--naotech-sizing-32);background:var(--naotech-app-background);border-top:var(--naotech-app-border-1-200)}
-.cr-actions{display:flex;gap:12px}
+/* La barra es de ancho completo (el fondo sale por ::before con cqw del main) y su contenido queda alineado con la columna. */
+.cr-foot{position:sticky;bottom:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:var(--naotech-sizing-16);margin:0 0 calc(-1*var(--naotech-sizing-28,28px));padding:var(--naotech-sizing-12) 0}
+.cr-foot::before{content:"";position:absolute;z-index:-1;inset:0 calc(50% - 50cqw);background:var(--naotech-app-background);border-top:var(--naotech-app-border-1-200);box-shadow:0 -4px 16px -8px rgba(20,22,38,.16)}
+.cr-actions{display:flex;gap:12px;flex:0 0 auto}
 .nws-flash{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;margin-bottom:var(--naotech-sizing-12);border-radius:10px;background:#e9f7ee;border:1px solid #b9e3c8;color:#14532d;font-size:14px}
 .nws-flash--info{background:#eaf1ff;border-color:#c5d6fb;color:#1e3a8a}
 .nws-events-header .nws-newbtn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:99px;background:var(--naotech-primary-color-normal);color:#fff;font-weight:600;text-decoration:none;white-space:nowrap}
@@ -101,3 +106,77 @@ a.dr-n:hover{text-decoration:underline}
 .cg-ro{margin-bottom:16px}
 .dr-kpis dt{font-size:12px;color:var(--naotech-app-color-700)}.dr-kpis dd{margin:2px 0 0;font-size:20px;font-weight:700}
 @media (max-width:760px){.dr-filtros{grid-template-columns:1fr}.dr-head{grid-template-columns:auto 1fr}.dr-kpis{grid-column:1/-1}}
+
+/* ---- Crear / Editar evento: formulario lineal en secciones numeradas ---- */
+.cr{row-gap:var(--naotech-sizing-24)}
+.cr-head small{max-width:40rem}
+.cr-note{display:flex;align-items:center;gap:var(--naotech-sizing-8);margin:0;padding:var(--naotech-sizing-12) var(--naotech-sizing-16);border-radius:12px;background:#eaf1ff;border:1px solid #c5d6fb;color:#1e3a8a;--naotech-icon-dimension:18px}
+.cr-card[hidden],.cr-err[hidden]{display:none}
+.cr-card{gap:var(--naotech-sizing-24);scroll-margin-top:var(--naotech-sizing-16)}
+.cr-card__h{display:flex;align-items:flex-start;gap:var(--naotech-sizing-12)}
+.cr-card__h h2{margin:0}
+.cr-card__h p{margin:var(--naotech-sizing-4) 0 0;color:var(--naotech-app-color-700)}
+.cr-num{flex:0 0 auto;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--naotech-app-color-900,#1d1f2e);color:#fff;font:700 14px/1 Inter,sans-serif}
+.cr-body{display:flex;flex-direction:column;gap:var(--naotech-sizing-16)}
+.cr-grid{align-items:start}
+.cr-lbl{display:block;margin-bottom:var(--naotech-sizing-8)}
+
+/* Progreso: pasos que anclan a cada sección, con una barra fina debajo. */
+.cr-steps{display:flex;flex-direction:column;gap:var(--naotech-sizing-4)}
+.cr-steps__sum{margin:0;color:var(--naotech-app-color-700)}
+.cr-steps ol{list-style:none;margin:0;padding:0;display:flex;gap:var(--naotech-sizing-4)}
+.cr-steps li{flex:1 1 0;min-width:0}
+.cr-step{display:flex;align-items:center;gap:var(--naotech-sizing-8);width:100%;min-height:44px;padding:0 var(--naotech-sizing-8);border:0;border-radius:10px;background:none;font:500 13px Inter,sans-serif;color:var(--naotech-app-color-700);cursor:pointer;text-align:left}
+.cr-step:hover{background:var(--naotech-app-color-100)}
+.cr-step__dot{flex:0 0 auto;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--naotech-app-color-400,#b5b9cf);background:var(--naotech-app-background);color:var(--naotech-app-color-700);font-size:12px;font-weight:700;--naotech-icon-dimension:14px}
+.cr-step.is-done{color:var(--naotech-app-color-900)}
+.cr-step.is-done .cr-step__dot{background:#14611a;border-color:#14611a;color:#fff}
+.cr-step__t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cr-steps__bar{height:4px;border-radius:99px;background:var(--naotech-app-color-200,#e3e5f0);overflow:hidden}
+.cr-steps__bar i{display:block;height:100%;width:0;border-radius:inherit;background:#14611a}
+
+/* Tarjetas de selección (tipo) y segmentos (alcance, modalidad) sobre radios nativos. */
+.cr-opts{display:grid;gap:var(--naotech-sizing-12)}
+.cr-opts--seg{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cr-opt{position:relative;display:block;min-width:0}
+.cr-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.cr-opt__box{display:flex;align-items:center;gap:var(--naotech-sizing-12);min-height:64px;padding:var(--naotech-sizing-12) var(--naotech-sizing-16);border:1px solid var(--naotech-app-color-300,#cfd3e6);border-radius:12px;background:var(--naotech-app-background)}
+.cr-opt:hover .cr-opt__box{border-color:var(--naotech-app-color-500,#8a90ad)}
+.cr-opt__ico{flex:0 0 auto;display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--naotech-app-color-100);color:var(--naotech-app-color-900);--naotech-icon-dimension:20px}
+.cr-opt__txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cr-opt__d{font-size:var(--naotech-caption-font-size,12px);line-height:var(--naotech-caption-line-height,16px);color:var(--naotech-app-color-700)}
+.cr-opt__dot{flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--naotech-app-color-400,#b5b9cf);background:var(--naotech-app-background)}
+.cr-opt input:checked+.cr-opt__box{border-color:var(--naotech-primary-color-normal);box-shadow:0 0 0 1px var(--naotech-primary-color-normal);background:var(--naotech-primary-color-050,#fff3e6)}
+.cr-opt input:checked+.cr-opt__box .cr-opt__ico{background:var(--naotech-app-background)}
+.cr-opt input:checked+.cr-opt__box .cr-opt__dot{border-color:var(--naotech-primary-color-normal);background:radial-gradient(var(--naotech-primary-color-normal) 0 45%,transparent 50%)}
+.cr-opt input:focus-visible+.cr-opt__box{outline:2px solid var(--naotech-primary-color-normal);outline-offset:2px}
+.cr-opts--seg .cr-opt__box{min-height:56px}
+.cr-opts.is-error .cr-opt__box{border-color:var(--naotech-negative-color-normal,#c4262e)}
+.cr-msg{margin:var(--naotech-sizing-8) 0 0;font-size:12px;line-height:16px;color:var(--naotech-negative-color-normal,#c4262e)}
+.cr-msg[hidden]{display:none}
+
+/* Resumen de errores (solo tras intentar guardar). */
+.cr-errbox{padding:var(--naotech-sizing-16);border-radius:12px;border:1px solid var(--naotech-negative-color-normal,#c4262e);background:#fff5f6;color:var(--naotech-app-color-900)}
+.cr-errbox p{margin:0;color:var(--naotech-negative-color-normal,#c4262e)}
+.cr-errbox ul{margin:var(--naotech-sizing-4) 0 0;padding-left:var(--naotech-sizing-20,20px)}
+.cr-errbox button{min-height:44px;padding:0;border:0;background:none;font:500 14px Inter,sans-serif;color:var(--naotech-app-color-900);text-decoration:underline;cursor:pointer}
+
+/* Barra fija inferior. */
+.cr-foot__msg{margin:0;min-width:0;color:var(--naotech-app-color-700)}
+.cr-foot__msg b{color:var(--naotech-app-color-900)}
+.cr-chips:empty{display:none}
+.cr-chips{margin-top:var(--naotech-sizing-8)}
+.cr-sedes .cr-chips{margin-top:0}
+.cr-fijo{min-height:44px;font-size:14px}
+@media (prefers-reduced-motion:no-preference){.cr-opt__box,.cr-step{transition:border-color .15s,background-color .15s,box-shadow .15s}.cr-steps__bar i{transition:width .25s}}
+@media (max-width:640px){
+  .cr-steps ol{justify-content:space-between}.cr-step{justify-content:center;padding:0}
+  .cr-step__t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .cr-foot{flex-direction:column;align-items:stretch;gap:var(--naotech-sizing-8)}
+  .cr-actions{display:grid;grid-template-columns:1fr 1fr}.cr-actions nwt-button,.cr-actions nwt-button button{display:block;width:100%}
+  .cr-card{padding:var(--naotech-sizing-16)}
+}
+.cr-errbox ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:0 var(--naotech-sizing-16)}
+.cr-sedes__in{align-items:start}
+.cr-sedes__in>nwt-button{margin-top:28px}
+@media (max-width:760px){.cr-sedes__in>nwt-button{margin-top:0}}
