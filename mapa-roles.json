@@ -1,74 +1,1176 @@
 {
   "meta": {
     "titulo": "Mapa de roles × superficies × detalle de evento",
-    "version": 1,
+    "version": 2,
     "baseline": "Punto de partida: todos los eventos cumplen el estándar (nacional con ≥1 organización invitada, gestor asignado, fechas y lugar completos). Sobre ese baseline se mapea qué ve y qué hace cada rol.",
-    "fuente": "platform/roles.js + platform/app.js (visibleTabs) + tabs/*.js. Este JSON es el estándar propuesto; editarlo aquí NO cambia la demo hasta llevarlo a roles.js.",
+    "fuente": "Procedencia por dato. (1) Backend (event-sport-orc + gateway, staging): auditoría de Javier Mercado, 29-oct-2026, leída de migraciones y no verificada en prod. (2) events-lite permissions.ts (suite-mf-events-lite, main, 2026-10-05): roles y permisos del Comité y Admin. (3) nao-docs, suid/jerarquia-organizaciones/roles-y-permisos.md (páginas de 2026-09-14 a 2026-10-19; leído 2026-10-30) y compromiso C-8 de decisiones.md: nombres oficiales, quién es cada rol, marca olímpica, administradores del Ministerio por módulo. (4) PR-03_FP_2026-10-26_ESPECIFICACION_MODULO_EVENTOS_SUID §3 (Danna Arrieta). (5) Decisiones de Jorge, 29-oct-2026, sin verificar en backend: consulta de coc/full/liga y creación/edición por rol. (6) Demo: platform/roles.js + platform/app.js (visibleTabs) + tabs/*.js. Los roles del PR-03 (Gestor de programa, Operador, Participante, etc.) NO existen hoy en backend y la matriz de administradores y operadores por módulo está PENDIENTE (compromiso C-8, Danna Arrieta con el Ministerio): son roles planeados, sin definir; ni reales ni descartados. Este JSON es el estándar propuesto; editarlo aquí NO cambia la demo hasta llevarlo a roles.js.",
     "niveles": {
       "no": "No lo ve",
       "ver": "Solo lectura",
       "editar": "Lectura y escritura",
       "asignado": "Escribe solo en eventos que tiene asignados; en el resto, solo lectura"
     },
-    "orden_acceso": ["admin", "gestor", "usuario", "comite", "comite_manager", "viewer", "metodologo"],
-    "actualizado": "2026-10-28"
+    "orden_acceso": [
+      "admin",
+      "gestor",
+      "usuario",
+      "comite",
+      "comite_manager",
+      "comite_admin",
+      "viewer",
+      "metodologo"
+    ],
+    "actualizado": "2026-10-30",
+    "certezas": {
+      "doc": "PR-03 §3 (doc de especificación)",
+      "permissions.ts": "events-lite permissions.ts, main, 2026-10-05",
+      "decision_jorge": "Decisión de Jorge 29-oct-2026, sin verificar en backend",
+      "inferencia": "Inferido, no confirmado",
+      "por_decidir": "Sin definir: pregunta abierta",
+      "backend_javi": "Backend staging según Javi, 29-oct-2026; migraciones, no verificado en prod",
+      "nao_docs": "nao-docs, suid/jerarquia-organizaciones/roles-y-permisos.md; páginas de 2026-09-14 a 2026-10-19; leído 2026-10-30"
+    },
+    "estados": {
+      "hoy": "Existe en backend (staging).",
+      "planeado": "Está en nao-docs o en el PR-03, pero no existe en backend y sus permisos no están definidos.",
+      "propuesto": "Idea de diseño de este mapa: no existe ni está acordada en nao-docs como rol de eventos."
+    }
   },
   "roles": [
-    { "id": "admin", "codigo": "EVENTS_LITE_ADMIN", "etiqueta": "Administrador de eventos", "alcance_lista": "Todos los eventos" },
-    { "id": "gestor", "codigo": "EVENTS_LITE_MANAGER", "etiqueta": "Gestor de eventos", "alcance_lista": "Mis eventos / Todos" },
-    { "id": "usuario", "codigo": "EVENTS_LITE_MODULE_USER", "etiqueta": "Usuario del módulo", "alcance_lista": "Mis eventos / Todos" },
-    { "id": "comite", "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE", "etiqueta": "Comité Olímpico", "alcance_lista": "Solo Ciclo Olímpico" },
-    { "id": "comite_manager", "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE_MANAGER", "etiqueta": "Gestor del Comité", "alcance_lista": "Solo Ciclo Olímpico" },
-    { "id": "viewer", "codigo": "OLYMPIC_COMMITTEE_VIEWER", "etiqueta": "Visualizador del Comité", "alcance_lista": "Solo Ciclo Olímpico" },
-    { "id": "metodologo", "codigo": "EVENTS_LITE_METHODOLOGIST", "etiqueta": "Metodólogo", "alcance_lista": "Ninguno (califica en su propia vista)" }
+    {
+      "id": "admin",
+      "codigo": "EVENTS_LITE_ADMIN",
+      "etiqueta": "Administrador de eventos",
+      "alcance_lista": "Todos los eventos",
+      "estado": "hoy",
+      "nombre_oficial": "Admin Naowee",
+      "quien_es": "Personal de Naowee (soporte). Hoy además crea eventos y asigna al Gestor de eventos.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "gestor",
+      "codigo": "EVENTS_LITE_MANAGER",
+      "etiqueta": "Gestor de eventos",
+      "alcance_lista": "Mis eventos / Todos",
+      "estado": "hoy",
+      "nombre_oficial": "Gestor de eventos Naowee",
+      "quien_es": "Personal de Naowee, no admin. Opera eventos; es de events-lite y cruza con el módulo por los eventos asociados a organismos.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "usuario",
+      "codigo": "EVENTS_LITE_MODULE_USER",
+      "etiqueta": "Usuario del módulo",
+      "alcance_lista": "Mis eventos / Todos",
+      "estado": "hoy",
+      "nombre_oficial": "Sin mapeo en nao-docs",
+      "quien_es": "No aparece en la tabla «Cómo entran los roles que ya existen»; nao-docs solo lo cita entre los roles fuera del módulo de jerarquía.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "comite",
+      "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE",
+      "etiqueta": "Comité Olímpico",
+      "alcance_lista": "Solo Ciclo Olímpico",
+      "estado": "hoy",
+      "nombre_oficial": "Administrador de organismo del Comité Olímpico (con marca olímpica)",
+      "quien_es": "Cuenta del Comité Olímpico. Hoy solo ve y edita deportistas; pasa a ser la cuenta raíz de sus roles internos.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "comite_manager",
+      "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE_MANAGER",
+      "etiqueta": "Gestor del Comité",
+      "alcance_lista": "Solo Ciclo Olímpico",
+      "estado": "hoy",
+      "nombre_oficial": "Gestor de comité olímpico (rol interno)",
+      "quien_es": "Rol interno que crea el Administrador de organismo. Invita y asigna metodólogos; ve el Ciclo Olímpico y sus deportistas.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "comite_admin",
+      "codigo": null,
+      "etiqueta": "Administrador del Comité (propuesto)",
+      "alcance_lista": "Solo Ciclo Olímpico",
+      "estado": "propuesto",
+      "nombre_oficial": null,
+      "quien_es": "Idea de diseño: quien crea y edita eventos del ciclo. No existe en backend; por confirmar con Javi.",
+      "contraparte_nao_docs": "Administrador de organismo del Comité Olímpico con «marca olímpica». Hoy esa cuenta solo ve y edita deportistas. La marca olímpica es un atributo del organismo, no del usuario, y reemplaza al indicador de ciclo y al rol OLYMPIC_COMMITTEE_VIEWER.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "viewer",
+      "codigo": "OLYMPIC_COMMITTEE_VIEWER",
+      "etiqueta": "Visualizador del Comité",
+      "alcance_lista": "Solo Ciclo Olímpico",
+      "estado": "hoy",
+      "nombre_oficial": "Administrador de organismo del Comité Olímpico (con marca olímpica)",
+      "quien_es": "Rol de plataforma que acompaña a la cuenta del Comité. La marca olímpica, atributo del organismo, lo reemplaza junto con el indicador de ciclo.",
+      "certeza_nombre": "nao_docs"
+    },
+    {
+      "id": "metodologo",
+      "codigo": "EVENTS_LITE_METHODOLOGIST",
+      "etiqueta": "Metodólogo",
+      "alcance_lista": "Ninguno (califica en su propia vista)",
+      "estado": "hoy",
+      "nombre_oficial": "Metodólogo (rol interno)",
+      "quien_es": "Rol interno que crea el Gestor de comité olímpico. Registra opiniones sobre deportistas del Ciclo Olímpico.",
+      "certeza_nombre": "nao_docs"
+    }
   ],
   "grupos": [
-    { "id": "navegacion", "nombre": "Navegación (sidebar)" },
-    { "id": "listado", "nombre": "Listado de eventos" },
-    { "id": "acciones", "nombre": "Acciones sobre eventos" },
-    { "id": "pestanas", "nombre": "Pestañas dentro del evento" },
-    { "id": "campos", "nombre": "Detalle del evento · Información (campos)" }
+    {
+      "id": "navegacion",
+      "nombre": "Navegación (sidebar)"
+    },
+    {
+      "id": "listado",
+      "nombre": "Listado de eventos"
+    },
+    {
+      "id": "acciones",
+      "nombre": "Acciones sobre eventos"
+    },
+    {
+      "id": "pestanas",
+      "nombre": "Pestañas dentro del evento"
+    },
+    {
+      "id": "campos",
+      "nombre": "Detalle del evento · Información (campos)"
+    }
   ],
   "superficies": [
-    { "id": "nav-eventos", "grupo": "navegacion", "nombre": "Eventos", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "nav-calendario", "grupo": "navegacion", "nombre": "Calendario", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "nav-deportistas", "grupo": "navegacion", "nombre": "Consulta deportistas", "acceso": ["ver","ver","ver","ver","ver","no","no"] },
-    { "id": "nav-usuarios", "grupo": "navegacion", "nombre": "Usuarios", "acceso": ["ver","no","no","no","no","no","no"] },
-
-    { "id": "lista-todos", "grupo": "listado", "nombre": "Ver todos los eventos", "acceso": ["ver","ver","ver","no","no","no","no"] },
-    { "id": "lista-ciclo", "grupo": "listado", "nombre": "Ver solo eventos del Ciclo Olímpico", "nota": "Fuera del ciclo = «Evento no disponible» (404 a propósito, sin decir por qué).", "acceso": ["no","no","no","ver","ver","ver","no"] },
-    { "id": "lista-mis", "grupo": "listado", "nombre": "Pestaña «Mis eventos»", "nota": "Los que tiene asignados como gestor.", "acceso": ["no","ver","ver","no","no","no","no"] },
-
-    { "id": "acc-crear", "grupo": "acciones", "nombre": "Crear evento", "acceso": ["editar","no","no","no","no","no","no"] },
-    { "id": "acc-editar", "grupo": "acciones", "nombre": "Editar evento (alcance no editable)", "acceso": ["editar","no","no","no","no","no","no"] },
-    { "id": "acc-gestor", "grupo": "acciones", "nombre": "Asignar gestor y marcar Ciclo Olímpico", "acceso": ["editar","no","no","no","no","no","no"] },
-
-    { "id": "tab-informacion", "grupo": "pestanas", "nombre": "Información", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "tab-cargas", "grupo": "pestanas", "nombre": "Cargas (inscripciones, resultados, medallería)", "nota": "Admin la ve en seguimiento; carga solo el gestor en sus eventos.", "acceso": ["ver","asignado","no","no","no","no","no"] },
-    { "id": "tab-deportes", "grupo": "pestanas", "nombre": "Deportes", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "tab-organizaciones", "grupo": "pestanas", "nombre": "Organizaciones", "condicion": { "alcance": "NACIONAL" }, "nota": "Solo eventos nacionales. Invita/quita quien gestiona el evento (admin: todos).", "acceso": ["editar","asignado","ver","ver","ver","ver","no"] },
-    { "id": "tab-nominal", "grupo": "pestanas", "nombre": "Nominal (deportistas inscritos)", "acceso": ["no","no","no","ver","ver","no","no"] },
-    { "id": "tab-calendario", "grupo": "pestanas", "nombre": "Calendario y resultados", "nota": "En evento Próximo se llama solo «Calendario».", "acceso": ["no","no","no","no","ver","no","no"] },
-    { "id": "tab-medalleria", "grupo": "pestanas", "nombre": "Medallería", "condicion": { "alcance": "INTERNACIONAL", "estado_no": "Próximo" }, "nota": "Solo si el evento ya empezó y no es nacional (el medallero compara países).", "acceso": ["no","no","no","no","ver","no","no"] },
-    { "id": "tab-boletines", "grupo": "pestanas", "nombre": "Boletines técnicos", "condicion": { "boletines": true }, "nota": "Solo si el evento tiene boletines.", "acceso": ["no","no","no","no","ver","no","no"] },
-    { "id": "tab-metodologos", "grupo": "pestanas", "nombre": "Metodólogos", "nota": "Asigna y quita metodólogos (evento completo o por deporte).", "acceso": ["editar","no","no","no","editar","no","no"] },
-    { "id": "tab-analitica", "grupo": "pestanas", "nombre": "Analítica", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-
-    { "id": "campo-nombre", "grupo": "campos", "nombre": "Nombre", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-alcance", "grupo": "campos", "nombre": "Alcance (Nacional / Internacional)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-estado", "grupo": "campos", "nombre": "Estado (Próximo / En curso / Finalizado)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-fechas", "grupo": "campos", "nombre": "Fechas (inicio y fin)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-lugar", "grupo": "campos", "nombre": "Lugar (ciudad · departamento/municipio si nacional)", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-organismo", "grupo": "campos", "nombre": "Organismo organizador", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-paises", "grupo": "campos", "nombre": "Países participantes", "condicion": { "alcance": "INTERNACIONAL" }, "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-sedes", "grupo": "campos", "nombre": "Sedes", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-gestor", "grupo": "campos", "nombre": "Gestor asignado", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-ciclo", "grupo": "campos", "nombre": "Marca Ciclo Olímpico", "acceso": ["ver","ver","ver","ver","ver","ver","no"] },
-    { "id": "campo-descripcion", "grupo": "campos", "nombre": "Descripción", "acceso": ["ver","ver","ver","ver","ver","ver","no"] }
+    {
+      "id": "nav-eventos",
+      "grupo": "navegacion",
+      "nombre": "Eventos",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "nav-calendario",
+      "grupo": "navegacion",
+      "nombre": "Calendario",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "nav-deportistas",
+      "grupo": "navegacion",
+      "nombre": "Consulta deportistas",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "nav-usuarios",
+      "grupo": "navegacion",
+      "nombre": "Usuarios",
+      "acceso": [
+        "ver",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "lista-todos",
+      "grupo": "listado",
+      "nombre": "Ver todos los eventos",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "lista-ciclo",
+      "grupo": "listado",
+      "nombre": "Ver solo eventos del Ciclo Olímpico",
+      "nota": "Fuera del ciclo = «Evento no disponible» (404 a propósito, sin decir por qué).",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "lista-mis",
+      "grupo": "listado",
+      "nombre": "Pestaña «Mis eventos»",
+      "nota": "Los que tiene asignados como gestor.",
+      "acceso": [
+        "no",
+        "ver",
+        "ver",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "acc-crear",
+      "grupo": "acciones",
+      "nombre": "Crear evento",
+      "acceso": [
+        "editar",
+        "no",
+        "no",
+        "no",
+        "no",
+        "editar",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "acc-editar",
+      "grupo": "acciones",
+      "nombre": "Editar evento",
+      "acceso": [
+        "editar",
+        "no",
+        "no",
+        "no",
+        "no",
+        "editar",
+        "no",
+        "no"
+      ],
+      "nota": "El alcance no se puede editar."
+    },
+    {
+      "id": "acc-gestor",
+      "grupo": "acciones",
+      "nombre": "Asignar gestor",
+      "acceso": [
+        "editar",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "acc-ciclo",
+      "grupo": "acciones",
+      "nombre": "Marcar Ciclo Olímpico",
+      "acceso": [
+        "editar",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-informacion",
+      "grupo": "pestanas",
+      "nombre": "Información",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-cargas-inscripciones",
+      "grupo": "pestanas",
+      "nombre": "Cargas · Inscripciones",
+      "nota": "Carga de inscripciones; el gestor solo en los eventos que tiene asignados.",
+      "acceso": [
+        "ver",
+        "asignado",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-cargas-resultados",
+      "grupo": "pestanas",
+      "nombre": "Cargas · Resultados",
+      "nota": "Carga de resultados; el gestor solo en los eventos que tiene asignados.",
+      "acceso": [
+        "ver",
+        "asignado",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-cargas-medalleria",
+      "grupo": "pestanas",
+      "nombre": "Cargas · Medallería",
+      "nota": "Carga de medallería; el gestor solo en los eventos que tiene asignados.",
+      "acceso": [
+        "ver",
+        "asignado",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-deportes",
+      "grupo": "pestanas",
+      "nombre": "Deportes",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-organizaciones",
+      "grupo": "pestanas",
+      "nombre": "Organizaciones",
+      "condicion": {
+        "alcance": "NACIONAL"
+      },
+      "nota": "Solo eventos nacionales. Invita/quita quien gestiona el evento (admin: todos).",
+      "acceso": [
+        "editar",
+        "asignado",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-nominal",
+      "grupo": "pestanas",
+      "nombre": "Nominal (deportistas inscritos)",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-calendario",
+      "grupo": "pestanas",
+      "nombre": "Calendario",
+      "nota": "Programación del evento.",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-resultados",
+      "grupo": "pestanas",
+      "nombre": "Resultados",
+      "nota": "Solo si el evento ya empezó.",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ],
+      "condicion": {
+        "estado_no": "Próximo"
+      }
+    },
+    {
+      "id": "tab-medalleria",
+      "grupo": "pestanas",
+      "nombre": "Medallería",
+      "condicion": {
+        "alcance": "INTERNACIONAL",
+        "estado_no": "Próximo"
+      },
+      "nota": "Solo si el evento ya empezó y no es nacional (el medallero compara países).",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-boletines",
+      "grupo": "pestanas",
+      "nombre": "Boletines técnicos",
+      "condicion": {
+        "boletines": true
+      },
+      "nota": "Solo si el evento tiene boletines.",
+      "acceso": [
+        "no",
+        "no",
+        "no",
+        "no",
+        "ver",
+        "ver",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-metodologos",
+      "grupo": "pestanas",
+      "nombre": "Metodólogos",
+      "nota": "Asigna y quita metodólogos (evento completo o por deporte).",
+      "acceso": [
+        "editar",
+        "no",
+        "no",
+        "no",
+        "editar",
+        "editar",
+        "no",
+        "no"
+      ]
+    },
+    {
+      "id": "tab-analitica",
+      "grupo": "pestanas",
+      "nombre": "Analítica",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-nombre",
+      "grupo": "campos",
+      "nombre": "Nombre",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-alcance",
+      "grupo": "campos",
+      "nombre": "Alcance del evento (nacional / internacional)",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-estado",
+      "grupo": "campos",
+      "nombre": "Estado del evento",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-fechas",
+      "grupo": "campos",
+      "nombre": "Fechas (inicio y fin)",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-lugar",
+      "grupo": "campos",
+      "nombre": "Lugar (ciudad)",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-depmun",
+      "grupo": "campos",
+      "nombre": "Departamento y municipio",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ],
+      "condicion": {
+        "alcance": "NACIONAL"
+      }
+    },
+    {
+      "id": "campo-organismo",
+      "grupo": "campos",
+      "nombre": "Organismo organizador",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-paises",
+      "grupo": "campos",
+      "nombre": "Países participantes",
+      "condicion": {
+        "alcance": "INTERNACIONAL"
+      },
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-sedes",
+      "grupo": "campos",
+      "nombre": "Sedes",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-gestor",
+      "grupo": "campos",
+      "nombre": "Gestor asignado",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-ciclo",
+      "grupo": "campos",
+      "nombre": "Marca Ciclo Olímpico",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    },
+    {
+      "id": "campo-descripcion",
+      "grupo": "campos",
+      "nombre": "Descripción",
+      "acceso": [
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "ver",
+        "no"
+      ]
+    }
   ],
   "preguntas_abiertas": [
-    "¿Algún campo de Información debe ocultarse a roles de solo lectura (p. ej. gestor asignado)? Hoy el baseline es: todos los que ven el evento ven todos los campos.",
-    "¿El Gestor del Comité también edita Metodólogos solo en eventos del ciclo? Hoy sí, por alcance de lista.",
-    "¿Usuarios debe tener «Mis eventos»? Hoy la pestaña existe pero su lista sale vacía (no gestiona ninguno)."
-  ]
+    "¿Algún campo de Información debe ocultarse a roles de solo lectura (p. ej. gestor asignado)? Hoy todos los que ven el evento ven todos los campos. [Producto]",
+    "¿El Gestor del Comité edita Metodólogos solo en eventos del ciclo? Hoy sí, por alcance de lista. [Javi]",
+    "¿Usuarios debe tener «Mis eventos»? Hoy la pestaña existe pero su lista sale vacía (no gestiona ninguno). [Producto]",
+    "¿Cómo se muestra un FULL con ciclo? Hoy, badge doble («Evento completo» y «Ciclo Olímpico»). [Producto]",
+    "Contrato de solo lectura para deportistas, resultados y medallería de FULL (hoy 501 en v2). [Javi]",
+    "¿Quién crea eventos del ciclo? El backend da el interruptor de ciclo a EVENTS_LITE_ADMIN en el mismo formulario y los roles del Comité no tienen event:create. La regla exige un rol del ciclo con permiso de crear (en nao-docs su contraparte es la cuenta que hoy es EVENTS_LITE_OLYMPIC_COMMITTEE: ¿se amplía o se crea otro?) y que EVENTS_LITE_ADMIN deje de marcar ciclo, o bien SUID ofrece marcarlo. [Javi]",
+    "Corregir el doc PR-03 §2: «Juegos Intercolegiados Nacionales» solo nombra un evento FULL de JIN, no habilita crear FULL desde SUID (el backend acepta POST FULL, SUID no lo ofrece), e Intercolegiados no es un tipo creable. [Danna]",
+    "¿Qué más ve EVENTS_LITE_LEAGUE en la lista de otros tipos de evento (SUID, COC, FULL)? [Javi]",
+    "¿El backend LITE soporta un campo de tipo de programa y los parámetros no competitivos (módulos, sesiones, evaluación)? Hoy un LITE es deporte+prueba sin fases ni categorías. [Javi]",
+    "¿Hay cargas para eventos COC y quién las hace? [Producto]",
+    "Si los eventos adoptan la jurisdicción de nao-docs (ver = subárbol completo, actuar = nivel inmediato), la visibilidad dependerá del organismo y no solo del rol más el ciclo. [Producto/Danna]",
+    "¿Qué pasa con EVENTS_LITE_MODULE_USER en la jerarquía? No tiene mapeo en la tabla de nao-docs. [Danna]",
+    "¿Qué permisos tendrán el Administrador del Ministerio de eventos, el Gestor de programa, el Operador y el Participante? Su matriz por módulo está pendiente (C-8). [Danna]"
+  ],
+  "tipos_evento": [
+    {
+      "id": "suid",
+      "etiqueta": "SUID",
+      "descripcion": "LITE sin ciclo, creado en SUID. Lo crea y edita solo un rol SUID (admin); nunca FULL."
+    },
+    {
+      "id": "coc",
+      "etiqueta": "COC (LITE)",
+      "descripcion": "LITE con ciclo olímpico. Lo crea y edita solo un rol del ciclo (rol propuesto: Administrador del Comité); el resto lo consulta."
+    },
+    {
+      "id": "full",
+      "etiqueta": "FULL",
+      "descripcion": "event_type FULL (o null): administrado en otro sistema (JIN, Deportivos Nacionales, Intercolegiados…); solo consulta. Puede tener ciclo olímpico: se muestra con badge doble. Backend: edición responde 501; v2 solo sirve Información y Deportes."
+    },
+    {
+      "id": "liga",
+      "etiqueta": "Liga (ULTRA_LITE)",
+      "descripcion": "Evento de OTRA organización (la Liga), no un SUID simplificado: entrada mínima de calendario con name, start_date, end_date (si falta = start_date), start_time y event_link opcionales. Sin deportes, organizaciones, gestor, inscripciones, resultados ni medallería. Sin estado (el backend lo fija en CREATED, no se calcula por fechas). Origen = organismo de la Liga que lo creó. Solo consulta desde SUID, con etiqueta propia «Liga»."
+    }
+  ],
+  "matriz_tipo": [
+    {
+      "rol": "Administrador de eventos",
+      "codigo": "EVENTS_LITE_ADMIN",
+      "equivalente_doc": "Admin Naowee",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "Crea, edita, parametriza, revierte y audita. Solo eventos SUID: no ve el interruptor de ciclo",
+        "certeza": "permissions.ts"
+      },
+      "coc": {
+        "texto": "Solo consulta: Vista simplificada: Información, Deportes y Analítica (más Organizaciones si es nacional); sin Nominal, medallería, calendario-resultados, boletines, metodólogos ni botones de edición o cargue",
+        "certeza": "decision_jorge"
+      },
+      "full": {
+        "texto": "Solo consulta: Información y Deportes (v2 no sirve el resto; edición 501). Con ciclo: igual y badge «Ciclo Olímpico»",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Gestor de eventos",
+      "codigo": "EVENTS_LITE_MANAGER",
+      "equivalente_doc": "Gestor de eventos Naowee",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "Cronograma, inscripciones y cargues solo en los eventos asignados",
+        "certeza": "doc"
+      },
+      "coc": {
+        "texto": "Vista simplificada de consulta: Información, Deportes y Analítica (más Organizaciones si es nacional); sin Nominal, medallería, calendario-resultados, boletines, metodólogos ni botones de edición o cargue",
+        "certeza": "decision_jorge"
+      },
+      "full": {
+        "texto": "Solo consulta: Información y Deportes (v2 no sirve el resto; edición 501). Con ciclo: igual y badge «Ciclo Olímpico»",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Usuario del módulo",
+      "codigo": "EVENTS_LITE_MODULE_USER",
+      "equivalente_doc": "Sin mapeo en nao-docs",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "Solo lectura",
+        "certeza": "doc"
+      },
+      "coc": {
+        "texto": "Vista simplificada de consulta: Información, Deportes y Analítica (más Organizaciones si es nacional); sin Nominal, medallería, calendario-resultados, boletines, metodólogos ni botones de edición o cargue",
+        "certeza": "decision_jorge"
+      },
+      "full": {
+        "texto": "Solo consulta: Información y Deportes (v2 no sirve el resto; edición 501). Con ciclo: igual y badge «Ciclo Olímpico»",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Comité Olímpico",
+      "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE",
+      "equivalente_doc": "Administrador de organismo del Comité Olímpico",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "No lo ve (404): el backend filtra al Comité a LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "coc": {
+        "texto": "Consulta",
+        "certeza": "permissions.ts"
+      },
+      "full": {
+        "texto": "No lo ve (404), tampoco con ciclo: el filtro es solo LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Gestor del Comité",
+      "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE_MANAGER",
+      "equivalente_doc": "Gestor de comité olímpico (rol interno)",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "No lo ve (404): el backend filtra al Comité a LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "coc": {
+        "texto": "Consulta, además resultados/medallería y asigna metodólogos",
+        "certeza": "permissions.ts"
+      },
+      "full": {
+        "texto": "No lo ve (404), tampoco con ciclo: el filtro es solo LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Administrador del Comité (propuesto)",
+      "codigo": null,
+      "equivalente_doc": null,
+      "mapeo": "inferencia",
+      "suid": {
+        "texto": "No lo ve (404): el backend filtra al Comité a LITE con ciclo",
+        "certeza": "decision_jorge"
+      },
+      "coc": {
+        "texto": "Crea y edita (el evento nace con ciclo, sin interruptor)",
+        "certeza": "decision_jorge"
+      },
+      "full": {
+        "texto": "No lo ve (404), tampoco con ciclo: el filtro es solo LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "No lo ve (404): el filtro es solo LITE con ciclo",
+        "certeza": "decision_jorge"
+      },
+      "estado": "propuesto"
+    },
+    {
+      "rol": "Visualizador del Comité",
+      "codigo": "OLYMPIC_COMMITTEE_VIEWER",
+      "equivalente_doc": "Administrador de organismo del Comité Olímpico",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "No lo ve (404): el backend filtra al Comité a LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "coc": {
+        "texto": "Consulta",
+        "certeza": "permissions.ts"
+      },
+      "full": {
+        "texto": "No lo ve (404), tampoco con ciclo: el filtro es solo LITE con ciclo",
+        "certeza": "backend_javi"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    },
+    {
+      "rol": "Metodólogo",
+      "codigo": "EVENTS_LITE_METHODOLOGIST",
+      "equivalente_doc": "Metodólogo (rol interno)",
+      "mapeo": "nao_docs",
+      "suid": {
+        "texto": "Sin acceso al módulo",
+        "certeza": "permissions.ts"
+      },
+      "coc": {
+        "texto": "Sin acceso al módulo",
+        "certeza": "permissions.ts"
+      },
+      "full": {
+        "texto": "Sin acceso al módulo",
+        "certeza": "permissions.ts"
+      },
+      "liga": {
+        "texto": "Solo consulta: fechas, hora y enlace; sin estado; sin pestañas",
+        "certeza": "decision_jorge"
+      },
+      "estado": "hoy"
+    }
+  ],
+  "reglas": [
+    {
+      "id": "creacion-suid",
+      "texto": "Todo evento creado desde SUID es de tipo suid y el ciclo olímpico no se puede marcar desde SUID.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "cargas-solo-suid",
+      "texto": "La pestaña Cargas (inscripciones, resultados, medallería) no aparece en ningún rol para eventos coc ni full; solo en eventos suid y para quien los gestiona.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "suid-ve-coc-simplificado",
+      "texto": "Con rol SUID (admin, gestor, usuario) un evento coc es de solo consulta: pestañas Información, Deportes y Analítica (+ Organizaciones si es nacional); sin Nominal, medallería, calendario-resultados, boletines ni metodólogos, y sin editar, eliminar ni cargar.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "detalle-coc-por-rol",
+      "texto": "En un evento coc el detalle depende del rol del Comité. El Comité ve Información, Nominal, Deportes, Organizaciones (si es nacional) y Analítica. El Visualizador ve lo mismo sin Nominal. Solo el Gestor del Comité suma Calendario, Resultados, Medallería (internacional y ya iniciado), Boletines y Metodólogos. Ninguno ve Cargas.",
+      "certeza": "permissions.ts",
+      "fuente": "platform/roles.js y matriz de superficies de este mapa"
+    },
+    {
+      "id": "filtro-origen",
+      "texto": "Filtro Origen (multi-selección: suid, coc, full, liga) en la lista y en el calendario; un FULL con ciclo cuenta como full.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "edicion-backend",
+      "texto": "Edición: FULL → 501 en backend; COC → solo interfaz (decisión Jorge), el backend no lo bloquea.",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "nombre-unico",
+      "texto": "Nombre único validado por backend (409 «Ya existe un evento con un nombre similar»), contra todos los tipos y normalizado a slug; el front solo pre-valida con la misma normalización.",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "detalle-full",
+      "texto": "Detalle FULL: Información y Deportes; el resto (deportistas, resultados, medallería) pendiente de backend (501 en v2).",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "liga-entrada-minima",
+      "texto": "Liga: entrada mínima de calendario de otra organización; SUID no la crea ni la edita; sin estado; el origen es el organismo que la creó.",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "ultra-lite-marcado",
+      "texto": "ULTRA_LITE entra a lista y calendario con la etiqueta «Liga», en su propia sección al final y sin estado; el Comité no lo ve.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "visibilidad-comite",
+      "texto": "El backend filtra por rol solo al Comité y su Manager: ven únicamente LITE con ciclo; el detalle del resto da 404. Cualquier otro rol con event:list ve todo.",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "evento-tipificado",
+      "texto": "Todo evento creado en SUID nace tipificado (Competitivo, Actividad Física, Deporte Escolar y Formativo, Deporte Social Comunitario o Recreación) y el tipo habilita sus parámetros",
+      "certeza": "doc",
+      "fuente": "PR-03 RN-01"
+    },
+    {
+      "id": "creacion-edicion-por-rol",
+      "texto": "Creación y edición exclusivas por rol: un rol SUID solo eventos suid; un rol del ciclo solo coc; nadie crea ni edita full ni liga. Cada rol solo consulta lo ajeno: coc, full y liga son de solo consulta desde SUID.",
+      "certeza": "decision_jorge"
+    },
+    {
+      "id": "agregar-externos",
+      "texto": "Agregar externos queda fuera de esta fase: requiere modelo de vínculo en backend (no existe).",
+      "certeza": "backend_javi"
+    },
+    {
+      "id": "marca-organismo",
+      "texto": "La marca olímpica es un atributo del organismo, no del usuario: habilita roles internos y reemplaza al indicador de ciclo más el rol OLYMPIC_COMMITTEE_VIEWER.",
+      "certeza": "nao_docs"
+    },
+    {
+      "id": "roles-pr03-planeados",
+      "texto": "Los roles del PR-03 (Gestor de programa, Operador, Participante) y el Administrador del Ministerio de eventos son planeados, sin definir: no existen en backend y su matriz está pendiente (C-8, Danna Arrieta con el Ministerio).",
+      "certeza": "nao_docs"
+    }
+  ],
+  "roles_backend": {
+    "nota": "Roles del backend (staging) según Javi, 29-oct-2026, más los planeados de nao-docs y PR-03. Los planeados NO existen en backend y su matriz está pendiente (C-8): no son roles reales ni descartados, están sin definir. No hay «Operador» hoy.",
+    "filas": [
+      {
+        "codigo": "EVENTS_LITE_ADMIN",
+        "ambito": "Módulo",
+        "permisos": "Lista y detalle + event:update + athlete:list/read; marca y desmarca ciclo",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Admin Naowee",
+        "quien_es": "Personal de Naowee (soporte). Hoy además crea eventos y asigna al Gestor de eventos.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Admin Naowee"
+      },
+      {
+        "codigo": "EVENTS_LITE_MANAGER",
+        "ambito": "Módulo",
+        "permisos": "Lista y detalle + registration:write, result:write, medal:write",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Gestor de eventos Naowee",
+        "quien_es": "Personal de Naowee, no admin. Opera eventos; es de events-lite y cruza con el módulo por los eventos asociados a organismos.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Gestor de eventos Naowee"
+      },
+      {
+        "codigo": "EVENTS_LITE_MODULE_USER",
+        "ambito": "Módulo",
+        "permisos": "event:list, event:read, athlete:*, dashboard:read",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Sin mapeo en nao-docs",
+        "quien_es": "No aparece en la tabla «Cómo entran los roles que ya existen»; nao-docs solo lo cita entre los roles fuera del módulo de jerarquía.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Sin mapeo en nao-docs"
+      },
+      {
+        "codigo": "EVENTS_LITE_LEAGUE",
+        "ambito": "Módulo",
+        "permisos": "Crea y edita sus ultra-lite desde /v2/events/ultra-lite (no desde el flujo SUID; POST /v2/events con ULTRA_LITE responde 501). Ve todos los ultra-lite, sin filtro por creador. El resto de sus permisos, por confirmar",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Administrador de organismo de su liga",
+        "quien_es": "Cuenta principal de la liga. Entra al módulo solo si la liga existe Activa en la jerarquía.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Administrador de organismo de su liga"
+      },
+      {
+        "codigo": "EVENTS_LITE_METHODOLOGIST",
+        "ambito": "Módulo",
+        "permisos": "Califica desde su vista; sin acceso al módulo de eventos (según lo ya documentado)",
+        "certeza": "permissions.ts",
+        "estado": "hoy",
+        "nombre_oficial": "Metodólogo (rol interno)",
+        "quien_es": "Rol interno que crea el Gestor de comité olímpico. Registra opiniones sobre deportistas del Ciclo Olímpico.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Metodólogo (rol interno)"
+      },
+      {
+        "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE",
+        "ambito": "Módulo",
+        "permisos": "Solo LITE con ciclo: el backend filtra la lista y el detalle del resto da 404",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Administrador de organismo del Comité Olímpico (con marca olímpica)",
+        "quien_es": "Cuenta del Comité Olímpico. Hoy solo ve y edita deportistas; pasa a ser la cuenta raíz de sus roles internos.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Administrador de organismo del Comité Olímpico (con marca olímpica)"
+      },
+      {
+        "codigo": "EVENTS_LITE_OLYMPIC_COMMITTEE_MANAGER",
+        "ambito": "Módulo",
+        "permisos": "Solo LITE con ciclo (filtro y 404 igual que el Comité); además resultados y medallería según lo ya documentado",
+        "certeza": "backend_javi",
+        "estado": "hoy",
+        "nombre_oficial": "Gestor de comité olímpico (rol interno)",
+        "quien_es": "Rol interno que crea el Administrador de organismo. Invita y asigna metodólogos; ve el Ciclo Olímpico y sus deportistas.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Gestor de comité olímpico (rol interno)"
+      },
+      {
+        "codigo": "OLYMPIC_COMMITTEE_VIEWER",
+        "ambito": "Plataforma",
+        "permisos": "Solo eventos con ciclo, Deportes y analítica (según lo ya documentado)",
+        "certeza": "permissions.ts",
+        "estado": "hoy",
+        "nombre_oficial": "Administrador de organismo del Comité Olímpico (con marca olímpica)",
+        "quien_es": "Rol de plataforma que acompaña a la cuenta del Comité. La marca olímpica, atributo del organismo, lo reemplaza junto con el indicador de ciclo.",
+        "certeza_nombre": "nao_docs",
+        "rol": "Administrador de organismo del Comité Olímpico (con marca olímpica)"
+      },
+      {
+        "codigo": null,
+        "ambito": "Módulo",
+        "permisos": "Propuesto, no existe en backend: LITE con ciclo con event:create y event:update. Por confirmar con Javi",
+        "certeza": "decision_jorge",
+        "rol": "Administrador del Comité (propuesto)",
+        "estado": "propuesto",
+        "nombre_oficial": "Contraparte: Administrador de organismo del Comité Olímpico (con marca olímpica)",
+        "quien_es": "Idea de diseño. Hoy esa cuenta solo ve y edita deportistas; la marca olímpica es del organismo y reemplaza al indicador de ciclo y al rol OLYMPIC_COMMITTEE_VIEWER.",
+        "certeza_nombre": "nao_docs"
+      },
+      {
+        "codigo": null,
+        "rol": "Administrador del Ministerio",
+        "ambito": "Módulo",
+        "permisos": "Por definir",
+        "certeza": "por_decidir",
+        "estado": "planeado",
+        "nombre_oficial": "Administrador del Ministerio",
+        "quien_es": "Administra eventos en el Ministerio (p. ej. la Dirección de Fomento). Matriz de administradores por módulo pendiente (C-8, Danna Arrieta).",
+        "certeza_nombre": "nao_docs",
+        "fuente": "nao-docs, roles-y-permisos.md (sección Ministerio) y C-8"
+      },
+      {
+        "codigo": null,
+        "rol": "Gestor de programa",
+        "ambito": "Módulo",
+        "permisos": "Por definir",
+        "certeza": "por_decidir",
+        "estado": "planeado",
+        "nombre_oficial": "Gestor de programa",
+        "quien_es": "Rol del PR-03 §3, sin definir; no existe en backend.",
+        "certeza_nombre": "doc",
+        "fuente": "PR-03 §3"
+      },
+      {
+        "codigo": null,
+        "rol": "Operador",
+        "ambito": "Módulo",
+        "permisos": "Por definir",
+        "certeza": "por_decidir",
+        "estado": "planeado",
+        "nombre_oficial": "Operador",
+        "quien_es": "Rol del PR-03 §3 y operador del módulo en nao-docs; sin definir; no existe en backend.",
+        "certeza_nombre": "nao_docs",
+        "fuente": "PR-03 §3; nao-docs (Ministerio)"
+      },
+      {
+        "codigo": null,
+        "rol": "Deportista / Participante",
+        "ambito": "Módulo",
+        "permisos": "Por definir",
+        "certeza": "por_decidir",
+        "estado": "planeado",
+        "nombre_oficial": "Deportista / Participante",
+        "quien_es": "Rol del PR-03 §3 para eventos; sin permisos definidos en el módulo de eventos.",
+        "certeza_nombre": "doc",
+        "fuente": "PR-03 §3"
+      }
+    ]
+  }
 }

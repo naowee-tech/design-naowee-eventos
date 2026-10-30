@@ -5,45 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mapa de roles</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--mut:#6b7385;--line:#e3e6ec;--acc:#3b5bdb;
---no:#eceef2;--no-i:#9aa1b2;--ver:#dbeafe;--ver-i:#1e40af;--edit:#d1fae5;--edit-i:#065f46;--asig:#fef3c7;--asig-i:#92400e}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#8f98ac;--line:#2a3140;--acc:#7c93ff;
---no:#232a37;--no-i:#6b7385;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d}}
-:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#8f98ac;--line:#2a3140;--acc:#7c93ff;
---no:#232a37;--no-i:#6b7385;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d}
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--mut:#586074;--line:#d9dde5;--acc:#3b5bdb;--on:#fff;
+--no:#eceef2;--no-i:#4b5263;--ver:#dbeafe;--ver-i:#1e40af;--edit:#d1fae5;--edit-i:#065f46;--asig:#fef3c7;--asig-i:#92400e;
+--z-backend_javi-b:#dbeafe;--z-backend_javi-f:#1e40af;--z-permissions-b:#ede9fe;--z-permissions-f:#5b21b6;--z-nao_docs-b:#ccfbf1;--z-nao_docs-f:#115e59;
+--z-doc-b:#fce7f3;--z-doc-f:#9d174d;--z-decision_jorge-b:#d1fae5;--z-decision_jorge-f:#065f46;--z-inferencia-b:#e4e7ed;--z-inferencia-f:#444b5c;--z-por_decidir-b:#fef3c7;--z-por_decidir-f:#92400e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#a0a9bd;--line:#2f3748;--acc:#8ea2ff;--on:#0b0f1a;
+--no:#232a37;--no-i:#a9b1c3;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d;
+--z-backend_javi-b:#1c2c52;--z-backend_javi-f:#9db8ff;--z-permissions-b:#2e1f55;--z-permissions-f:#c4b5fd;--z-nao_docs-b:#0f3b38;--z-nao_docs-f:#5eead4;
+--z-doc-b:#4a1d36;--z-doc-f:#f9a8d4;--z-decision_jorge-b:#0f3a2c;--z-decision_jorge-f:#6ee7b7;--z-inferencia-b:#2a3140;--z-inferencia-f:#b4bccd;--z-por_decidir-b:#4a3410;--z-por_decidir-f:#fcd34d}}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2a;--ink:#e8ebf2;--mut:#a0a9bd;--line:#2f3748;--acc:#8ea2ff;--on:#0b0f1a;
+--no:#232a37;--no-i:#a9b1c3;--ver:#1c2c52;--ver-i:#9db8ff;--edit:#0f3a2c;--edit-i:#6ee7b7;--asig:#4a3410;--asig-i:#fcd34d;
+--z-backend_javi-b:#1c2c52;--z-backend_javi-f:#9db8ff;--z-permissions-b:#2e1f55;--z-permissions-f:#c4b5fd;--z-nao_docs-b:#0f3b38;--z-nao_docs-f:#5eead4;
+--z-doc-b:#4a1d36;--z-doc-f:#f9a8d4;--z-decision_jorge-b:#0f3a2c;--z-decision_jorge-f:#6ee7b7;--z-inferencia-b:#2a3140;--z-inferencia-f:#b4bccd;--z-por_decidir-b:#4a3410;--z-por_decidir-f:#fcd34d}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,sans-serif}
-main{max-width:1180px;margin:0 auto;padding:24px 16px 80px}
-h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:28px 0 8px}
+main{max-width:1180px;margin:0 auto;padding:16px 16px 80px}
+h1{font-size:22px;margin:8px 0 4px}h2{font-size:16px;margin:32px 0 8px;scroll-margin-top:60px}h3{font-size:14px;margin:0 0 4px}
 p{margin:0;color:var(--mut)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:4px}
+td button:focus-visible,.wrap:focus-visible{outline-offset:-3px}
+.skip{position:absolute;left:-999px;top:0;background:var(--acc);color:var(--on);padding:8px 12px;z-index:50}.skip:focus{left:8px;top:8px}
+nav.idx{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin:0 -16px;padding-inline:16px}
+nav.idx a{white-space:nowrap;color:var(--ink);text-decoration:none;padding:5px 12px;border-radius:99px;border:1px solid transparent;font-size:13px}
+nav.idx a:hover{border-color:var(--line);background:var(--card)}
+nav.idx a[aria-current=true]{background:var(--acc);color:var(--on)}
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
-button,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
-button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+button,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;min-height:34px}
+button.pri{background:var(--acc);color:var(--on);border-color:var(--acc)}
 button:disabled{opacity:.5;cursor:default}
 .st{color:var(--mut);font-size:13px}.st.dirty{color:var(--asig-i);font-weight:600}
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
 .n-no{background:var(--no);color:var(--no-i)}.n-ver{background:var(--ver);color:var(--ver-i)}
 .n-editar{background:var(--edit);color:var(--edit-i)}.n-asignado{background:var(--asig);color:var(--asig-i)}
-.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:860px}
-th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
-thead th{position:sticky;top:0;background:var(--card);font-size:12px;line-height:1.25}
+/* resumen */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:8px 0}
+.panel h3{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.zchips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+button.zc{border:2px solid transparent;border-radius:99px;padding:4px 12px;font-size:13px;font-weight:600;min-height:32px}
+button.zc b{font-variant-numeric:tabular-nums;margin-left:6px;padding-left:8px;border-left:1px solid currentColor}
+button.zc[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
+.kpi{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin-top:8px}
+.kpi a{color:var(--acc);font-weight:700}
+.est{display:inline-flex;padding:1px 9px;border-radius:99px;font-size:11px;font-weight:700;border:1.5px solid var(--edit-i);background:var(--edit);color:var(--edit-i)}
+.est-planeado{border:1.5px dashed var(--ink);background:transparent;color:var(--ink)}
+.est-propuesto{border:1.5px dashed var(--asig-i);background:var(--asig);color:var(--asig-i)}
+.estl{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px}.estl span{font-size:12px;color:var(--mut)}
+details{margin-top:10px}summary{cursor:pointer;font-weight:600}
+details dl{margin:8px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:12px}details dd{margin:0;color:var(--mut)}
+details p{margin-top:6px;font-size:12px}
+/* tablas */
+.wrap{overflow:auto;max-height:74vh;background:var(--card);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:860px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;background:var(--card)}
+thead th{position:sticky;top:0;z-index:3;font-size:12px;line-height:1.25}
 thead th small{display:block;color:var(--mut);font-weight:400;font-size:11px}
+th:first-child,td:first-child{position:sticky;left:0;z-index:2;min-width:190px;box-shadow:1px 0 0 var(--line)}
+thead th:first-child{z-index:4}
 tr.g td{background:var(--bg);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
 td.c{text-align:center;width:104px}
-td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
+td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600;min-height:28px}
+#mx thead th:not(:first-child){text-align:center}
+#mx th.est-propuesto-col,#mx td.est-propuesto-col{border-left:2px dashed var(--asig-i);border-right:2px dashed var(--asig-i)}
+#mx th.est-propuesto-col{border-top:2px dashed var(--asig-i)}
+tbody tr:not(.g).hl>td,.hl-col{background:color-mix(in srgb,var(--acc) 10%,var(--card))}
+thead th.hl-col{background:color-mix(in srgb,var(--acc) 16%,var(--card));color:var(--ink)}
+td.hl-cell{background:color-mix(in srgb,var(--acc) 22%,var(--card))!important;box-shadow:inset 0 0 0 2px var(--acc)}
 .nota{display:block;color:var(--mut);font-size:12px}
 .cond{font-size:11px;color:var(--acc);font-weight:600}
+tr.fila-planeado td,tr.fila-propuesto td{background-image:repeating-linear-gradient(135deg,transparent 0 7px,color-mix(in srgb,var(--mut) 12%,transparent) 7px 8px)}
+tr.fila-planeado td:first-child,tr.fila-propuesto td:first-child{border-left:3px dashed var(--mut);font-style:italic}
+td small{display:block;color:var(--mut);font-size:11px}
+td.dim,tr.dim td{opacity:.28}
+/* certezas */
+.cz{display:inline-block;margin-top:3px;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:700;background:var(--z-backend_javi-b);color:var(--z-backend_javi-f);white-space:nowrap}
+.cz-backend_javi{background:var(--z-backend_javi-b);color:var(--z-backend_javi-f)}.cz-permissions_ts{background:var(--z-permissions-b);color:var(--z-permissions-f)}
+.cz-nao_docs{background:var(--z-nao_docs-b);color:var(--z-nao_docs-f)}.cz-doc{background:var(--z-doc-b);color:var(--z-doc-f)}
+.cz-decision_jorge{background:var(--z-decision_jorge-b);color:var(--z-decision_jorge-f)}.cz-inferencia{background:var(--z-inferencia-b);color:var(--z-inferencia-f)}
+.cz-por_decidir{background:var(--z-por_decidir-b);color:var(--z-por_decidir-f)}
+/* tarjetas */
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;break-inside:avoid}
+.card[hidden]{display:none}
+.card p{color:var(--ink)}.card small{color:var(--mut);font-size:11px}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:auto}
+.owner{display:inline-flex;padding:2px 10px;border-radius:6px;background:var(--acc);color:var(--on);font-weight:700;font-size:12px}
+.card.pl{border-style:dashed}
 .sim{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
 .sim .f{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
 .sim label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mut)}
+.simrol{margin:0 0 10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .res{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 16px;padding:0;margin:0;list-style:none}
 .res li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed var(--line)}
-.q li{color:var(--mut);margin-bottom:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:600px){h1{font-size:19px}.cards{grid-template-columns:1fr}.wrap{max-height:70vh}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{
+ :root:root:root{--bg:#fff;--card:#fff;--ink:#111;--mut:#444;--line:#bbb;--acc:#1e3a8a;--on:#fff;--no:#eceef2;--no-i:#4b5263;--ver:#dbeafe;--ver-i:#1e40af;--edit:#d1fae5;--edit-i:#065f46;--asig:#fef3c7;--asig-i:#92400e;
+ --z-backend_javi-b:#dbeafe;--z-backend_javi-f:#1e40af;--z-permissions-b:#ede9fe;--z-permissions-f:#5b21b6;--z-nao_docs-b:#ccfbf1;--z-nao_docs-f:#115e59;--z-doc-b:#fce7f3;--z-doc-f:#9d174d;--z-decision_jorge-b:#d1fae5;--z-decision_jorge-f:#065f46;--z-inferencia-b:#e4e7ed;--z-inferencia-f:#444b5c;--z-por_decidir-b:#fef3c7;--z-por_decidir-f:#92400e}
+ @page{size:A4 landscape;margin:10mm}
+ body{font-size:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ nav.idx,.bar,.skip,.sim .f,#limpiar{display:none!important}
+ main{max-width:none;padding:0}
+ .wrap{overflow:visible;max-height:none;border-radius:0}
+ table{min-width:0;font-size:9px}th,td{padding:3px 5px;position:static!important;box-shadow:none!important}
+ thead th{position:static}tr{break-inside:avoid}
+ h2{break-after:avoid;margin-top:14px}.panel,.sim{break-inside:avoid}
+ button.zc,td.c button{border:0;padding:1px 6px;min-height:0}
+ td.dim,tr.dim td{opacity:1}
+ details>*:not(summary){display:block}
+}
 </style>
 </head>
 <body>
+<a class="skip" href="#matriz">Saltar a la matriz</a>
 <main>
   <h1 id="t">Mapa de roles</h1>
   <p id="base"></p>
@@ -51,56 +127,182 @@ td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
   <div class="bar">
     <button id="abrir">Abrir mapa-roles.json…</button>
     <button id="guardar" class="pri" disabled>Guardar en mapa-roles.json</button>
-    <button id="tema">Tema</button>
-    <span id="st" class="st"></span>
+    <button id="tema" aria-label="Cambiar tema claro u oscuro">Tema</button>
+    <span id="st" class="st" role="status"></span>
   </div>
+
+  <nav class="idx" id="idx" aria-label="Secciones">
+    <a href="#resumen">Resumen</a><a href="#matriz">Matriz</a><a href="#tipos">Rol × tipo</a><a href="#reglas">Reglas</a>
+    <a href="#simulador">Simulador</a><a href="#preguntas">Preguntas</a><a href="#roles">Roles</a><a href="#planeados">Planeados</a>
+  </nav>
+
+  <h2 id="resumen">Resumen</h2>
+  <div class="panel">
+    <h3>Certeza de cada dato (clic para filtrar)</h3>
+    <div class="zchips" id="zchips" role="group" aria-label="Filtrar por certeza"></div>
+    <p id="filtro-estado" class="st" role="status" aria-live="polite"></p>
+    <button id="limpiar" hidden>Quitar filtro</button>
+    <div class="kpi"><span id="kpi-preg"></span><span id="kpi-est"></span><span id="kpi-fecha" class="st"></span></div>
+    <h3 style="margin-top:12px">Estado de los roles</h3>
+    <div class="estl" id="estl"></div>
+    <details><summary>Fuente y significado de cada certeza</summary><p id="fuente"></p><dl id="zdl"></dl></details>
+  </div>
+
+  <h2 id="matriz">Matriz de superficies por rol</h2>
   <div class="legend" id="leyenda"></div>
   <p>Clic en una celda para cambiar el nivel (no → ver → editar → asignado).</p>
+  <div class="wrap" id="w-mx" role="region" aria-label="Matriz de superficies por rol, con desplazamiento" tabindex="0" style="margin-top:8px"><table id="mx"></table></div>
 
-  <h2>Matriz</h2>
-  <div class="wrap"><table id="mx"></table></div>
+  <h2 id="tipos">Matriz rol × tipo de evento</h2>
+  <p id="tipos-nota"></p>
+  <div class="wrap" role="region" aria-label="Matriz de rol por tipo de evento, con desplazamiento" tabindex="0" style="margin-top:8px"><table id="mt"></table></div>
 
-  <h2>¿Qué ve este rol sobre un evento así?</h2>
+  <h2 id="reglas">Reglas</h2>
+  <ul class="cards" id="reglas-l"></ul>
+
+  <h2 id="simulador">¿Qué ve este rol sobre un evento así?</h2>
   <div class="sim">
     <div class="f" id="sf"></div>
-    <ul class="res" id="res"></ul>
+    <p class="simrol" id="simrol"></p>
+    <ul class="res" id="res" aria-live="polite"></ul>
   </div>
 
-  <h2>Preguntas abiertas</h2>
-  <ul class="q" id="q"></ul>
+  <h2 id="preguntas">Preguntas abiertas</h2>
+  <ol class="cards" id="q"></ol>
+
+  <h2 id="roles">Roles: nombres oficiales y quién es cada uno</h2>
+  <p id="eq-nota"></p>
+  <div class="wrap" role="region" aria-label="Roles con su nombre oficial, con desplazamiento" tabindex="0" style="margin-top:8px"><table id="eq"></table></div>
+
+  <h2 id="planeados">Roles planeados, sin definir</h2>
+  <p>No existen hoy en backend y sus permisos están por definir. No son roles reales ni descartados.</p>
+  <ul class="cards" id="pl" style="margin-top:8px"></ul>
 </main>
 
 <script>
 (function () {
   'use strict';
   var NOMBRE = 'mapa-roles.json', ORDEN = ['no', 'ver', 'editar', 'asignado'];
-  var D = null, handle = null, sucio = false, sim = { rol: 'admin', alcance: 'NACIONAL', estado: 'En curso', ciclo: 'si', asignado: 'si', boletines: 'si' };
+  var D = null, handle = null, sucio = false, filtro = null, sim = { rol: 'admin', alcance: 'NACIONAL', estado: 'En curso', ciclo: 'si', asignado: 'si', boletines: 'si' };
   var $ = function (id) { return document.getElementById(id); };
   var ETQ = { no: 'No', ver: 'Ver', editar: 'Editar', asignado: 'Si asignado' };
+  var ZL = { backend_javi: 'Backend · Javi', 'permissions.ts': 'permissions.ts', nao_docs: 'nao-docs', doc: 'PR-03', decision_jorge: 'Decisión Jorge', inferencia: 'Inferencia', por_decidir: 'Por decidir' };
+  var ZO = ['backend_javi', 'permissions.ts', 'nao_docs', 'doc', 'decision_jorge', 'inferencia', 'por_decidir'];
+  var EL = { hoy: 'Hoy', planeado: 'Planeado', propuesto: 'Propuesto' };
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function estado(msg, dirty) { var e = $('st'); e.textContent = msg; e.className = 'st' + (dirty ? ' dirty' : ''); }
+  function zk(c) { return String(c).replace(/\./g, '_'); }
+  function zl(c) { return ZL[c] || String(c).replace(/_/g, ' '); }
+  function cz(c) { return '<span class="cz cz-' + esc(zk(c)) + '" title="' + esc((D.meta.certezas || {})[c] || '') + '">' + esc(zl(c)) + '</span>'; }
+  function est(e) { return '<span class="est est-' + esc(e) + '">' + esc(EL[e] || e) + '</span>'; }
+  function rolPorId(id) { return D.roles.filter(function (x) { return x.id === id; })[0]; }
 
   function cargar(obj, h) {
-    D = obj; handle = h || handle; sucio = false;
+    D = obj; handle = h || handle; sucio = false; filtro = null;
     $('t').textContent = D.meta.titulo; $('base').textContent = D.meta.baseline;
     $('leyenda').innerHTML = ORDEN.map(function (n) { return '<span class="chip n-' + n + '">' + ETQ[n] + ' · ' + esc(D.meta.niveles[n]) + '</span>'; }).join('');
-    $('q').innerHTML = (D.preguntas_abiertas || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('');
+    pintarTipos(); pintarReglas(); pintarPreguntas(); pintarRoles(); pintarResumen();
     $('guardar').disabled = false;
     estado(handle ? 'Listo para guardar en el archivo abierto.' : 'JSON cargado. Guardar lo descargará o pedirá dónde escribirlo.');
-    pintar(); simular();
+    pintar(); simular(); aplicarFiltro();
+  }
+
+  /* Unidades con certeza: celdas rol × tipo, reglas y filas de roles (una vez por certeza distinta). */
+  function conteos() {
+    var c = {}; ZO.forEach(function (k) { c[k] = 0; });
+    var sum = function (k) { if (k != null) c[k] = (c[k] || 0) + 1; };
+    (D.matriz_tipo || []).forEach(function (r) { (D.tipos_evento || []).forEach(function (t) { if (r[t.id]) sum(r[t.id].certeza); }); });
+    (D.reglas || []).forEach(function (r) { sum(r.certeza); });
+    ((D.roles_backend || {}).filas || []).forEach(function (f) { var s = {}; s[f.certeza] = 1; if (f.certeza_nombre) s[f.certeza_nombre] = 1; Object.keys(s).forEach(sum); });
+    return c;
+  }
+  function pintarResumen() {
+    var c = conteos(), Z = D.meta.certezas || {}, claves = ZO.concat(Object.keys(Z).filter(function (k) { return ZO.indexOf(k) < 0; }));
+    $('zchips').innerHTML = claves.map(function (k) {
+      return '<button type="button" class="zc cz-' + zk(k) + '" data-z="' + esc(k) + '" aria-pressed="false" title="' + esc(Z[k] || '') + '">' + esc(zl(k)) + '<b>' + (c[k] || 0) + '</b></button>';
+    }).join('');
+    var n = (D.preguntas_abiertas || []).length;
+    $('kpi-preg').innerHTML = '<a href="#preguntas">' + n + ' preguntas abiertas</a>';
+    var f = ((D.roles_backend || {}).filas || []), cnt = { hoy: 0, planeado: 0, propuesto: 0 };
+    f.forEach(function (x) { cnt[x.estado] = (cnt[x.estado] || 0) + 1; });
+    $('kpi-est').textContent = cnt.hoy + ' roles hoy · ' + cnt.planeado + ' planeados · ' + cnt.propuesto + ' propuesto';
+    $('kpi-fecha').textContent = 'Versión ' + D.meta.version + ' · actualizado ' + D.meta.actualizado;
+    $('estl').innerHTML = Object.keys(D.meta.estados || {}).map(function (k) { return '<span>' + est(k) + ' ' + esc(D.meta.estados[k]) + '</span>'; }).join('');
+    $('fuente').textContent = D.meta.fuente || '';
+    $('zdl').innerHTML = claves.map(function (k) { return '<dt>' + cz(k) + '</dt><dd>' + esc(Z[k] || '') + '</dd>'; }).join('');
+  }
+
+  /* Filtro por certeza: tarjetas se ocultan; celdas y filas de tabla se atenúan. */
+  function aplicarFiltro() {
+    var total = 0;
+    document.querySelectorAll('[data-cz]').forEach(function (el) {
+      var ok = !filtro || el.dataset.cz.split(' ').indexOf(filtro) >= 0;
+      if (ok && filtro) total++;
+      if (el.classList.contains('card')) el.hidden = !ok; else el.classList.toggle('dim', !ok);
+    });
+    document.querySelectorAll('#zchips button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.z === filtro)); });
+    $('limpiar').hidden = !filtro;
+    $('filtro-estado').textContent = filtro ? 'Filtro «' + zl(filtro) + '»: ' + total + ' elementos resaltados. El resto se atenúa o se oculta.' : '';
+  }
+  $('zchips').addEventListener('click', function (e) { var b = e.target.closest('button[data-z]'); if (!b) return; filtro = filtro === b.dataset.z ? null : b.dataset.z; aplicarFiltro(); });
+  $('limpiar').addEventListener('click', function () { filtro = null; aplicarFiltro(); });
+
+  function pintarReglas() {
+    $('reglas-l').innerHTML = (D.reglas || []).map(function (r) {
+      return '<li class="card" data-cz="' + esc(r.certeza) + '"><p>' + esc(r.texto) + '</p><div class="meta">' + cz(r.certeza) + (r.fuente ? '<small>Fuente: ' + esc(r.fuente) + '</small>' : '') + '<small>' + esc(r.id) + '</small></div></li>';
+    }).join('');
+  }
+  function pintarPreguntas() {
+    $('q').innerHTML = (D.preguntas_abiertas || []).map(function (p, i) {
+      var m = /\s*\[([^\]]+)\]\s*$/.exec(p), txt = m ? p.slice(0, m.index) : p;
+      return '<li class="card"><small>Pregunta ' + (i + 1) + '</small><p>' + esc(txt) + '</p><div class="meta">' + (m ? '<span class="owner" title="Dueño sugerido">' + esc(m[1]) + '</span>' : '<small>Sin dueño sugerido</small>') + '</div></li>';
+    }).join('');
+  }
+
+  /* Roles: reales y propuesto en la tabla; planeados en tarjetas aparte. */
+  function pintarRoles() {
+    var E = D.roles_backend || { filas: [] };
+    $('eq-nota').textContent = E.nota || '';
+    var fila = function (f) {
+      var czs = '<div>' + cz(f.certeza) + '</div>';
+      return '<tr class="fila-' + esc(f.estado) + '" data-cz="' + esc(f.certeza) + (f.certeza_nombre ? ' ' + esc(f.certeza_nombre) : '') + '">' +
+        '<td>' + (f.codigo ? esc(f.codigo) : '<em>(no existe en backend)</em>') + '<small>' + esc(f.ambito) + '</small></td>' +
+        '<td>' + esc(f.nombre_oficial || '—') + (f.certeza_nombre ? '<div>' + cz(f.certeza_nombre) + '</div>' : '') + '</td>' +
+        '<td>' + esc(f.quien_es || '') + '</td><td>' + esc(f.permisos) + czs + '</td><td>' + est(f.estado) + '</td></tr>';
+    };
+    $('eq').innerHTML = '<thead><tr><th>Código en backend</th><th>Nombre en nao-docs</th><th>Quién es</th><th>Permisos en backend</th><th>Estado</th></tr></thead><tbody>' +
+      E.filas.filter(function (f) { return f.estado !== 'planeado'; }).map(fila).join('') + '</tbody>';
+    $('pl').innerHTML = E.filas.filter(function (f) { return f.estado === 'planeado'; }).map(function (f) {
+      return '<li class="card pl" data-cz="' + esc(f.certeza) + (f.certeza_nombre ? ' ' + esc(f.certeza_nombre) : '') + '"><h3>' + esc(f.nombre_oficial || f.rol) + ' ' + est('planeado') + '</h3><p>' + esc(f.quien_es) + '</p><p>Permisos: ' + esc(f.permisos) + '</p><div class="meta">' + cz(f.certeza) + (f.fuente ? '<small>Fuente: ' + esc(f.fuente) + '</small>' : '') + '</div></li>';
+    }).join('');
+  }
+
+  /* Eje «Tipo de evento»: solo lectura; cada celda declara de dónde sale el dato. */
+  function pintarTipos() {
+    var T = D.tipos_evento || [];
+    $('tipos-nota').textContent = T.map(function (t) { return t.etiqueta + ': ' + t.descripcion; }).join(' · ');
+    var cel = function (c) { return '<td data-cz="' + esc(c.certeza) + '">' + esc(c.texto) + '<br>' + cz(c.certeza) + '</td>'; };
+    $('mt').innerHTML = '<thead><tr><th>Rol</th>' + T.map(function (t) { return '<th>' + esc(t.etiqueta) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      (D.matriz_tipo || []).map(function (r) {
+        var sub = [r.codigo || 'Sin código: no existe en backend', r.equivalente_doc ? 'nao-docs: ' + r.equivalente_doc : ''].filter(Boolean).join(' · ');
+        return '<tr class="' + (r.estado && r.estado !== 'hoy' ? 'fila-' + esc(r.estado) : '') + '"><td>' + esc(r.rol) + ' ' + (r.estado && r.estado !== 'hoy' ? est(r.estado) : '') + '<small>' + esc(sub) + '</small></td>' + T.map(function (t) { return cel(r[t.id]); }).join('') + '</tr>';
+      }).join('') + '</tbody>';
   }
 
   function pintar() {
     var cols = D.meta.orden_acceso, html = '<thead><tr><th>Superficie</th>' + cols.map(function (id) {
-      var r = D.roles.filter(function (x) { return x.id === id; })[0];
-      return '<th>' + esc(r.etiqueta) + '<small>' + esc(r.alcance_lista) + '</small></th>';
+      var r = rolPorId(id), p = r.estado === 'propuesto';
+      return '<th scope="col" class="' + (p ? 'est-propuesto-col' : '') + '">' + esc(r.etiqueta) + (r.estado && r.estado !== 'hoy' && !p ? ' ' + est(r.estado) : '') + (p ? '<br>' + est('propuesto') : '') + '<small>' + esc(r.alcance_lista) + '</small></th>';
     }).join('') + '</tr></thead><tbody>';
     D.grupos.forEach(function (g) {
       html += '<tr class="g"><td colspan="' + (cols.length + 1) + '">' + esc(g.nombre) + '</td></tr>';
       D.superficies.filter(function (s) { return s.grupo === g.id; }).forEach(function (s) {
         html += '<tr><td>' + esc(s.nombre) + (s.condicion ? ' <span class="cond">· ' + esc(condTxt(s.condicion)) + '</span>' : '') + (s.nota ? '<span class="nota">' + esc(s.nota) + '</span>' : '') + '</td>' +
-          s.acceso.map(function (n, i) { return '<td class="c"><button class="chip n-' + n + '" data-s="' + s.id + '" data-i="' + i + '">' + ETQ[n] + '</button></td>'; }).join('') + '</tr>';
+          s.acceso.map(function (n, i) {
+            var r = rolPorId(cols[i]);
+            return '<td class="c ' + (r.estado === 'propuesto' ? 'est-propuesto-col' : '') + '"><button class="chip n-' + n + '" data-s="' + s.id + '" data-i="' + i + '" aria-label="' + esc(r.etiqueta + ', ' + s.nombre + ': ' + ETQ[n] + '. Clic para cambiar') + '">' + ETQ[n] + '</button></td>';
+          }).join('') + '</tr>';
       });
     });
     $('mx').innerHTML = html + '</tbody>';
@@ -110,11 +312,25 @@ td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
     return 'solo ' + p.join(', ');
   }
 
+  /* Hover en cruz: ilumina la fila y la columna hasta la celda apuntada. */
+  function limpiarHover() { $('mx').querySelectorAll('.hl,.hl-col,.hl-cell').forEach(function (n) { n.classList.remove('hl', 'hl-col', 'hl-cell'); }); }
+  $('mx').addEventListener('mouseover', function (e) {
+    var td = e.target.closest('td'); limpiarHover();
+    if (!td) return;
+    var tr = td.parentNode, col = td.cellIndex;
+    if (tr.classList.contains('g')) return;
+    tr.classList.add('hl');
+    $('mx').querySelectorAll('tr').forEach(function (r) { if (!r.classList.contains('g') && r.cells[col]) r.cells[col].classList.add('hl-col'); });
+    td.classList.add('hl-cell');
+  });
+  $('mx').addEventListener('mouseleave', limpiarHover);
+
   $('mx').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-s]'); if (!b) return;
-    var s = D.superficies.filter(function (x) { return x.id === b.dataset.s; })[0], i = +b.dataset.i;
+    var s = D.superficies.filter(function (x) { return x.id === b.dataset.s; })[0], i = +b.dataset.i, r = rolPorId(D.meta.orden_acceso[i]);
     s.acceso[i] = ORDEN[(ORDEN.indexOf(s.acceso[i]) + 1) % ORDEN.length];
     b.className = 'chip n-' + s.acceso[i]; b.textContent = ETQ[s.acceso[i]];
+    b.setAttribute('aria-label', r.etiqueta + ', ' + s.nombre + ': ' + ETQ[s.acceso[i]] + '. Clic para cambiar');
     sucio = true; estado('Cambios sin guardar', true); simular();
   });
 
@@ -128,8 +344,9 @@ td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
   }
   function simular() {
     if (!D) return;
+    var ids = D.meta.orden_acceso;
     var f = [
-      ['rol', 'Rol', D.roles.map(function (r) { return [r.id, r.etiqueta]; })],
+      ['rol', 'Rol', ids.map(function (id) { var r = rolPorId(id); return [r.id, r.etiqueta]; })],
       ['alcance', 'Alcance', [['NACIONAL', 'Nacional'], ['INTERNACIONAL', 'Internacional']]],
       ['estado', 'Estado', [['Próximo', 'Próximo'], ['En curso', 'En curso'], ['Finalizado', 'Finalizado']]],
       ['ciclo', 'Ciclo Olímpico', [['si', 'Sí'], ['no', 'No']]],
@@ -139,14 +356,15 @@ td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
     $('sf').innerHTML = f.map(function (x) {
       return '<label>' + x[1] + '<select data-k="' + x[0] + '">' + x[2].map(function (o) { return '<option value="' + o[0] + '"' + (sim[x[0]] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>';
     }).join('');
-    var i = D.meta.orden_acceso.indexOf(sim.rol), ev = { alcance: sim.alcance, estado: sim.estado, boletines: sim.boletines === 'si' };
+    var rol = rolPorId(sim.rol), i = ids.indexOf(sim.rol), ev = { alcance: sim.alcance, estado: sim.estado, boletines: sim.boletines === 'si' };
+    $('simrol').innerHTML = '<strong>' + esc(rol.etiqueta) + '</strong> ' + est(rol.estado || 'hoy') + (rol.estado === 'propuesto' ? '<span class="st">No existe en backend.</span>' : '');
     var fuera = D.superficies.filter(function (s) { return s.id === 'lista-ciclo'; })[0].acceso[i] !== 'no' && sim.ciclo === 'no';
     if (fuera) { $('res').innerHTML = '<li><span>Evento no disponible (fuera del Ciclo Olímpico)</span></li>'; return; }
     $('res').innerHTML = D.superficies.filter(function (s) { return /^(tab|campo|acc)-/.test(s.id); }).map(function (s) {
       var n = s.acceso[i]; if (!cumple(s.condicion, ev)) return '';
       if (n === 'asignado') n = sim.asignado === 'si' ? 'editar' : 'ver';
       if (n === 'no') return '';
-      return '<li><span>' + esc(s.nombre) + '</span><span class="chip n-' + n + '">' + ETQ[n === 'asignado' ? 'ver' : n] + '</span></li>';
+      return '<li><span>' + esc(s.nombre) + '</span><span class="chip n-' + n + '">' + ETQ[n] + '</span></li>';
     }).join('') || '<li><span>Sin acceso al módulo</span></li>';
   }
   $('sf').addEventListener('change', function (e) { sim[e.target.dataset.k] = e.target.value; simular(); });
@@ -188,6 +406,15 @@ td.c button{width:88px;padding:4px 0;border:0;font-size:12px;font-weight:600}
     var h = document.documentElement, dark = h.dataset.theme ? h.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches;
     h.dataset.theme = dark ? 'light' : 'dark';
   });
+
+  /* Marca en el índice la sección visible. */
+  if ('IntersectionObserver' in window) {
+    var links = {}; document.querySelectorAll('#idx a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { Object.keys(links).forEach(function (k) { links[k].removeAttribute('aria-current'); }); links[en.target.id].setAttribute('aria-current', 'true'); } });
+    }, { rootMargin: '-60px 0px -70% 0px' });
+    Object.keys(links).forEach(function (k) { io.observe($(k)); });
+  }
   window.addEventListener('beforeunload', function (e) { if (sucio) { e.preventDefault(); e.returnValue = ''; } });
 })();
 </script>
